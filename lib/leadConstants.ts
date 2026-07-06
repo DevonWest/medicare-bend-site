@@ -1,4 +1,4 @@
-export const SITE_SOURCE = "medicareinspokane.com";
+export const SITE_SOURCE = "medicareinbend.com";
 
 export const CRM_SYNC_STATUS = {
   pending: "pending",

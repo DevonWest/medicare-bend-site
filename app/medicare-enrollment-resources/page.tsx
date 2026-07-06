@@ -7,12 +7,12 @@ import PageHero from "@/components/PageHero";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Enrollment Resources for Spokane Beneficiaries",
+  title: "Medicare Enrollment Resources for Central Oregon Beneficiaries",
   description:
-    "Step-by-step Medicare enrollment resources for Spokane-area beneficiaries — Initial Enrollment Period, Annual Enrollment, Special Enrollment Periods, late enrollment penalties, and how to apply through Social Security.",
+    "Step-by-step Medicare enrollment resources for Central Oregon beneficiaries — Initial Enrollment Period, Annual Enrollment, Special Enrollment Periods, late enrollment penalties, and how to apply through Social Security.",
   alternates: { canonical: `${siteConfig.url}/medicare-enrollment-resources` },
   openGraph: {
-    title: "Medicare Enrollment Resources for Spokane Beneficiaries",
+    title: "Medicare Enrollment Resources for Central Oregon Beneficiaries",
     description:
       "Initial Enrollment, Annual Enrollment, Special Enrollment Periods, and how to apply through Social Security.",
     url: `${siteConfig.url}/medicare-enrollment-resources`,
@@ -24,7 +24,7 @@ export default function EnrollmentResourcesPage() {
     <>
       <PageHero
         title="Medicare Enrollment Resources"
-        subtitle="When and how to enroll in Medicare in Spokane — without the jargon."
+        subtitle="When and how to enroll in Medicare in Bend — without the jargon."
         crumbs={[{ href: "/", label: "Home" }, { label: "Enrollment Resources" }]}
       />
 

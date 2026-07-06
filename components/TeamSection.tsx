@@ -15,7 +15,7 @@ export default function TeamSection({ members, showContactCTA = false }: TeamSec
         {members.map((member) => {
           const supportText = member.retired
             ? "Retired — contact our office for assistance"
-            : `Helping Spokane residents with Medicare${
+            : `Helping Central Oregon residents with Medicare${
                 typeof member.yearsHelping === "number" ? ` for ${member.yearsHelping}+ years` : ""
               }`;
           const initials = member.name

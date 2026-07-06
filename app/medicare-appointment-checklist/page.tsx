@@ -6,14 +6,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Appointment Checklist Spokane",
+  title: "Medicare Appointment Checklist for Bend, Oregon",
   description:
-    "Prepare for your Medicare appointment in Spokane. See what to bring, including prescription lists, doctors, pharmacies, current coverage, and questions for a licensed local insurance agent.",
+    "Prepare for your Medicare appointment in Bend, Oregon. See what to bring, including prescription lists, doctors, pharmacies, current coverage, and questions for a licensed local insurance agent.",
   alternates: { canonical: `${siteConfig.url}/medicare-appointment-checklist` },
   openGraph: {
-    title: "Medicare Appointment Checklist Spokane",
+    title: "Medicare Appointment Checklist for Bend, Oregon",
     description:
-      "Prepare for your Medicare appointment in Spokane. See what to bring, including prescription lists, doctors, pharmacies, current coverage, and questions for a licensed local insurance agent.",
+      "Prepare for your Medicare appointment in Bend, Oregon. See what to bring, including prescription lists, doctors, pharmacies, current coverage, and questions for a licensed local insurance agent.",
     url: `${siteConfig.url}/medicare-appointment-checklist`,
   },
 };
@@ -71,7 +71,7 @@ const faqs: FAQItem[] = [
   {
     question: "Can I do the appointment by phone?",
     answer:
-      "Yes. Health Insurance Options LLC offers phone appointments for Spokane-area residents, and in-person meetings are also available.",
+      "Yes. Health Insurance Options LLC serves Bend and Central Oregon by phone, online, or by appointment, so you can meet in whatever way is easiest for you.",
   },
   {
     question: "Should I bring my prescription list?",
@@ -102,9 +102,9 @@ const relatedLinks = [
     body: "See how doctors, prescriptions, budget, and coverage preferences can shape your Medicare review.",
   },
   {
-    href: "/turning-65-medicare-spokane",
-    title: "Turning 65 Medicare Spokane",
-    body: "Read more if you are preparing for Medicare for the first time and want Spokane-focused planning help.",
+    href: "/turning-65-medicare-bend",
+    title: "Turning 65 Medicare Bend",
+    body: "Read more if you are preparing for Medicare for the first time and want Central Oregon-focused planning help.",
   },
   {
     href: "/working-past-65-medicare",
@@ -113,7 +113,7 @@ const relatedLinks = [
   },
   {
     href: "/contact",
-    title: "Contact Our Spokane Office",
+    title: "Contact Us",
     body: "Reach out if you would rather schedule directly or ask a quick question before your appointment.",
   },
 ];
@@ -143,7 +143,7 @@ export default function MedicareAppointmentChecklistPage() {
                 href={telHref}
                 className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-lg font-semibold text-blue-800 transition-colors hover:bg-blue-50"
               >
-                Call 509-353-0476
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="#appointment-help-form"
@@ -153,7 +153,7 @@ export default function MedicareAppointmentChecklistPage() {
               </Link>
             </div>
             <p className="mt-5 text-base font-semibold text-blue-50">
-              No-cost consultation. No pressure. Local Spokane guidance.
+              No-cost consultation. No pressure. Local Central Oregon guidance.
             </p>
           </div>
         </div>
@@ -186,15 +186,15 @@ export default function MedicareAppointmentChecklistPage() {
           </div>
 
           <aside className="rounded-3xl border border-blue-100 bg-blue-50 p-6 shadow-sm sm:p-8">
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Spokane support</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">In-person or phone appointments</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Central Oregon support</p>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900">Phone, online, or appointment</h2>
             <div className="mt-4 space-y-4 text-lg leading-relaxed text-gray-700">
               <p>
-                {siteConfig.legalName} is a Spokane-based licensed independent insurance agency helping local residents
-                review Medicare coverage questions.
+                {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central Oregon,
+                helping local residents review Medicare coverage questions.
               </p>
-              <p>Our Spokane office is located inside the Providence Medical Building.</p>
-              <p>Phone appointments are also available if meeting from home is easier.</p>
+              <p>{siteConfig.serviceAreaStatement}</p>
+              <p>Choose whichever option is most convenient for you.</p>
             </div>
             <div className="mt-6 rounded-2xl border border-blue-100 bg-white p-5 text-sm leading-relaxed text-gray-700">
               <p>

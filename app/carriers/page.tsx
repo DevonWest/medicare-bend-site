@@ -7,14 +7,14 @@ import { carriers } from "@/lib/carriers";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Carriers We Represent in Spokane",
+  title: "Medicare Carriers We Represent in Bend, OR",
   description:
-    "Health Insurance Options LLC currently represents 8 organizations offering 75 products in the Spokane area, including Medicare Advantage, Medicare Supplement, Part D, dental, and vision carriers.",
+    "Health Insurance Options LLC represents Medicare Advantage, Medicare Supplement, Part D, dental, and vision carriers serving Bend and Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/carriers` },
   openGraph: {
-    title: "Medicare Carriers We Represent in Spokane",
+    title: "Medicare Carriers We Represent in Bend, OR",
     description:
-      "The carriers we currently represent for Medicare Advantage, Medicare Supplement, Part D, and supplemental coverage.",
+      "The carriers we currently represent for Medicare Advantage, Medicare Supplement, Part D, and supplemental coverage in Central Oregon.",
     url: `${siteConfig.url}/carriers`,
   },
 };
@@ -24,7 +24,7 @@ export default function CarriersPage() {
     <>
       <PageHero
         title="Carriers We Represent"
-        subtitle="The insurance organizations we currently work with for Medicare Advantage, Medicare Supplement, Part D, dental, vision, and other supplemental coverage in the Spokane area."
+        subtitle="The insurance organizations we currently work with for Medicare Advantage, Medicare Supplement, Part D, dental, vision, and other supplemental coverage in Bend and Central Oregon."
         crumbs={[{ href: "/", label: "Home" }, { label: "Carriers" }]}
         illustration={<FriendlyIllustration name="compareOptions" />}
       />
@@ -36,7 +36,7 @@ export default function CarriersPage() {
             <p>
               Carrier and plan availability may vary by county, product type, and enrollment
               period. The list below reflects the organizations we currently represent — not every
-              plan from every carrier will be available to every Spokane-area resident. A licensed
+              plan from every carrier will be available to every Central Oregon resident. A licensed
               insurance professional can confirm what is available at your address and during the
               current enrollment period.
             </p>

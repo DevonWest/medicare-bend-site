@@ -7,12 +7,12 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Supplemental Insurance in Spokane (Dental, Vision, Hospital Indemnity)",
+  title: "Supplemental Insurance in Bend (Dental, Vision, Hospital Indemnity)",
   description:
-    "Explore supplemental insurance options in Spokane — dental, vision, and hospital indemnity coverage that can complement your Medicare plan. Help comparing options at no cost.",
+    "Explore supplemental insurance options in Bend, Oregon — dental, vision, and hospital indemnity coverage that can complement your Medicare plan. Help comparing options at no cost.",
   alternates: { canonical: `${siteConfig.url}/supplemental-insurance` },
   openGraph: {
-    title: "Supplemental Insurance in Spokane",
+    title: "Supplemental Insurance in Bend, Oregon",
     description:
       "Dental, vision, and hospital indemnity coverage that can complement your Medicare plan.",
     url: `${siteConfig.url}/supplemental-insurance`,

@@ -1,6 +1,10 @@
 import { cleanString, normalizeEmail, normalizePhone } from "./leadValidation";
 
-export const GOOGLE_REVIEW_URL = "https://g.page/r/CWQwLoKlN3KFEBM/review";
+// TODO(bend-review): set this to the Bend Google Business Profile review URL
+// once available. While it is empty, outbound Google review routing is disabled
+// and all ratings (including 5 stars) are collected through the internal
+// feedback form instead. Do not reuse another market's Google review URL.
+export const GOOGLE_REVIEW_URL = "";
 export const REVIEW_FEEDBACK_SOURCE_PATH = "/review/feedback";
 
 const CONTROL_CHAR_RE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;
@@ -47,7 +51,11 @@ export function getReviewRatingValue(raw: unknown): number | undefined {
 }
 
 export function isInternalFeedbackRating(rating: number): boolean {
-  return Number.isInteger(rating) && rating >= 1 && rating <= 4;
+  // Ratings routed to the internal feedback form. With no public review URL
+  // configured, every rating (1–5) is collected internally; once a public
+  // review URL exists, 5-star reviews go there instead (1–4 stay internal).
+  const maxInternalRating = GOOGLE_REVIEW_URL ? 4 : 5;
+  return Number.isInteger(rating) && rating >= 1 && rating <= maxInternalRating;
 }
 
 export function getReviewRatingLabel(rating: number): string {
@@ -106,7 +114,7 @@ export function validateReviewFeedbackInput(input: ReviewFeedbackInput): ReviewF
 }
 
 export function getReviewRatingDestination(agentSlug: string | undefined, rating: number): string {
-  if (rating === 5) return GOOGLE_REVIEW_URL;
+  if (rating === 5 && GOOGLE_REVIEW_URL) return GOOGLE_REVIEW_URL;
 
   const params = new URLSearchParams();
   const cleanAgentSlug = sanitizeReviewSlug(agentSlug);

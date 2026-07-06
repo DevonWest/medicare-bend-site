@@ -8,14 +8,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Compare Medicare Options Spokane",
+  title: "Compare Medicare Options in Bend, OR",
   description:
-    "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Spokane with help from a local licensed insurance agent.",
+    "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend with help from a local licensed insurance agent.",
   alternates: { canonical: `${siteConfig.url}/compare-medicare-options` },
   openGraph: {
-    title: "Compare Medicare Options Spokane | Medicare in Spokane",
+    title: "Compare Medicare Options in Bend, OR | Medicare in Bend",
     description:
-      "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Spokane with help from a local licensed insurance agent.",
+      "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend with help from a local licensed insurance agent.",
     url: `${siteConfig.url}/compare-medicare-options`,
   },
 };
@@ -68,8 +68,8 @@ const internalLinks = [
   },
   {
     href: "/contact",
-    title: "Contact Our Spokane Office",
-    body: "Talk with a licensed local agent in person or by phone.",
+    title: "Contact Us",
+    body: "Talk with a licensed local agent by phone, online, or by appointment.",
   },
   {
     href: "/resources",
@@ -99,9 +99,9 @@ const faqs: FAQItem[] = [
       "Yes. We can review your prescriptions, dosages, and preferred pharmacies so you can compare how Medicare Advantage or Part D plans we represent may cover your medications.",
   },
   {
-    question: "Can I meet in person?",
+    question: "How can we work together?",
     answer:
-      "Yes. Our Spokane office is located inside the Providence Medical Building. We offer both in-person and phone consultations for Spokane-area residents.",
+      "We serve Bend and Central Oregon by phone, online, and by appointment. Reach out and a licensed insurance professional will help you review your Medicare options at a time that works for you.",
   },
 ];
 
@@ -120,7 +120,7 @@ export default function CompareMedicareOptionsPage() {
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div className="max-w-4xl">
             <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
-              Compare Medicare Options in Spokane
+              Compare Medicare Options in Bend
             </h1>
             <p className="max-w-3xl text-xl text-blue-100">
               Work with a local licensed insurance agent to review Medicare Advantage, Medicare Supplement, Part D,
@@ -131,7 +131,7 @@ export default function CompareMedicareOptionsPage() {
                 href={telHref}
                 className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-lg font-semibold text-blue-800 transition-colors hover:bg-blue-50"
               >
-                Call 509-353-0476
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="#compare-help-form"
@@ -141,7 +141,7 @@ export default function CompareMedicareOptionsPage() {
               </Link>
             </div>
             <p className="mt-5 text-base font-semibold text-blue-50">
-              No-cost consultation. No pressure. Local Spokane guidance.
+              No-cost consultation. No pressure. Local Central Oregon guidance.
             </p>
             </div>
             <div className="hidden lg:flex lg:justify-center">
@@ -158,7 +158,7 @@ export default function CompareMedicareOptionsPage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Who this page is for</h2>
             <p className="mt-3 text-lg text-gray-600">
-              This page is built for Spokane-area residents who want straightforward Medicare guidance without pressure.
+              This page is built for Central Oregon residents who want straightforward Medicare guidance without pressure.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -191,15 +191,16 @@ export default function CompareMedicareOptionsPage() {
           </div>
 
           <div className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Spokane support</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Meet with a local licensed insurance agent.</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Central Oregon support</p>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900">Work with a local licensed insurance agent.</h2>
             <div className="mt-4 space-y-4 text-lg leading-relaxed text-gray-700">
               <p>
-                {siteConfig.legalName} is a Spokane-based licensed independent insurance agency helping local residents
-                compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.
+                {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central Oregon,
+                helping local residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental
+                insurance options.
               </p>
-              <p>Our Spokane office is located inside the Providence Medical Building.</p>
-              <p>We offer in-person and phone consultations available for Spokane-area residents.</p>
+              <p>{siteConfig.serviceAreaStatement}</p>
+              <p>We help Central Oregon residents review their Medicare options by phone, online, or by appointment.</p>
             </div>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
@@ -212,7 +213,7 @@ export default function CompareMedicareOptionsPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-base font-semibold text-gray-900 transition-colors hover:bg-gray-50"
               >
-                Contact Our Office
+                Contact Us
               </Link>
             </div>
           </div>
@@ -268,7 +269,7 @@ export default function CompareMedicareOptionsPage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Helpful Medicare links</h2>
             <p className="mt-3 text-lg text-gray-600">
-              Explore related Medicare pages for Spokane-area residents.
+              Explore related Medicare pages for Central Oregon residents.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -298,7 +299,7 @@ export default function CompareMedicareOptionsPage() {
       </section>
 
       <CTASection
-        heading="Need help comparing Medicare coverage in Spokane?"
+        heading="Need help comparing Medicare coverage in Bend?"
         subheading="Talk with a local licensed insurance professional — no cost, no pressure."
       />
     </>

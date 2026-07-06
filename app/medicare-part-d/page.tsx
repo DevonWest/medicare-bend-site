@@ -8,12 +8,12 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Part D Prescription Drug Plans in Spokane",
+  title: "Medicare Part D Prescription Drug Plans in Bend, OR",
   description:
-    "Compare Medicare Part D prescription drug plans in Spokane. We help you review your medications and how each plan we represent would cover them, including preferred pharmacies.",
+    "Compare Medicare Part D prescription drug plans in Bend. We help you review your medications and how each plan we represent would cover them, including preferred pharmacies.",
   alternates: { canonical: `${siteConfig.url}/medicare-part-d` },
   openGraph: {
-    title: "Medicare Part D Prescription Drug Plans in Spokane",
+    title: "Medicare Part D Prescription Drug Plans in Bend, OR",
     description:
       "Help comparing standalone Medicare Part D plans, including a prescription review.",
     url: `${siteConfig.url}/medicare-part-d`,
@@ -42,7 +42,7 @@ export default function MedicarePartDPage() {
   return (
     <>
       <PageHero
-        title="Medicare Part D in Spokane"
+        title="Medicare Part D in Bend"
         subtitle="Help comparing standalone Medicare Part D prescription drug plans, including a no-cost prescription review."
         crumbs={[{ href: "/", label: "Home" }, { label: "Medicare Part D" }]}
         illustration={<FriendlyIllustration name="prescriptionReview" />}

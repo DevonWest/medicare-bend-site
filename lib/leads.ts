@@ -11,7 +11,7 @@
  *      last `DUPLICATE_WINDOW_MS` (10 min) — if found, return its id with
  *      `duplicate: true` instead of writing a new doc.
  *   3. Otherwise, create a new doc with `status: "new"` and the canonical
- *      `source: "medicareinspokane.com"` plus all attribution fields.
+ *      `source` (SITE_SOURCE) plus all attribution fields.
  *   4. Submit the full lead payload to the CRM public form endpoint after
  *      the Firestore backup is saved.
  *
@@ -39,6 +39,7 @@ import { buildLeadFirestoreDocument } from "./leadFirestore";
 import { getSafeErrorDetails } from "./leadLogging";
 import type { LeadSource } from "./leadSources";
 import type { UtmParams } from "./utm";
+import { siteConfig } from "./site";
 
 export interface LeadAttribution {
   /** Pathname of the page the form was submitted from (e.g. "/contact"). */
@@ -88,7 +89,7 @@ interface SubmitLeadDependencies {
 const COLLECTION = process.env.LEADS_COLLECTION?.trim() || "website_leads";
 
 /** Generic error message we're willing to show users. */
-const GENERIC_ERROR = "We couldn't submit your request. Please call us at 509-353-0476.";
+const GENERIC_ERROR = `We couldn't submit your request. Please call us at ${siteConfig.phone}.`;
 
 function getLeadLogContext(payload: LeadPayload): Record<string, unknown> {
   const firebase = getFirebaseAdminEnvSummary();

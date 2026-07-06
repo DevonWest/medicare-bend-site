@@ -6,6 +6,7 @@ import type { LeadRequestPayload } from "@/lib/leadPayload";
 import { LEAD_SOURCES, type LeadSource } from "@/lib/leadSources";
 import { cleanString, validateLeadRequest } from "@/lib/leadValidation";
 import type { UtmParams } from "@/lib/utm";
+import { siteConfig } from "@/lib/site";
 
 // firebase-admin requires Node APIs — opt out of the Edge runtime explicitly.
 export const runtime = "nodejs";
@@ -106,7 +107,7 @@ export async function handleLeadPost(
       ...getSafeErrorDetails(err),
     });
     return NextResponse.json(
-      { ok: false, error: "We couldn't submit your request. Please call us at 509-353-0476." },
+      { ok: false, error: `We couldn't submit your request. Please call us at ${siteConfig.phone}.` },
       { status: 500 },
     );
   }

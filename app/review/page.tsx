@@ -7,9 +7,9 @@ import { siteConfig } from "@/lib/site";
 import { getActiveReviewableTeamMembers, getTeamMemberSlug } from "@/lib/team";
 
 export const metadata: Metadata = {
-  title: "Review Our Medicare Team | Medicare in Spokane",
+  title: "Review Our Medicare Team | Medicare in Bend",
   description:
-    "Choose the Medicare in Spokane team member you worked with so your review or feedback reaches the right person.",
+    "Choose the Medicare in Bend team member you worked with so your review or feedback reaches the right person.",
   alternates: { canonical: `${siteConfig.url}/review` },
   robots: {
     index: true,

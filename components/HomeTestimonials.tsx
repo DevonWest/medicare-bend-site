@@ -6,6 +6,12 @@ const homepageTestimonials = [...testimonials]
   .slice(0, 6);
 
 export default function HomeTestimonials() {
+  // No Bend/Central Oregon testimonials are published yet — hide the section
+  // entirely rather than showing an empty grid.
+  if (homepageTestimonials.length === 0) {
+    return null;
+  }
+
   return (
     <section className="border-y border-slate-100 bg-slate-50 px-4 py-20">
       <div className="mx-auto max-w-6xl">
@@ -14,10 +20,10 @@ export default function HomeTestimonials() {
             Social Proof
           </p>
           <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
-            What Spokane Clients Say
+            What Our Clients Say
           </h2>
           <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">
-            Real feedback from Spokane-area residents we&apos;ve helped navigate Medicare.
+            Real feedback from Central Oregon residents we&apos;ve helped navigate Medicare.
           </p>
         </div>
 

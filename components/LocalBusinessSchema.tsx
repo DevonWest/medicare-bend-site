@@ -1,5 +1,5 @@
 import { siteConfig } from "@/lib/site";
-import { spokaneAreaCities } from "@/lib/cities";
+import { centralOregonCities } from "@/lib/cities";
 
 export default function LocalBusinessSchema() {
   const sameAs: string[] = [];
@@ -20,20 +20,18 @@ export default function LocalBusinessSchema() {
     priceRange: "Free consultation",
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.address.streetAddress,
       addressLocality: siteConfig.address.addressLocality,
       addressRegion: siteConfig.address.addressRegion,
-      postalCode: siteConfig.address.postalCode,
       addressCountry: siteConfig.address.addressCountry,
     },
     geo: {
       "@type": "GeoCoordinates",
-      // Approximate coordinates for 820 S McClellan St, Spokane, WA 99204.
-      latitude: 47.6378,
-      longitude: -117.4097,
+      // Approximate coordinates for Bend, OR.
+      latitude: 44.0582,
+      longitude: -121.3153,
     },
     areaServed: [
-      ...spokaneAreaCities.map((city) => ({
+      ...centralOregonCities.map((city) => ({
         "@type": "City",
         name: city.name,
         containedInPlace: {
@@ -41,8 +39,8 @@ export default function LocalBusinessSchema() {
           name: `${city.county}, ${city.state}`,
         },
       })),
-      { "@type": "AdministrativeArea", name: "Spokane County, Washington" },
-      { "@type": "AdministrativeArea", name: "Eastern Washington" },
+      { "@type": "AdministrativeArea", name: "Deschutes County, Oregon" },
+      { "@type": "AdministrativeArea", name: "Central Oregon" },
     ],
     serviceType: [
       "Medicare Advantage",

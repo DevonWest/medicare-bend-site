@@ -7,14 +7,14 @@ import { siteConfig } from "@/lib/site";
 import { getPublicTeamMembers } from "@/lib/team";
 
 export const metadata: Metadata = {
-  title: "Meet Our Spokane Medicare Team | Health Insurance Options",
+  title: "Meet Our Bend Medicare Team | Health Insurance Options",
   description:
-    "Meet the local licensed insurance professionals at Health Insurance Options LLC who help Spokane-area residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.",
+    "Meet the local licensed insurance professionals at Health Insurance Options LLC who help Central Oregon residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.",
   alternates: { canonical: `${siteConfig.url}/our-team` },
   openGraph: {
-    title: "Meet Our Spokane Medicare Team | Health Insurance Options",
+    title: "Meet Our Bend Medicare Team | Health Insurance Options",
     description:
-      "Meet the local licensed insurance professionals at Health Insurance Options LLC who help Spokane-area residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.",
+      "Meet the local licensed insurance professionals at Health Insurance Options LLC who help Central Oregon residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.",
     url: `${siteConfig.url}/our-team`,
   },
 };
@@ -54,8 +54,8 @@ export default function OurTeamPage() {
       />
 
       <PageHero
-        title="Meet Your Local Medicare Team in Spokane"
-        subtitle="Licensed insurance professionals helping Spokane-area residents compare Medicare options — at no cost."
+        title="Meet Your Local Medicare Team in Bend"
+        subtitle="Licensed insurance professionals helping Central Oregon residents compare Medicare options — at no cost."
         crumbs={[{ href: "/", label: "Home" }, { label: "Our Team" }]}
       />
 
@@ -63,24 +63,20 @@ export default function OurTeamPage() {
       <section className="py-14 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            {siteConfig.legalName} is a locally owned, licensed independent insurance agency based
-            in Spokane, WA. Our team of licensed insurance professionals is dedicated to helping
-            Spokane-area residents understand and compare Medicare options — including Medicare
-            Advantage, Medicare Supplement, Medicare Part D, and supplemental insurance — with
-            friendly, no-pressure guidance.
+            {siteConfig.legalName} is a locally owned, licensed independent insurance agency serving
+            Bend and Central Oregon. Our team of licensed insurance professionals is dedicated to
+            helping Central Oregon residents understand and compare Medicare options — including
+            Medicare Advantage, Medicare Supplement, Medicare Part D, and supplemental insurance —
+            with friendly, no-pressure guidance.
           </p>
           <p>
-            Every member of our team lives and works in the Spokane community. When you call us, you
-            are talking to a neighbor who knows the local healthcare landscape, the area&apos;s
-            carrier networks, and what matters most to people here. We offer no-cost consultations
-            and stay available year-round — not just during enrollment season.
+            {siteConfig.serviceAreaStatement} When you reach out, you are talking to someone who
+            knows the local healthcare landscape, the area&apos;s carrier networks, and what matters
+            most to people here. We offer no-cost consultations and stay available year-round — not
+            just during enrollment season.
           </p>
           <p>
-            Our team has over{" "}
-            <strong className="text-gray-900">
-              40 years of combined Medicare-related insurance experience
-            </strong>
-            . Whether you are turning 65, retiring, moving off an employer plan, or simply reviewing
+            Whether you are turning 65, retiring, moving off an employer plan, or simply reviewing
             your current coverage, we are here to help you review plan choices and find coverage
             that fits your needs.
           </p>
@@ -92,8 +88,8 @@ export default function OurTeamPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-3">Our Team</h2>
           <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
-            Our Spokane team includes licensed insurance agents, office support, and a retired team
-            member whose clients can still reach out through our office for help.
+            Our team includes licensed insurance agents ready to help you compare Medicare options
+            across Bend and Central Oregon.
           </p>
           <TeamSection members={members} showContactCTA />
         </div>
@@ -110,7 +106,7 @@ export default function OurTeamPage() {
               {
                 title: "We know your area's plans",
                 body:
-                  "Plan availability, networks, and benefits vary by county. Our team works specifically in Spokane County and Eastern Washington, so we know which plans are available here and how they compare.",
+                  "Plan availability, networks, and benefits vary by county. Our team works specifically in Bend and Central Oregon, so we know which plans are available here and how they compare.",
               },
               {
                 title: "Your doctors and pharmacies matter",
@@ -160,7 +156,7 @@ export default function OurTeamPage() {
       {/* Bottom CTA */}
       <CTASection
         heading="Ready to Talk With Our Team?"
-        subheading="No cost, no pressure — just straightforward Medicare guidance from local Spokane professionals."
+        subheading="No cost, no pressure — just straightforward Medicare guidance from local Central Oregon professionals."
       />
     </>
   );

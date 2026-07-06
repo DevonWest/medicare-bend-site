@@ -242,7 +242,7 @@ test("POST returns 500 when Firestore save fails", async () => {
   const response = await handleLeadPost(makeLeadRequest(makeLeadPayload()), {
     submitLead: async () => ({
       ok: false,
-      error: "We couldn't submit your request. Please call us at 509-353-0476.",
+      error: "We couldn't submit your request. Please call us at 541-555-0100.",
       errorType: "server",
     }),
   });

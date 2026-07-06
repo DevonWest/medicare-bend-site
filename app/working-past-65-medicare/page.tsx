@@ -7,14 +7,14 @@ import CTASection from "@/components/CTASection";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Working Past 65 and Medicare Spokane",
+  title: "Working Past 65 and Medicare in Bend, Oregon",
   description:
-    "Still working at 65? Get local help understanding Medicare timing, employer coverage questions, Part B, Part D, and Medicare plan options in Spokane.",
+    "Still working at 65? Get local help understanding Medicare timing, employer coverage questions, Part B, Part D, and Medicare plan options in Bend and Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/working-past-65-medicare` },
   openGraph: {
-    title: "Working Past 65 and Medicare Spokane | Medicare in Spokane",
+    title: "Working Past 65 and Medicare in Bend | Medicare in Bend",
     description:
-      "Still working at 65? Get local help understanding Medicare timing, employer coverage questions, Part B, Part D, and Medicare plan options in Spokane.",
+      "Still working at 65? Get local help understanding Medicare timing, employer coverage questions, Part B, Part D, and Medicare plan options in Bend and Central Oregon.",
     url: `${siteConfig.url}/working-past-65-medicare`,
   },
 };
@@ -47,14 +47,14 @@ const helpSteps = [
 
 const internalLinks = [
   {
-    href: "/turning-65-medicare-spokane",
-    title: "Turning 65 in Spokane",
+    href: "/turning-65-medicare-bend",
+    title: "Turning 65 in Bend",
     body: "Review a simple Medicare checklist for the months around your 65th birthday.",
   },
   {
     href: "/compare-medicare-options",
     title: "Compare Medicare Options",
-    body: "See how local licensed agents help Spokane-area residents compare Medicare coverage options.",
+    body: "See how local licensed agents help Central Oregon residents compare Medicare coverage options.",
   },
   {
     href: "/medicare-part-d",
@@ -68,8 +68,8 @@ const internalLinks = [
   },
   {
     href: "/contact",
-    title: "Contact Our Spokane Office",
-    body: "Schedule an in-person or phone consultation with a licensed local insurance agent.",
+    title: "Contact Us",
+    body: "Schedule a consultation by phone, online, or by appointment with a licensed local insurance agent.",
   },
 ];
 
@@ -119,7 +119,7 @@ export default function WorkingPastSixtyFivePage() {
             </h1>
             <p className="max-w-3xl text-xl text-blue-100">
               If you or your spouse are still working, Medicare decisions can be more complicated. Our local licensed
-              agents help Spokane-area residents understand what questions to ask before deciding when and how to
+              agents help Central Oregon residents understand what questions to ask before deciding when and how to
               enroll.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -127,7 +127,7 @@ export default function WorkingPastSixtyFivePage() {
                 href={telHref}
                 className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-lg font-semibold text-blue-800 transition-colors hover:bg-blue-50"
               >
-                Call 509-353-0476
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="#working-past-65-form"
@@ -137,7 +137,7 @@ export default function WorkingPastSixtyFivePage() {
               </Link>
             </div>
             <p className="mt-5 text-base font-semibold text-blue-50">
-              No-cost consultation. No pressure. Local Spokane guidance.
+              No-cost consultation. No pressure. Local Central Oregon guidance.
             </p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function WorkingPastSixtyFivePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Who this page is for</h2>
             <p className="mt-3 text-lg text-gray-600">
-              Built for Spokane-area residents who want to understand Medicare timing while they or a spouse are still
+              Built for Central Oregon residents who want to understand Medicare timing while they or a spouse are still
               working.
             </p>
           </div>
@@ -167,7 +167,7 @@ export default function WorkingPastSixtyFivePage() {
           <div>
             <h2 className="text-3xl font-bold text-gray-900">Important questions to ask</h2>
             <p className="mt-3 max-w-3xl text-lg leading-relaxed text-gray-700">
-              These are some of the questions Spokane-area residents often want to sort through before deciding when
+              These are some of the questions Central Oregon residents often want to sort through before deciding when
               and how to enroll.
             </p>
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -211,15 +211,15 @@ export default function WorkingPastSixtyFivePage() {
           </div>
 
           <div className="rounded-3xl border border-blue-100 bg-blue-50 p-6 shadow-sm sm:p-8">
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Spokane trust</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Work with a Spokane-based local agency.</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Central Oregon trust</p>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900">Work with a local agency serving Central Oregon.</h2>
             <div className="mt-4 space-y-4 text-lg leading-relaxed text-gray-700">
               <p>
-                {siteConfig.legalName} is a Spokane-based licensed independent insurance agency helping local residents
-                understand Medicare plan options.
+                {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central Oregon,
+                helping local residents understand Medicare plan options.
               </p>
-              <p>Our Spokane office is located inside the Providence Medical Building.</p>
-              <p>In-person and phone consultations are available for Spokane-area residents.</p>
+              <p>{siteConfig.serviceAreaStatement}</p>
+              <p>Consultations are available by phone, online, or by appointment for Central Oregon residents.</p>
             </div>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
@@ -232,7 +232,7 @@ export default function WorkingPastSixtyFivePage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-base font-semibold text-gray-900 transition-colors hover:bg-gray-50"
               >
-                Contact Our Office
+                Contact Us
               </Link>
             </div>
           </div>
@@ -265,7 +265,7 @@ export default function WorkingPastSixtyFivePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Helpful Medicare links</h2>
             <p className="mt-3 text-lg text-gray-600">
-              Explore related Medicare pages for Spokane-area residents.
+              Explore related Medicare pages for Central Oregon residents.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -290,7 +290,7 @@ export default function WorkingPastSixtyFivePage() {
 
       <CTASection
         heading="Need help sorting out Medicare while still working?"
-        subheading="Talk with a local licensed insurance professional in Spokane — no cost, no pressure."
+        subheading="Talk with a local licensed insurance professional serving Central Oregon — no cost, no pressure."
       />
     </>
   );

@@ -1,5 +1,14 @@
 # Build and deploy the site container to Google Cloud Run.
 #
+# ⚠️ TODO(bend-deploy) — NOT YET UPDATED FOR BEND (deferred to the deployment PR).
+#   This workflow still references the prior project's domains
+#   (www./beta.medicareinspokane.com) and relies on repo Variables
+#   (GCP_PROJECT_ID, CLOUD_RUN_SERVICE, CLOUD_RUN_SERVICE_BETA, FIREBASE_PROJECT_ID)
+#   that must be repointed to the Bend project/services (medicare-bend-site /
+#   medicare-bend-site-beta) before any Bend deploy. Do NOT merge to `main`
+#   expecting a correct Bend deployment until this is updated. It also does not
+#   yet wire CRM_API_BASE_URL / CRM_API_KEY. See PR 5 (deployment setup).
+#
 # Triggers
 #   - push to main              → deploys beta
 #   - manual workflow_dispatch  → choose beta or production

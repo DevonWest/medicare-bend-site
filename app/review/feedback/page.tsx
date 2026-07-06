@@ -5,8 +5,8 @@ import { getReviewRatingValue, sanitizeReviewSlug } from "@/lib/reviewFlow";
 import { getTeamMemberBySlug, isReviewableTeamMember } from "@/lib/team";
 
 export const metadata: Metadata = {
-  title: "Share Feedback | Medicare in Spokane",
-  description: "Share private feedback with the Medicare in Spokane team so we can follow up and improve.",
+  title: "Share Feedback | Medicare in Bend",
+  description: "Share private feedback with the Medicare in Bend team so we can follow up and improve.",
   alternates: { canonical: `${siteConfig.url}/review/feedback` },
   robots: {
     index: false,

@@ -5,7 +5,7 @@ import { siteConfig, telHref } from "@/lib/site";
 
 const primaryNav: HeaderNavItem[] = [
   { href: "/", label: "Home" },
-  { href: "/medicare-spokane", label: "Medicare Help" },
+  { href: "/compare-medicare-options", label: "Medicare Help" },
   { href: "/our-team", label: "Our Team" },
   { href: "/resources", label: "Resources" },
   { href: "/contact", label: "Contact" },
@@ -22,11 +22,11 @@ export default function Header() {
           <Link
             href="/"
             className="flex min-w-0 items-center"
-            aria-label="Medicare in Spokane home page"
+            aria-label="Medicare in Bend home page"
           >
             <Image
               src="/brand/logo-horizontal.png"
-              alt="Medicare in Spokane by Health Insurance Options"
+              alt="Medicare in Bend by Health Insurance Options"
               width={1324}
               height={216}
               priority

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getLocalMedicarePath, spokaneAreaCities } from "@/lib/cities";
+import { centralOregonCities } from "@/lib/cities";
 import { siteConfig, telHref } from "@/lib/site";
 
 const helpLinks: Array<{ href: string; label: string }> = [
@@ -15,22 +15,14 @@ const helpLinks: Array<{ href: string; label: string }> = [
 
 const resourceLinks: Array<{ href: string; label: string }> = [
   { href: "/resources", label: "Medicare Resource Library" },
-  { href: "/turning-65-medicare-spokane", label: "Turning 65 in Spokane" },
+  { href: "/turning-65-medicare-bend", label: "Turning 65 in Bend" },
   { href: "/compare-medicare-options", label: "Compare Medicare Options" },
   { href: "/medicare-appointment-checklist", label: "Medicare Appointment Checklist" },
   { href: "/rx-drug-review", label: "Prescription Drug Review" },
-  { href: "/medicare-plan-review-spokane", label: "Annual Medicare Plan Review" },
-  { href: "/medicare-annual-enrollment-spokane", label: "Annual Enrollment Help in Spokane" },
-  { href: "/moving-to-spokane-medicare", label: "Moving to Spokane & Medicare" },
-  { href: "/medicare-savings-program-extra-help-washington", label: "Medicare Savings & Extra Help (WA)" },
+  { href: "/medicare-plan-review-bend", label: "Annual Medicare Plan Review" },
   { href: "/helping-parent-with-medicare", label: "Helping a Parent with Medicare" },
   { href: "/working-past-65-medicare", label: "Working Past 65 & Medicare" },
   { href: "/medicare-part-d", label: "Medicare Part D" },
-  { href: "/health-insurance-spokane", label: "Health Insurance Help in Spokane" },
-  { href: "/health-insurance-agent-spokane", label: "Health Insurance Agent in Spokane" },
-  { href: "/individual-family-health-insurance-spokane", label: "Individual & Family Health Insurance" },
-  { href: "/self-employed-health-insurance-spokane", label: "Self-Employed Health Insurance" },
-  { href: "/health-insurance-special-enrollment-spokane", label: "Special Enrollment Health Insurance" },
 ];
 
 const aboutLinks: Array<{ href: string; label: string }> = [
@@ -62,12 +54,12 @@ export default function Footer() {
                 <p className="mt-1 text-xs uppercase tracking-wider text-gray-400">
                   Licensed Independent Insurance Agency
                 </p>
-                <p className="mt-1 text-xs text-gray-400">Medicare in Spokane</p>
+                <p className="mt-1 text-xs text-gray-400">{siteConfig.shortName}</p>
               </div>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-gray-400">
-              {siteConfig.legalName} is {siteConfig.agencyDescriptor} serving Spokane and the
-              surrounding Eastern Washington communities.
+              {siteConfig.legalName} is {siteConfig.agencyDescriptor} serving Bend and Central
+              Oregon.
             </p>
             <div className="mt-4 space-y-1 text-sm">
               <p>
@@ -80,10 +72,9 @@ export default function Footer() {
                   {siteConfig.email}
                 </a>
               </p>
-              <p className="text-xs text-gray-400">{siteConfig.address.streetAddress}</p>
+              <p className="text-xs text-gray-400">{siteConfig.serviceAreaStatement}</p>
               <p className="text-xs text-gray-400">
-                {siteConfig.address.addressLocality}, {siteConfig.address.addressRegion}{" "}
-                {siteConfig.address.postalCode}
+                {siteConfig.address.addressLocality}, {siteConfig.address.addressRegion}
               </p>
               <p className="text-xs text-gray-400">{siteConfig.hours}</p>
             </div>
@@ -138,15 +129,10 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
               Areas We Serve
             </h3>
-            <ul className="space-y-2 text-sm">
-              {spokaneAreaCities.map((city) => (
-                <li key={city.slug}>
-                  <Link href={getLocalMedicarePath(city.slug)} className="transition-colors hover:text-white">
-                    {city.name}, {city.stateCode}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <p className="text-sm leading-relaxed text-gray-400">
+              Serving Bend and Central Oregon, including{" "}
+              {centralOregonCities.map((city) => city.name).join(", ")}.
+            </p>
           </div>
         </div>
 

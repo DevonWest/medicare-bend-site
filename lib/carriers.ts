@@ -1,8 +1,10 @@
 /**
- * Carriers we currently represent. Sourced from the live site at
- * medicareinspokane.com/carriers. Carrier and plan availability may vary by
+ * Carriers we currently represent. Carrier and plan availability may vary by
  * county, product type (Medicare Advantage, Medicare Supplement, Part D,
  * supplemental), and enrollment period — we surface those caveats in the UI.
+ *
+ * TODO(bend-carriers): verify this carrier list against the Bend/Oregon book of
+ * business before launch; some carriers here reflect the prior market.
  */
 export interface Carrier {
   name: string;

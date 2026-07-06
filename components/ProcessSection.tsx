@@ -42,7 +42,7 @@ export default function ProcessSection() {
             A Simple, Pressure-Free Process
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Helping Spokane-area residents navigate Medicare year-round — from your first questions
+            Helping Central Oregon residents navigate Medicare year-round — from your first questions
             through every Annual Enrollment after.
           </p>
         </div>
