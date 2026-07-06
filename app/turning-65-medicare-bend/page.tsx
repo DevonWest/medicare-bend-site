@@ -7,15 +7,15 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Turning 65 Medicare Help Spokane",
+  title: "Turning 65 Medicare Help in Bend, Oregon",
   description:
-    "Turning 65 in Spokane? Get local help understanding Medicare enrollment, Medicare Advantage, Medicare Supplement, and Part D options from a licensed insurance agent.",
-  alternates: { canonical: `${siteConfig.url}/turning-65-medicare-spokane` },
+    "Turning 65 in Bend? Get local help understanding Medicare enrollment, Medicare Advantage, Medicare Supplement, and Part D options from a licensed insurance agent serving Central Oregon.",
+  alternates: { canonical: `${siteConfig.url}/turning-65-medicare-bend` },
   openGraph: {
-    title: "Turning 65 Medicare Help Spokane",
+    title: "Turning 65 Medicare Help in Bend, Oregon",
     description:
-      "Turning 65 in Spokane? Get local help understanding Medicare enrollment, Medicare Advantage, Medicare Supplement, and Part D options from a licensed insurance agent.",
-    url: `${siteConfig.url}/turning-65-medicare-spokane`,
+      "Turning 65 in Bend? Get local help understanding Medicare enrollment, Medicare Advantage, Medicare Supplement, and Part D options from a licensed insurance agent serving Central Oregon.",
+    url: `${siteConfig.url}/turning-65-medicare-bend`,
   },
 };
 
@@ -78,12 +78,12 @@ const faqs: FAQItem[] = [
   {
     question: "Can you help me compare Medicare Advantage and Medicare Supplement?",
     answer:
-      "Yes. We help Spokane-area residents compare Medicare Advantage and Medicare Supplement options from the plans we represent, then explain the trade-offs in plain language based on doctors, prescriptions, and budget.",
+      "Yes. We help Central Oregon residents compare Medicare Advantage and Medicare Supplement options from the plans we represent, then explain the trade-offs in plain language based on doctors, prescriptions, and budget.",
   },
   {
     question: "Is there a cost to meet with you?",
     answer:
-      "No. Our consultations are no-cost and no-obligation. You can meet with our team in person at our Spokane office or talk with us by phone.",
+      "No. Our consultations are no-cost and no-obligation. You can connect with our team by phone, online, or by appointment.",
   },
 ];
 
@@ -93,7 +93,7 @@ const internalLinks = [
   { href: "/medicare-supplements", label: "Medicare Supplements" },
   { href: "/medicare-part-d", label: "Medicare Part D" },
   { href: "/rx-drug-review", label: "RX Drug Review" },
-  { href: "/contact", label: "Contact Our Spokane Office" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export default function TurningSixtyFivePage() {
@@ -114,13 +114,13 @@ export default function TurningSixtyFivePage() {
           </nav>
           <div className="max-w-4xl">
             <p className="mb-3 landscape-mobile:mb-1 text-sm font-semibold uppercase tracking-[0.2em] text-blue-100">
-              Local Medicare Help for Spokane-Area Residents
+              Local Medicare Help for Central Oregon Residents
             </p>
             <h1 className="mb-4 landscape-mobile:mb-2 text-4xl landscape-mobile:text-2xl landscape-mobile:leading-snug font-extrabold leading-tight md:text-5xl">
-              Turning 65 in Spokane? Get Help Understanding Medicare
+              Turning 65 in Bend? Get Help Understanding Medicare
             </h1>
             <p className="max-w-3xl text-xl landscape-mobile:text-base text-blue-100">
-              Medicare can feel overwhelming at first. Our local licensed agents help Spokane-area residents
+              Medicare can feel overwhelming at first. Our local licensed agents help Central Oregon residents
               understand enrollment timing, compare options from the plans we represent, and avoid common mistakes.
             </p>
             <div className="mt-8 landscape-mobile:mt-4 flex flex-col gap-4 landscape-mobile:gap-3 sm:flex-row landscape-mobile:flex-row">
@@ -128,7 +128,7 @@ export default function TurningSixtyFivePage() {
                 href={telHref}
                 className="inline-flex items-center justify-center rounded-lg bg-white px-7 landscape-mobile:px-5 py-3 landscape-mobile:py-2 text-lg landscape-mobile:text-base font-semibold text-blue-800 transition-colors hover:bg-blue-50"
               >
-                Call 509-353-0476
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="#turning-65-help-form"
@@ -138,7 +138,7 @@ export default function TurningSixtyFivePage() {
               </Link>
             </div>
             <p className="mt-5 landscape-mobile:mt-2 text-base landscape-mobile:text-sm font-semibold text-blue-50">
-              No-cost consultation. No pressure. Local Spokane guidance.
+              No-cost consultation. No pressure. Local Central Oregon guidance.
             </p>
           </div>
         </div>
@@ -170,15 +170,15 @@ export default function TurningSixtyFivePage() {
             <div className="mx-auto mb-6 hidden max-w-sm rounded-2xl border border-white/80 bg-white p-4 shadow-sm md:block">
               <FriendlyIllustration name="turning65Checklist" />
             </div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Spokane help</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Talk with a Spokane-based licensed agent.</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Central Oregon help</p>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900">Talk with a local licensed agent serving Central Oregon.</h2>
             <div className="mt-4 space-y-4 text-lg leading-relaxed text-gray-700">
               <p>
-                {siteConfig.legalName} is a Spokane-based licensed independent insurance agency helping local
-                residents understand Medicare.
+                {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central
+                Oregon, helping local residents understand Medicare.
               </p>
-              <p>Our Spokane office is located inside the Providence Medical Building.</p>
-              <p>We offer both in-person and phone consultations for Spokane-area residents.</p>
+              <p>{siteConfig.serviceAreaStatement}</p>
+              <p>Consultations are available by phone, online, or by appointment for Central Oregon residents.</p>
             </div>
             <div className="mt-6 rounded-2xl border border-blue-100 bg-white p-5 text-sm leading-relaxed text-gray-700">
               <p>
@@ -195,7 +195,7 @@ export default function TurningSixtyFivePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Common questions when turning 65</h2>
             <p className="mt-3 text-lg text-gray-600">
-              These are some of the first questions Spokane residents usually ask as Medicare approaches.
+              These are some of the first questions Central Oregon residents usually ask as Medicare approaches.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -230,7 +230,7 @@ export default function TurningSixtyFivePage() {
 
           <div id="turning-65-help-form">
             <LeadForm
-              source="turning-65-medicare-spokane"
+              source="turning-65-medicare-bend"
               heading="Request Turning 65 Help"
               subheading="Tell us a little about your situation and a licensed local agent will follow up to help you understand your Medicare options."
               showMessage
@@ -244,7 +244,7 @@ export default function TurningSixtyFivePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Helpful Medicare links</h2>
             <p className="mt-3 text-lg text-gray-600">
-              Review related Spokane Medicare pages before or after your consultation.
+              Review related Central Oregon Medicare pages before or after your consultation.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -274,7 +274,7 @@ export default function TurningSixtyFivePage() {
               <h2 className="text-2xl font-bold text-gray-900">Helping a parent or spouse with Medicare?</h2>
               <p className="mt-3 text-lg leading-relaxed text-gray-700">
                 If your family is helping a loved one organize Medicare information, review prescriptions and
-                doctors, or understand plan changes, we have a dedicated Spokane resource for that conversation.
+                doctors, or understand plan changes, we have a dedicated Central Oregon resource for that conversation.
               </p>
             </div>
             <Link

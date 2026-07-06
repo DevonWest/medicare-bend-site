@@ -6,14 +6,14 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Resource Library for Spokane Residents",
+  title: "Medicare Resource Library for Central Oregon",
   description:
-    "Browse Spokane Medicare guides for turning 65, comparing options, reviewing prescriptions, and finding trusted Medicare and government resources.",
+    "Browse Bend and Central Oregon Medicare guides for turning 65, comparing options, reviewing prescriptions, and finding trusted Medicare and government resources.",
   alternates: { canonical: `${siteConfig.url}/resources` },
   openGraph: {
-    title: "Medicare Resource Library for Spokane Residents",
+    title: "Medicare Resource Library for Central Oregon",
     description:
-      "Browse Spokane Medicare guides for turning 65, comparing options, reviewing prescriptions, and trusted Medicare and government resources.",
+      "Browse Central Oregon Medicare guides for turning 65, comparing options, reviewing prescriptions, and trusted Medicare and government resources.",
     url: `${siteConfig.url}/resources`,
   },
 };
@@ -30,11 +30,11 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
   {
     title: "Getting Started with Medicare",
     intro:
-      "Start with Spokane-focused guides for enrollment timing, comparing plan types, and understanding your first Medicare decisions.",
+      "Start with Central Oregon guides for enrollment timing, comparing plan types, and understanding your first Medicare decisions.",
     items: [
       {
-        href: "/turning-65-medicare-spokane",
-        title: "Turning 65 in Spokane",
+        href: "/turning-65-medicare-bend",
+        title: "Turning 65 in Bend",
         body: "Use a local checklist to understand enrollment timing, employer coverage questions, and the next steps before Medicare begins.",
         ctaLabel: "Read More",
       },
@@ -58,15 +58,9 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
       "Review these pages when you want help with prescriptions, plan types, and coverage details before you make a change.",
     items: [
       {
-        href: "/medicare-plan-review-spokane",
+        href: "/medicare-plan-review-bend",
         title: "Annual Medicare Plan Review",
         body: "Review plan changes, prescriptions, doctors, pharmacies, and out-of-pocket costs before the next plan year.",
-        ctaLabel: "Get Help",
-      },
-      {
-        href: "/medicare-annual-enrollment-spokane",
-        title: "Medicare Annual Enrollment Help in Spokane",
-        body: "Plain-language overview of the Annual Enrollment Period (Oct 15 – Dec 7) and what to review for the next plan year.",
         ctaLabel: "Get Help",
       },
       {
@@ -99,7 +93,7 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
   {
     title: "Working and Medicare",
     intro:
-      "Guidance for Spokane-area residents who are still working and want to understand employer coverage and Medicare timing.",
+      "Guidance for Central Oregon residents who are still working and want to understand employer coverage and Medicare timing.",
     items: [
       {
         href: "/working-past-65-medicare",
@@ -110,44 +104,7 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
     ],
   },
   {
-    title: "Health Insurance Help",
-    intro:
-      "Help for Spokane-area individuals and families reviewing health insurance options when Medicare is not yet a factor.",
-    items: [
-      {
-        href: "/health-insurance-spokane",
-        title: "Health Insurance Help in Spokane",
-        body: "Local guidance for individuals, families, self-employed workers, and people not yet eligible for Medicare reviewing health insurance options.",
-        ctaLabel: "Read More",
-      },
-      {
-        href: "/health-insurance-agent-spokane",
-        title: "Health Insurance Agent in Spokane",
-        body: "Work with a local Spokane health insurance agent to review coverage options for individuals, families, self-employed workers, and people losing employer coverage.",
-        ctaLabel: "Read More",
-      },
-      {
-        href: "/individual-family-health-insurance-spokane",
-        title: "Individual & Family Health Insurance",
-        body: "Help for Spokane-area individuals and families reviewing health insurance options before Medicare.",
-        ctaLabel: "Read More",
-      },
-      {
-        href: "/self-employed-health-insurance-spokane",
-        title: "Self-Employed Health Insurance",
-        body: "Guidance for self-employed workers, contractors, small business owners, and people without employer coverage.",
-        ctaLabel: "Read More",
-      },
-      {
-        href: "/health-insurance-special-enrollment-spokane",
-        title: "Special Enrollment Health Insurance",
-        body: "Help understanding enrollment timing after lost coverage, a move, household changes, or another qualifying event.",
-        ctaLabel: "Read More",
-      },
-    ],
-  },
-  {
-    title: "More Spokane Medicare Resources",
+    title: "More Medicare Resources",
     intro:
       "Additional guides and supporting pages for common Medicare questions, plan comparisons, and local agency information.",
     items: [
@@ -157,29 +114,14 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
         body: "Initial Enrollment Period, Annual Enrollment Period, and Special Enrollment Periods explained in plain language.",
       },
       {
-        href: "/moving-to-spokane-medicare",
-        title: "Moving to Spokane & Medicare",
-        body: "Why Medicare Advantage and Part D options can vary by county, ZIP code, network, and pharmacy when you move.",
-      },
-      {
-        href: "/medicare-savings-program-extra-help-washington",
-        title: "Medicare Savings Program & Extra Help (Washington)",
-        body: "Educational overview of programs that may help with Medicare costs, including Medicare Savings Programs, Apple Health, and Extra Help.",
-      },
-      {
         href: "/medicare-faq",
         title: "Medicare FAQ",
-        body: "Common Medicare questions we hear from Spokane-area residents — answered without the jargon.",
-      },
-      {
-        href: "/medicare-advantage-vs-supplement-spokane",
-        title: "Medicare Advantage vs. Medicare Supplement",
-        body: "Review how Medicare Advantage and Medicare Supplement coverage compare before choosing a direction.",
+        body: "Common Medicare questions we hear from Central Oregon residents — answered without the jargon.",
       },
       {
         href: "/carriers",
         title: "Carriers We Represent",
-        body: "See the carriers we currently work with for Medicare Advantage, Medicare Supplement, and Part D coverage in Spokane.",
+        body: "See the carriers we currently work with for Medicare Advantage, Medicare Supplement, and Part D coverage in Central Oregon.",
       },
     ],
   },
@@ -193,9 +135,9 @@ const officialResources: ResourceLink[] = [
     external: true,
   },
   {
-    href: "https://www.insurance.wa.gov/statewide-health-insurance-benefits-advisors-shiba",
-    title: "Washington SHIBA (SHIP)",
-    body: "Washington State's Statewide Health Insurance Benefits Advisors — free Medicare counseling through the state's SHIP program.",
+    href: "https://healthcare.oregon.gov/shiba/Pages/index.aspx",
+    title: "Oregon SHIBA (SHIP)",
+    body: "Oregon's Senior Health Insurance Benefits Assistance program — free Medicare counseling through the state's SHIP program.",
     external: true,
   },
   {
@@ -219,7 +161,7 @@ export default function ResourcesPage() {
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-3 text-2xl font-bold text-gray-900 md:text-3xl">Local Medicare Guides</h2>
           <p className="mb-10 max-w-2xl text-gray-600">
-            Helping Spokane-area residents review Medicare with large-text, easy-to-scan guides and
+            Helping Central Oregon residents review Medicare with large-text, easy-to-scan guides and
             clear next steps.
           </p>
           <div className="space-y-12">
@@ -289,7 +231,7 @@ export default function ResourcesPage() {
 
       <CTASection
         heading="Have a Medicare Question?"
-        subheading="Talk with a local licensed insurance professional in Spokane — no cost, no pressure."
+        subheading="Talk with a local licensed insurance professional in Central Oregon — no cost, no pressure."
       />
     </>
   );

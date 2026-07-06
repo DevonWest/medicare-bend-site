@@ -8,14 +8,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Helping a Parent with Medicare Spokane",
+  title: "Helping a Parent with Medicare in Bend, Oregon",
   description:
-    "Helping a parent or loved one with Medicare in Spokane? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options.",
+    "Helping a parent or loved one with Medicare in Bend? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/helping-parent-with-medicare` },
   openGraph: {
-    title: "Helping a Parent with Medicare Spokane",
+    title: "Helping a Parent with Medicare in Bend, Oregon",
     description:
-      "Helping a parent or loved one with Medicare in Spokane? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options.",
+      "Helping a parent or loved one with Medicare in Bend? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
     url: `${siteConfig.url}/helping-parent-with-medicare`,
   },
 };
@@ -79,7 +79,7 @@ const internalLinks = [
   {
     href: "/compare-medicare-options",
     title: "Compare Medicare Options",
-    body: "Review plan types, coverage trade-offs, and next steps with local Spokane guidance.",
+    body: "Review plan types, coverage trade-offs, and next steps with local Central Oregon guidance.",
   },
   {
     href: "/rx-drug-review",
@@ -103,8 +103,8 @@ const internalLinks = [
   },
   {
     href: "/contact",
-    title: "Contact Our Spokane Office",
-    body: "Schedule an in-person or phone consultation with our local licensed agents.",
+    title: "Contact Us",
+    body: "Schedule a consultation by phone, online, or by appointment with our local licensed agents.",
   },
 ];
 
@@ -126,7 +126,7 @@ export default function HelpingParentWithMedicarePage() {
           </nav>
           <div className="max-w-4xl">
             <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
-              Helping a Parent with Medicare in Spokane?
+              Helping a Parent with Medicare in Bend?
             </h1>
             <p className="max-w-3xl text-xl text-blue-100">
               If you&apos;re helping a parent, spouse, or loved one understand Medicare, you don&apos;t have to
@@ -138,7 +138,7 @@ export default function HelpingParentWithMedicarePage() {
                 href={telHref}
                 className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-lg font-semibold text-blue-800 transition-colors hover:bg-blue-50"
               >
-                Call 509-353-0476
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="#parent-help-form"
@@ -148,7 +148,7 @@ export default function HelpingParentWithMedicarePage() {
               </Link>
             </div>
             <p className="mt-5 text-base font-semibold text-blue-50">
-              No-cost consultation. No pressure. Local Spokane guidance.
+              No-cost consultation. No pressure. Local Central Oregon guidance.
             </p>
           </div>
         </div>
@@ -160,7 +160,7 @@ export default function HelpingParentWithMedicarePage() {
             <div className="max-w-3xl">
               <h2 className="text-3xl font-bold text-gray-900">Who this page is for</h2>
               <p className="mt-3 text-lg text-gray-600">
-                Support for Spokane-area families trying to make Medicare decisions with more clarity and less
+                Support for Central Oregon families trying to make Medicare decisions with more clarity and less
                 stress.
               </p>
             </div>
@@ -236,15 +236,15 @@ export default function HelpingParentWithMedicarePage() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="space-y-6">
             <div className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Spokane support</p>
+              <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Central Oregon support</p>
               <h2 className="mt-3 text-3xl font-bold text-gray-900">Talk with a local licensed agency.</h2>
               <div className="mt-4 space-y-4 text-lg leading-relaxed text-gray-700">
                 <p>
-                  {siteConfig.legalName} is a Spokane-based licensed independent insurance agency helping adult
-                  children, spouses, caregivers, and families review Medicare options.
+                  {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central Oregon,
+                  helping adult children, spouses, caregivers, and families review Medicare options.
                 </p>
-                <p>Our Spokane office is located inside the Providence Medical Building.</p>
-                <p>In-person and phone consultations are available.</p>
+                <p>{siteConfig.serviceAreaStatement}</p>
+                <p>Consultations are available by phone, online, or by appointment.</p>
               </div>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -257,7 +257,7 @@ export default function HelpingParentWithMedicarePage() {
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-base font-semibold text-gray-900 transition-colors hover:bg-gray-50"
                 >
-                  Contact Our Office
+                  Contact Us
                 </Link>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function HelpingParentWithMedicarePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Helpful Medicare links</h2>
             <p className="mt-3 text-lg text-gray-600">
-              Explore related Spokane Medicare pages for plan comparisons, drug reviews, and next steps.
+              Explore related Central Oregon Medicare pages for plan comparisons, drug reviews, and next steps.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -307,7 +307,7 @@ export default function HelpingParentWithMedicarePage() {
 
       <CTASection
         heading="Need Medicare help for a parent or loved one?"
-        subheading="Talk with a local licensed insurance professional in Spokane — no cost, no pressure."
+        subheading="Talk with a local licensed insurance professional serving Central Oregon — no cost, no pressure."
       />
     </>
   );

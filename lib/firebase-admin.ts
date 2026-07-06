@@ -18,7 +18,7 @@ import { env } from "./runtimeValues";
  * marked `server-only` so a client component pulling it in fails the build.
  */
 
-const APP_NAME = "medicareinspokane-admin";
+const APP_NAME = "medicareinbend-admin";
 
 let cachedDb: Firestore | null = null;
 

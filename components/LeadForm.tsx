@@ -8,6 +8,7 @@ import type { LeadSource } from "@/lib/leadSources";
 import { validateLead, validateLeadRequest } from "@/lib/leadValidation";
 import { captureUtmFromLocation } from "@/lib/utm";
 import { trackLeadConversion } from "@/lib/analytics";
+import { siteConfig, telHref } from "@/lib/site";
 
 interface LeadFormProps {
   source: LeadSource;
@@ -32,7 +33,7 @@ export default function LeadForm({
   submitLabel = "Request My No-Cost Medicare Review",
   successBody = "A licensed local Medicare agent will review your information and contact you soon. We typically respond the same business day during business hours.",
   zipHelperText = "Optional, but helpful because Medicare plan availability varies by ZIP code.",
-  disclosureText = "By submitting, you agree to be contacted by a licensed insurance professional about Medicare insurance options. We do not offer every plan available in your area. Currently, we represent 8 organizations which offer 75 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options.",
+  disclosureText = "By submitting, you agree to be contacted by a licensed insurance professional about Medicare insurance options. We do not offer every plan available in your area. Currently we represent organizations which offer products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program to get information on all your options.",
   className = "",
 }: LeadFormProps) {
   const [status, setStatus] = useState<Status>("idle");
@@ -132,12 +133,12 @@ export default function LeadForm({
           </div>
           <h3 className="mb-3 text-2xl font-semibold text-green-950">Thank you — we received your request.</h3>
           <p className="text-base leading-7 text-slate-800">{successBody}</p>
-          <p className="mt-3 text-base font-medium text-slate-900">Need help right away? Call 509-353-0476.</p>
+          <p className="mt-3 text-base font-medium text-slate-900">Need help right away? Call {siteConfig.phone}.</p>
           <a
-            href="tel:5093530476"
+            href={telHref}
             className="mt-5 inline-flex min-h-11 scroll-mb-[calc(var(--mobile-sticky-cta-offset)+1rem)] items-center justify-center rounded-lg bg-blue-700 px-5 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Call 509-353-0476
+            Call {siteConfig.phone}
           </a>
         </div>
       )}

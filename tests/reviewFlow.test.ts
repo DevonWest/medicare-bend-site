@@ -14,57 +14,43 @@ import {
   getTeamMemberSlug,
 } from "../lib/team";
 
-test("5-star rating redirects to the Google review page", () => {
-  assert.equal(getReviewRatingDestination("kristi-wright", 5), GOOGLE_REVIEW_URL);
+test("outbound Google review routing is disabled until a Bend review URL is set", () => {
+  assert.equal(GOOGLE_REVIEW_URL, "");
+});
+
+test("5-star rating routes to the internal feedback page while no public review URL is configured", () => {
+  assert.equal(
+    getReviewRatingDestination("devon-west", 5),
+    "/review/feedback?agent=devon-west&rating=5",
+  );
 });
 
 test("1-4 star ratings go to the internal feedback page with rating and agent params", () => {
   assert.equal(
-    getReviewRatingDestination("kristi-wright", 4),
-    "/review/feedback?agent=kristi-wright&rating=4",
+    getReviewRatingDestination("devon-west", 4),
+    "/review/feedback?agent=devon-west&rating=4",
   );
   assert.equal(
-    getReviewRatingDestination("kristi-wright", 1),
-    "/review/feedback?agent=kristi-wright&rating=1",
+    getReviewRatingDestination("devon-west", 1),
+    "/review/feedback?agent=devon-west&rating=1",
   );
 });
 
-test("reviewable team members include the active agents and exclude retired or non-reviewable staff", () => {
+test("reviewable team members are limited to the current Bend roster", () => {
   const names = getActiveReviewableTeamMembers().map((member) => member.name);
 
-  assert.deepEqual(names, [
-    "Lynn Wold",
-    "Craig Lenhart",
-    "Meg Shumaker",
-    "Rose Records",
-    "Sheryl Manchester",
-    "Devon West",
-    "Denise Chan",
-    "Kristi Wright",
-    "Cathy Franklin",
-  ]);
+  assert.deepEqual(names, ["Devon West", "Denise Chan"]);
+  assert.ok(!names.includes("Lynn Wold"));
+  assert.ok(!names.includes("Kristi Wright"));
   assert.ok(!names.includes("Karen Speerstra"));
-  assert.ok(!names.includes("Karen Christensen"));
-  assert.ok(!names.includes("Anna Parker"));
-  assert.ok(!names.includes("Val Trca"));
-  assert.equal(getTeamMemberSlug("Kristi Wright"), "kristi-wright");
+  assert.equal(getTeamMemberSlug("Devon West"), "devon-west");
 });
 
-test("homepage team preview includes all active licensed agents in neutral alphabetical order", () => {
+test("active licensed agents are the current Bend roster in neutral alphabetical order", () => {
   const members = getActiveLicensedTeamMembers();
   const names = members.map((member) => member.name);
 
-  assert.deepEqual(names, [
-    "Denise Chan",
-    "Cathy Franklin",
-    "Craig Lenhart",
-    "Sheryl Manchester",
-    "Rose Records",
-    "Meg Shumaker",
-    "Devon West",
-    "Lynn Wold",
-    "Kristi Wright",
-  ]);
+  assert.deepEqual(names, ["Denise Chan", "Devon West"]);
   assert.ok(
     members.every(
       (member) => member.active && !member.retired && member.title.includes("Licensed Insurance Agent"),
@@ -76,17 +62,7 @@ test("homepage team preview keeps all active licensed agents visible and places 
   const previewMembers = getHomepageTeamPreviewMembers();
   const previewNames = previewMembers.map((member) => member.name);
 
-  assert.deepEqual(previewNames, [
-    "Cathy Franklin",
-    "Craig Lenhart",
-    "Sheryl Manchester",
-    "Rose Records",
-    "Meg Shumaker",
-    "Lynn Wold",
-    "Kristi Wright",
-    "Devon West",
-    "Denise Chan",
-  ]);
+  assert.deepEqual(previewNames, ["Devon West", "Denise Chan"]);
   assert.deepEqual(
     [...previewNames].sort(),
     [...getActiveLicensedTeamMembers().map((member) => member.name)].sort(),
@@ -106,15 +82,28 @@ test("team initials helper ignores extra spaces", () => {
   assert.equal(getTeamMemberInitials("  Denise   Chan "), "DC");
 });
 
-test("review feedback validation rejects rating 5 for internal feedback", () => {
+test("review feedback validation accepts rating 5 while Google routing is disabled", () => {
   const validation = validateReviewFeedbackInput({
     fullName: "Jane Doe",
     email: "jane@example.com",
     rating: 5,
-    message: "Needs follow-up.",
+    message: "Great experience.",
+    sourcePath: "/review/feedback",
+  });
+
+  assert.equal(validation.ok, true);
+  assert.equal(validation.errors.rating, undefined);
+});
+
+test("review feedback validation still rejects out-of-range ratings", () => {
+  const validation = validateReviewFeedbackInput({
+    fullName: "Jane Doe",
+    email: "jane@example.com",
+    rating: 6,
+    message: "Out of range.",
     sourcePath: "/review/feedback",
   });
 
   assert.equal(validation.ok, false);
-  assert.equal(validation.errors.rating, "Please choose a rating between 1 and 4 stars.");
+  assert.ok(validation.errors.rating);
 });

@@ -315,9 +315,9 @@ test("buildCrmFormSubmissionPayload normalizes and trims lead fields", () => {
   });
 
   assert.deepEqual(payload, {
-    formSlug: "medicare-in-spokane-contact",
-    source: "medicareinspokane.com",
-    sourceUrl: "https://www.medicareinspokane.com/contact",
+    formSlug: "medicare-in-bend-contact",
+    source: "medicareinbend.com",
+    sourceUrl: "https://www.medicareinbend.com/contact",
     pageSource: "contact",
     pageIdentifier: "contact",
     fullName: "Jane Doe",
@@ -329,7 +329,7 @@ test("buildCrmFormSubmissionPayload normalizes and trims lead fields", () => {
     referrer: "https://example.com/",
     utm: { source: "google", medium: "cpc" },
     clientSubmittedAt: "2026-05-01T03:18:00.000Z",
-    siteSource: "medicareinspokane.com",
+    siteSource: "medicareinbend.com",
   });
 });
 
@@ -348,12 +348,12 @@ test("buildCrmFormSubmissionPayload derives sourceUrl for root and missing sourc
     sourcePath: "/",
   });
 
-  assert.equal(missingSourcePath.sourceUrl, "https://www.medicareinspokane.com/");
-  assert.equal(missingSourcePath.formSlug, "medicare-in-spokane-contact");
+  assert.equal(missingSourcePath.sourceUrl, "https://www.medicareinbend.com/");
+  assert.equal(missingSourcePath.formSlug, "medicare-in-bend-contact");
   assert.equal("pageSource" in missingSourcePath, false);
   assert.equal("pageIdentifier" in missingSourcePath, false);
-  assert.equal(rootSourcePath.sourceUrl, "https://www.medicareinspokane.com/");
-  assert.equal(rootSourcePath.formSlug, "medicare-in-spokane-contact");
+  assert.equal(rootSourcePath.sourceUrl, "https://www.medicareinbend.com/");
+  assert.equal(rootSourcePath.formSlug, "medicare-in-bend-contact");
   assert.equal(rootSourcePath.pageSource, "homepage");
   assert.equal(rootSourcePath.pageIdentifier, "homepage");
 });
@@ -366,7 +366,7 @@ test("CRM helpers derive URLs and nested ids safely", () => {
 });
 
 test("CRM public form path uses the documented submission endpoint", () => {
-  assert.equal(CRM_PUBLIC_FORM_SUBMISSION_PATH, "api/public/forms/medicare-in-spokane-contact/submit");
+  assert.equal(CRM_PUBLIC_FORM_SUBMISSION_PATH, "api/public/forms/medicare-in-bend-contact/submit");
 });
 
 test("isDuplicateWithinWindow: within window is duplicate", () => {

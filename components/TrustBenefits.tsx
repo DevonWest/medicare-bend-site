@@ -14,7 +14,7 @@ const defaultItems: Benefit[] = [
   {
     icon: "📍",
     title: "Local Medicare Experts",
-    body: "Our Spokane-based team works with neighbors in Spokane, Spokane Valley, Liberty Lake, Cheney, and across Eastern Washington — and knows the local doctors, hospitals, and provider networks.",
+    body: "Our Central Oregon team works with neighbors in Bend, Redmond, Sisters, Sunriver, La Pine, Prineville, and Madras — and knows the local doctors, hospitals, and provider networks.",
   },
   {
     icon: "🗂️",
@@ -34,8 +34,8 @@ const defaultItems: Benefit[] = [
 ];
 
 export default function TrustBenefits({
-  heading = "Why Spokane Residents Choose Us",
-  subheading = "Independent Guidance from a licensed local agency serving Spokane and Eastern Washington.",
+  heading = "Why Central Oregon Residents Choose Us",
+  subheading = "Independent guidance from a licensed local agency serving Bend and Central Oregon.",
   items = defaultItems,
 }: TrustBenefitsProps) {
   return (

@@ -7,15 +7,15 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Annual Medicare Plan Review Spokane",
+  title: "Annual Medicare Plan Review in Bend, Oregon",
   description:
-    "Review your Medicare plan in Spokane with help from a local licensed insurance agent. Check prescriptions, doctors, pharmacies, premiums, copays, and plan options.",
-  alternates: { canonical: `${siteConfig.url}/medicare-plan-review-spokane` },
+    "Review your Medicare plan in Bend with help from a local licensed insurance agent serving Central Oregon. Check prescriptions, doctors, pharmacies, premiums, copays, and plan options.",
+  alternates: { canonical: `${siteConfig.url}/medicare-plan-review-bend` },
   openGraph: {
-    title: "Annual Medicare Plan Review Spokane | Medicare in Spokane",
+    title: "Annual Medicare Plan Review in Bend | Medicare in Bend",
     description:
-      "Review your Medicare plan in Spokane with help from a local licensed insurance agent. Check prescriptions, doctors, pharmacies, premiums, copays, and plan options.",
-    url: `${siteConfig.url}/medicare-plan-review-spokane`,
+      "Review your Medicare plan in Bend with help from a local licensed insurance agent serving Central Oregon. Check prescriptions, doctors, pharmacies, premiums, copays, and plan options.",
+    url: `${siteConfig.url}/medicare-plan-review-bend`,
   },
 };
 
@@ -116,12 +116,12 @@ const internalLinks = [
   },
   {
     href: "/contact",
-    title: "Contact Our Spokane Office",
-    body: "Request an in-person or phone consultation with a local licensed insurance agent.",
+    title: "Contact Us",
+    body: "Request a consultation by phone, online, or by appointment with a local licensed insurance agent.",
   },
 ];
 
-export default function MedicarePlanReviewSpokanePage() {
+export default function MedicarePlanReviewBendPage() {
   return (
     <>
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
@@ -135,7 +135,7 @@ export default function MedicarePlanReviewSpokanePage() {
           </nav>
           <div className="max-w-4xl">
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
-              Annual Medicare Plan Review in Spokane
+              Annual Medicare Plan Review in Bend
             </h1>
             <p className="mt-4 text-xl leading-relaxed text-blue-100">
               Medicare plans can change from year to year. Our local licensed agents can help you review your current
@@ -146,7 +146,7 @@ export default function MedicarePlanReviewSpokanePage() {
                 href={telHref}
                 className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-lg font-semibold text-blue-800 transition-colors hover:bg-blue-50"
               >
-                Call 509-353-0476
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="#plan-review-form"
@@ -156,7 +156,7 @@ export default function MedicarePlanReviewSpokanePage() {
               </Link>
             </div>
             <p className="mt-5 text-base font-semibold text-blue-50">
-              No-cost consultation. No pressure. Local Spokane guidance.
+              No-cost consultation. No pressure. Local Central Oregon guidance.
             </p>
           </div>
         </div>
@@ -255,15 +255,15 @@ export default function MedicarePlanReviewSpokanePage() {
       <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[1fr_0.95fr]">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Spokane trust</p>
-            <h2 className="mt-3 text-3xl font-bold text-gray-900">Local help from a Spokane-based licensed independent insurance agency</h2>
+            <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Local Central Oregon trust</p>
+            <h2 className="mt-3 text-3xl font-bold text-gray-900">Local help from a licensed independent insurance agency serving Central Oregon</h2>
             <div className="mt-4 space-y-4 text-lg leading-relaxed text-gray-700">
               <p>
-                {siteConfig.legalName} is a Spokane-based licensed independent insurance agency that helps Medicare
-                beneficiaries review current coverage and compare options from the plans we represent.
+                {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central Oregon
+                that helps Medicare beneficiaries review current coverage and compare options from the plans we represent.
               </p>
-              <p>Our Spokane office is located inside the Providence Medical Building.</p>
-              <p>In-person and phone consultations are available for Spokane-area residents.</p>
+              <p>{siteConfig.serviceAreaStatement}</p>
+              <p>Consultations are available by phone, online, or by appointment for Central Oregon residents.</p>
               <p>
                 If you want more details about plan types before your review, visit our{" "}
                 <Link href="/medicare-part-d" className="font-medium text-blue-700 hover:underline">
@@ -326,9 +326,9 @@ export default function MedicarePlanReviewSpokanePage() {
               <p className="mt-2">
                 Request your review online or{" "}
                 <a href={telHref} className="font-semibold underline underline-offset-2">
-                  call 509-353-0476
+                  call {siteConfig.phone}
                 </a>
-                . If you prefer to meet in person or by phone, visit our{" "}
+                . If you prefer to connect by phone, online, or by appointment, visit our{" "}
                 <Link href="/contact" className="font-semibold underline underline-offset-2">
                   contact page
                 </Link>
@@ -338,7 +338,7 @@ export default function MedicarePlanReviewSpokanePage() {
             <Disclaimer className="mt-6" />
           </div>
           <LeadForm
-            source="medicare-plan-review-spokane"
+            source="medicare-plan-review-bend"
             heading="Request a Plan Review"
             subheading="Tell us how to reach you and a licensed local agent will contact you to schedule your Medicare review."
             showMessage
@@ -353,7 +353,7 @@ export default function MedicarePlanReviewSpokanePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Helpful Medicare links</h2>
             <p className="mt-4 text-lg leading-relaxed text-gray-700">
-              Explore related Spokane Medicare pages before or after your annual review.
+              Explore related Central Oregon Medicare pages before or after your annual review.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">

@@ -8,14 +8,14 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Supplement (Medigap) Plans in Spokane",
+  title: "Medicare Supplement (Medigap) Plans in Bend, OR",
   description:
-    "Help comparing Medicare Supplement (Medigap) options in Spokane. Plans work alongside Original Medicare to help with deductibles, coinsurance, and other out-of-pocket costs.",
+    "Help comparing Medicare Supplement (Medigap) options in Bend. Plans work alongside Original Medicare to help with deductibles, coinsurance, and other out-of-pocket costs.",
   alternates: { canonical: `${siteConfig.url}/medicare-supplements` },
   openGraph: {
-    title: "Medicare Supplement (Medigap) Plans in Spokane",
+    title: "Medicare Supplement (Medigap) Plans in Bend, OR",
     description:
-      "Compare Medicare Supplement options with a local Spokane licensed independent insurance agency.",
+      "Compare Medicare Supplement options with a licensed independent insurance agency serving Bend and Central Oregon.",
     url: `${siteConfig.url}/medicare-supplements`,
   },
 };
@@ -68,14 +68,14 @@ export default function MedicareSupplementsPage() {
           <ul className="list-disc list-outside pl-6 space-y-2">
             <li>You want predictable out-of-pocket costs.</li>
             <li>You want flexibility to see providers anywhere in the U.S. who accept Medicare.</li>
-            <li>You travel frequently or split time between Spokane and another state.</li>
+            <li>You travel frequently or split time between Bend and another state.</li>
             <li>You are within your six-month Medigap Open Enrollment Period.</li>
           </ul>
 
           <p>
             Not sure how Medigap and Medicare Advantage compare?{" "}
             <Link
-              href="/medicare-advantage-vs-supplement-spokane"
+              href="/compare-medicare-options"
               className="text-blue-700 underline"
             >
               Read our side-by-side comparison

@@ -7,14 +7,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Prescription Drug Plan Review Spokane",
+  title: "Prescription Drug Plan Review in Bend, Oregon",
   description:
-    "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Spokane. Bring your medication list and compare options with a licensed insurance agent.",
+    "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend, Oregon. Bring your medication list and compare options with a licensed insurance agent.",
   alternates: { canonical: `${siteConfig.url}/rx-drug-review` },
   openGraph: {
-    title: "Prescription Drug Plan Review Spokane",
+    title: "Prescription Drug Plan Review in Bend, Oregon",
     description:
-      "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Spokane.",
+      "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend, Oregon.",
     url: `${siteConfig.url}/rx-drug-review`,
   },
 };
@@ -75,7 +75,7 @@ export default function RxDrugReviewPage() {
             <span>RX Drug Review</span>
           </nav>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-100 mb-3 landscape-mobile:mb-1">
-            Prescription Drug Plan Review in Spokane
+            Prescription Drug Plan Review in Bend
           </p>
           <h1 className="text-4xl landscape-mobile:text-2xl landscape-mobile:leading-snug md:text-5xl font-extrabold leading-tight mb-4 landscape-mobile:mb-2">
             Bring Your Prescription List — We’ll Help Review Your Options
@@ -188,7 +188,7 @@ export default function RxDrugReviewPage() {
                     href={telHref}
                     className="inline-flex items-center justify-center rounded-lg border border-blue-300 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-800"
                   >
-                    Call 509-353-0476
+                    Call {siteConfig.phone}
                   </a>
                 </div>
               </div>

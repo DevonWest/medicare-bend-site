@@ -6,14 +6,14 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare FAQ – Common Questions in Spokane",
+  title: "Medicare FAQ – Common Questions in Bend, Oregon",
   description:
-    "Answers to common Medicare questions for Spokane-area beneficiaries: eligibility, enrollment, employer coverage, doctors, Part C, Part D, creditable coverage, and more.",
+    "Answers to common Medicare questions for Central Oregon beneficiaries: eligibility, enrollment, employer coverage, doctors, Part C, Part D, creditable coverage, and more.",
   alternates: { canonical: `${siteConfig.url}/medicare-faq` },
   openGraph: {
-    title: "Medicare FAQ – Common Questions in Spokane",
+    title: "Medicare FAQ – Common Questions in Bend, Oregon",
     description:
-      "Answers to common Medicare questions for Spokane-area beneficiaries.",
+      "Answers to common Medicare questions for Central Oregon beneficiaries.",
     url: `${siteConfig.url}/medicare-faq`,
   },
 };
@@ -81,7 +81,7 @@ export default function MedicareFaqPage() {
     <>
       <PageHero
         title="Medicare FAQ"
-        subtitle="Plain-English answers to the questions we hear most often from Spokane-area beneficiaries and their families."
+        subtitle="Plain-English answers to the questions we hear most often from Central Oregon beneficiaries and their families."
         crumbs={[{ href: "/", label: "Home" }, { label: "Medicare FAQ" }]}
       />
 

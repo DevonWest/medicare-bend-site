@@ -31,9 +31,9 @@ const homepageFaqs: FAQItem[] = [
       "No. Our consultations are no-cost and no-obligation. Health Insurance Options LLC is paid by the insurance carriers we represent, so your monthly premium is the same whether you enroll on your own or work with us.",
   },
   {
-    question: "Can you help me compare the plans you represent in Spokane?",
+    question: "Can you help me compare the plans you represent in Central Oregon?",
     answer:
-      "Yes. We can help you compare the plans we represent in Spokane. We do not offer every plan available in your area. Currently, we represent 8 organizations which offer 75 products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options.",
+      "Yes. We can help you compare the plans we represent in Central Oregon. We do not offer every plan available in your area. Currently we represent organizations which offer products in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program to get information on all your options.",
   },
   {
     question: "Can you help me review my prescription drugs when comparing plans?",
@@ -53,8 +53,8 @@ const homepageFaqs: FAQItem[] = [
 ];
 
 const trustBullets: string[] = [
-  "Spokane-based team",
-  "40+ years combined experience",
+  "Central Oregon team",
+  "Licensed local agents",
   "No-cost consultations",
 ];
 
@@ -75,10 +75,10 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
           <div>
             <p className="mb-4 inline-block rounded-full border border-blue-400/50 bg-blue-900/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-100">
-              Licensed Independent Insurance Agency · Spokane, WA
+              Licensed Independent Insurance Agency · Bend, OR
             </p>
             <h1 className="mb-4 text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-              Medicare Help for Spokane Residents
+              Medicare Help for Central Oregon Residents
             </h1>
             <p className="mb-6 text-lg leading-relaxed text-blue-50 md:text-xl">
               Work with local licensed agents who guide you through your Medicare options with
@@ -119,7 +119,7 @@ export default function HomePage() {
               <span className="tracking-[0.2em] text-amber-300" aria-hidden="true">
                 ★★★★★
               </span>
-              <span>Trusted by Spokane-area Medicare clients</span>
+              <span>Trusted by Central Oregon Medicare clients</span>
             </p>
 
             {/* Trust bullets */}
@@ -157,7 +157,7 @@ export default function HomePage() {
 
             <div className="mt-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-blue-50 shadow-sm backdrop-blur-sm">
               <Link href="/our-team" className="underline-offset-2 hover:underline">
-                Meet our Spokane-area licensed team →
+                Meet our Central Oregon licensed team →
               </Link>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function HomePage() {
       <section className="bg-blue-50 border-b border-blue-100 py-6 px-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <p className="text-gray-800 font-medium">
-            Ready to talk? A local Spokane agent can help you compare options today.
+            Ready to talk? A local Central Oregon agent can help you compare options today.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
@@ -220,18 +220,18 @@ export default function HomePage() {
                 Helpful Medicare Guides
               </h2>
               <p className="text-gray-600 text-lg">
-                Start with a few of the most helpful Spokane Medicare guides, then explore the full
-                resource library when you are ready.
+                Start with a few of the most helpful Central Oregon Medicare guides, then explore the
+                full resource library when you are ready.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {[
               {
-                href: "/turning-65-medicare-spokane",
-                title: "Turning 65 in Spokane",
+                href: "/turning-65-medicare-bend",
+                title: "Turning 65 in Bend",
                 body:
-                  "Start with a Spokane-focused Medicare checklist covering enrollment timing, employer coverage questions, and the next steps to review.",
+                  "Start with a Central Oregon Medicare checklist covering enrollment timing, employer coverage questions, and the next steps to review.",
               },
               {
                 href: "/compare-medicare-options",
@@ -290,10 +290,10 @@ export default function HomePage() {
       <section className="bg-white py-10 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            Talk With a Local, Licensed Spokane Agent
+            Talk With a Local, Licensed Central Oregon Agent
           </h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Independent Guidance from a Spokane-based team — at your pace, with no pressure.
+            Independent guidance from a Central Oregon team — at your pace, with no pressure.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
@@ -322,7 +322,7 @@ export default function HomePage() {
             Meet Our Local Medicare Team
           </h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto text-lg">
-            Our Spokane-area licensed agents work together to help clients understand Medicare
+            Our Central Oregon licensed agents work together to help clients understand Medicare
             options with clear, no-cost guidance.
           </p>
           <TeamPreviewGrid members={previewMembers} />
@@ -369,46 +369,22 @@ export default function HomePage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-            Serving Spokane &amp; Surrounding Communities
+            Serving Bend &amp; Central Oregon
           </h2>
           <p className="text-gray-700 leading-relaxed text-lg max-w-3xl mx-auto">
-            Helping Spokane-area residents navigate Medicare year-round — including{" "}
-            <strong>Spokane Valley</strong>, <strong>Liberty Lake</strong>,{" "}
-            <strong>Cheney</strong>, Airway Heights, Medical Lake, Mead, and Deer Park.
+            Helping Central Oregon residents navigate Medicare year-round — including{" "}
+            <strong>Bend</strong>, <strong>Redmond</strong>, <strong>Sisters</strong>, Sunriver,
+            La Pine, Prineville, and Madras.
           </p>
         </div>
       </section>
 
-      {/* Pre-Medicare health insurance — secondary path */}
-      <section className="bg-slate-50 border-y border-slate-100 py-12 px-4">
-        <div className="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="max-w-2xl">
-              <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                Need Health Insurance Before Medicare?
-              </h2>
-              <p className="mt-2 text-base leading-relaxed text-gray-700">
-                We also help Spokane-area individuals and families review health insurance options
-                before age 65, including coverage for self-employed workers, families, and people
-                losing employer coverage.
-              </p>
-            </div>
-            <Link
-              href="/health-insurance-spokane"
-              className="inline-flex flex-shrink-0 items-center justify-center rounded-lg border border-blue-300 bg-blue-50 px-6 py-3 text-base font-semibold text-blue-700 transition-colors hover:bg-blue-100"
-            >
-              Health Insurance Help
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <FAQ items={homepageFaqs} heading="Common Medicare Questions in Spokane" />
+      <FAQ items={homepageFaqs} heading="Common Medicare Questions in Central Oregon" />
 
       {/* Final CTA */}
       <CTASection
         heading="Ready to Compare Your Medicare Options?"
-        subheading="No cost, no pressure — just straightforward Medicare guidance in Spokane."
+        subheading="No cost, no pressure — just straightforward Medicare guidance in Central Oregon."
       />
     </>
   );

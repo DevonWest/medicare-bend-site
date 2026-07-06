@@ -14,7 +14,7 @@ COPY . .
 # Set build-time environment variables. These are inlined into the
 # client JS bundle at `next build`, so they MUST be passed as build-args
 # (Cloud Run runtime env vars are too late for any NEXT_PUBLIC_* var).
-ARG NEXT_PUBLIC_SITE_URL=https://www.medicareinspokane.com
+ARG NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com
 ARG NEXT_PUBLIC_SITE_ENV=production
 ARG NEXT_PUBLIC_GTM_ID=
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL

@@ -27,9 +27,14 @@ export default function ReviewFeedbackForm({ agentSlug, agentName, rating }: Rev
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
-  const ratingIsValid = typeof rating === "number" && rating >= 1 && rating <= 4;
+  const ratingIsValid = typeof rating === "number" && rating >= 1 && rating <= 5;
+  const isPositiveRating = rating === 5;
   const agentLabel = agentName ?? "General feedback for our team";
   const ratingLabel = ratingIsValid && rating ? getReviewRatingLabel(rating) : "";
+  const feedbackHeading = isPositiveRating ? "Share Your Feedback" : "Tell Us How We Can Improve";
+  const feedbackSubheading = isPositiveRating
+    ? "Thank you for the great rating! Share a few details below so we can pass your feedback along to the team."
+    : "We're sorry your experience was not what you expected. Please share what happened so our team can follow up and make it right.";
 
   useEffect(() => {
     if (status !== "success") return;
@@ -172,11 +177,10 @@ export default function ReviewFeedbackForm({ agentSlug, agentName, rating }: Rev
             <span>Share Feedback</span>
           </nav>
           <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl landscape-mobile:text-2xl landscape-mobile:leading-snug">
-            Tell Us How We Can Improve
+            {feedbackHeading}
           </h1>
           <p className="max-w-3xl text-xl text-blue-100 landscape-mobile:text-base">
-            We&apos;re sorry your experience was not what you expected. Please share what happened so our team can
-            follow up and make it right.
+            {feedbackSubheading}
           </p>
         </div>
       </section>

@@ -8,14 +8,14 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Advantage Plans in Spokane, WA",
+  title: "Medicare Advantage Plans in Bend, OR",
   description:
-    "Compare Medicare Advantage (Part C) plans in Spokane with a licensed independent insurance agency. We help you review network, drug, and benefit differences across the carriers we represent.",
+    "Compare Medicare Advantage (Part C) plans in Bend with a licensed independent insurance agency. We help you review network, drug, and benefit differences across the carriers we represent.",
   alternates: { canonical: `${siteConfig.url}/medicare-advantage` },
   openGraph: {
-    title: "Medicare Advantage Plans in Spokane, WA",
+    title: "Medicare Advantage Plans in Bend, OR",
     description:
-      "Compare Medicare Advantage (Part C) options with a local Spokane licensed independent insurance agency.",
+      "Compare Medicare Advantage (Part C) options with a licensed independent insurance agency serving Bend and Central Oregon.",
     url: `${siteConfig.url}/medicare-advantage`,
   },
 };
@@ -27,7 +27,7 @@ const faqs: FAQItem[] = [
       "Medicare Advantage (also called Part C) is an alternative way to receive your Medicare benefits. Plans are offered by private insurance carriers approved by Medicare and typically bundle Part A (hospital), Part B (medical), and often Part D (prescription drugs). Many plans also include extras like dental, vision, hearing, and fitness programs.",
   },
   {
-    question: "Are Medicare Advantage plans the same everywhere in Spokane?",
+    question: "Are Medicare Advantage plans the same everywhere in Bend?",
     answer:
       "No. Medicare Advantage plan availability, premiums, networks, and benefits can vary by ZIP code and county, and plans change every year. We can show you the plans we represent for your specific address and help you compare them.",
   },
@@ -42,8 +42,8 @@ export default function MedicareAdvantagePage() {
   return (
     <>
       <PageHero
-        title="Medicare Advantage in Spokane"
-        subtitle="Help comparing Medicare Advantage (Part C) options in Spokane County and Eastern Washington."
+        title="Medicare Advantage in Bend"
+        subtitle="Help comparing Medicare Advantage (Part C) options in Bend and Central Oregon."
         crumbs={[{ href: "/", label: "Home" }, { label: "Medicare Advantage" }]}
       />
 
