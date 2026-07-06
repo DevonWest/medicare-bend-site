@@ -7,14 +7,14 @@ import CTASection from "@/components/CTASection";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Working Past 65 and Medicare in Bend, Oregon",
+  title: "Working Past 65 and Medicare in Bend and Central Oregon",
   description:
-    "Still working at 65? Get local help understanding Medicare timing, employer coverage questions, Part B, Part D, and Medicare plan options in Bend and Central Oregon.",
+    "Still working at 65? Get local help understanding Medicare timing, employer coverage, creditable coverage, Part B, Part D, and HSA questions in Bend and Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/working-past-65-medicare` },
   openGraph: {
-    title: "Working Past 65 and Medicare in Bend | Medicare in Bend",
+    title: "Working Past 65 and Medicare in Bend and Central Oregon | Medicare in Bend",
     description:
-      "Still working at 65? Get local help understanding Medicare timing, employer coverage questions, Part B, Part D, and Medicare plan options in Bend and Central Oregon.",
+      "Still working at 65? Get local help understanding Medicare timing, employer coverage, creditable coverage, Part B, Part D, and HSA questions in Bend and Central Oregon.",
     url: `${siteConfig.url}/working-past-65-medicare`,
   },
 };
@@ -148,8 +148,8 @@ export default function WorkingPastSixtyFivePage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-gray-900">Who this page is for</h2>
             <p className="mt-3 text-lg text-gray-600">
-              Built for Central Oregon residents who want to understand Medicare timing while they or a spouse are still
-              working.
+              Built for Central Oregon residents still working at 65 who want to understand how employer coverage and
+              Medicare timing fit together — for themselves or a spouse.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">

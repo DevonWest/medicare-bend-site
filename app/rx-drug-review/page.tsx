@@ -7,14 +7,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Prescription Drug Plan Review in Bend, Oregon",
+  title: "Medicare Prescription (Part D) Drug Review — Bend, OR",
   description:
-    "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend, Oregon. Bring your medication list and compare options with a licensed insurance agent.",
+    "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend and Central Oregon. Bring your medication list and compare costs and coverage with a licensed insurance agent.",
   alternates: { canonical: `${siteConfig.url}/rx-drug-review` },
   openGraph: {
-    title: "Prescription Drug Plan Review in Bend, Oregon",
+    title: "Medicare Prescription (Part D) Drug Review — Bend, OR",
     description:
-      "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend, Oregon.",
+      "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend and Central Oregon.",
     url: `${siteConfig.url}/rx-drug-review`,
   },
 };
@@ -128,8 +128,9 @@ export default function RxDrugReviewPage() {
                 handled differently on another.
               </p>
               <p>
-                Preferred pharmacies can affect cost, and the same prescription may have different
-                pricing depending on where you fill it.
+                Preferred pharmacies and pharmacy networks vary across Central Oregon, so the same
+                prescription can be priced differently depending on where you fill it — and on how a
+                plan treats mail-order or a preferred local pharmacy near you.
               </p>
               <p>
                 Tier placement can change your annual out-of-pocket costs, especially if you take

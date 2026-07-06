@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Medicare Supplement (Medigap) Plans in Bend, OR",
   description:
-    "Help comparing Medicare Supplement (Medigap) options in Bend. Plans work alongside Original Medicare to help with deductibles, coinsurance, and other out-of-pocket costs.",
+    "Compare standardized Medicare Supplement (Medigap) options in Bend and Central Oregon. These plans work alongside Original Medicare to help with deductibles, coinsurance, and other out-of-pocket costs.",
   alternates: { canonical: `${siteConfig.url}/medicare-supplements` },
   openGraph: {
     title: "Medicare Supplement (Medigap) Plans in Bend, OR",
@@ -52,7 +52,9 @@ export default function MedicareSupplementsPage() {
           <p>
             Medicare Supplement plans (Medigap) help cover some of the costs that Original Medicare
             does not — such as deductibles and coinsurance. Plans are standardized and identified by
-            letter (for example Plan G, Plan N), but premiums and underwriting rules vary by carrier.
+            letter (for example Plan G, Plan N), so the benefits for a given letter are the same from
+            one carrier to the next; premiums and underwriting rules, however, vary by carrier. Medigap
+            policies are also guaranteed renewable, so coverage stays in place as long as premiums are paid.
           </p>
           <p>
             {siteConfig.legalName} can help you compare the Medicare Supplement plans we represent
@@ -67,8 +69,11 @@ export default function MedicareSupplementsPage() {
           <h2 className="text-2xl font-bold text-gray-900 pt-4">When Medigap can be a strong fit</h2>
           <ul className="list-disc list-outside pl-6 space-y-2">
             <li>You want predictable out-of-pocket costs.</li>
-            <li>You want flexibility to see providers anywhere in the U.S. who accept Medicare.</li>
-            <li>You travel frequently or split time between Bend and another state.</li>
+            <li>
+              You want the freedom to see any doctor or hospital across Central Oregon — or anywhere
+              in the U.S. — who accepts Medicare, since Medigap plans are not network-based.
+            </li>
+            <li>You travel frequently or split time between Central Oregon and another part of the country.</li>
             <li>You are within your six-month Medigap Open Enrollment Period.</li>
           </ul>
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Medicare FAQ – Common Questions in Bend, Oregon",
     description:
-      "Answers to common Medicare questions for Central Oregon beneficiaries.",
+      "Clear answers to common Medicare questions from Central Oregon residents — eligibility, enrollment timing, employer coverage, Part C, and Part D.",
     url: `${siteConfig.url}/medicare-faq`,
   },
 };
@@ -42,7 +42,7 @@ const faqs: FAQItem[] = [
   {
     question: "Can I keep my doctors after switching to Medicare?",
     answer:
-      "It depends on the type of plan you choose. With Original Medicare plus a Medicare Supplement you can generally see any provider in the U.S. who accepts Medicare. Medicare Advantage plans use networks, so we will help you confirm whether your doctors are in-network for the plans we represent.",
+      "It depends on the type of plan you choose. With Original Medicare plus a Medicare Supplement you can generally see any provider in the U.S. who accepts Medicare. Medicare Advantage plans use provider networks, so we can help you confirm whether your Central Oregon doctors are in-network for the plans we represent.",
   },
   {
     question: "Does Medicare cover nursing home care?",

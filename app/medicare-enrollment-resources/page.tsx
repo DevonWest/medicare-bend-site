@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Medicare Enrollment Resources for Central Oregon Beneficiaries",
     description:
-      "Initial Enrollment, Annual Enrollment, Special Enrollment Periods, and how to apply through Social Security.",
+      "Understand Medicare enrollment timing in Central Oregon — Initial Enrollment, Annual Enrollment, Special Enrollment Periods, and how to apply through Social Security.",
     url: `${siteConfig.url}/medicare-enrollment-resources`,
   },
 };
@@ -94,7 +94,17 @@ export default function EnrollmentResourcesPage() {
             </ul>
             <p className="text-base text-gray-600 mt-3">
               For information on all of your Medicare options, you can also contact Medicare.gov,
-              1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP).
+              1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP). In
+              Oregon, free, unbiased SHIP counseling is offered through{" "}
+              <a
+                href="https://healthcare.oregon.gov/shiba/Pages/index.aspx"
+                className="text-blue-700 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Oregon SHIBA
+              </a>
+              .
             </p>
           </div>
 

@@ -7,12 +7,12 @@ import { carriers } from "@/lib/carriers";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Carriers We Represent in Bend, OR",
+  title: "Medicare Carriers We Represent in Bend & Central Oregon",
   description:
     "Health Insurance Options LLC represents Medicare Advantage, Medicare Supplement, Part D, dental, and vision carriers serving Bend and Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/carriers` },
   openGraph: {
-    title: "Medicare Carriers We Represent in Bend, OR",
+    title: "Medicare Carriers We Represent in Bend & Central Oregon",
     description:
       "The carriers we currently represent for Medicare Advantage, Medicare Supplement, Part D, and supplemental coverage in Central Oregon.",
     url: `${siteConfig.url}/carriers`,

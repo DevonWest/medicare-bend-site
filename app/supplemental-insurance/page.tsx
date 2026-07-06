@@ -9,7 +9,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Supplemental Insurance in Bend (Dental, Vision, Hospital Indemnity)",
   description:
-    "Explore supplemental insurance options in Bend, Oregon — dental, vision, and hospital indemnity coverage that can complement your Medicare plan. Help comparing options at no cost.",
+    "Explore supplemental insurance options in Bend and across Central Oregon — dental, vision, and hospital indemnity coverage that can complement your Medicare plan. No-cost help comparing options.",
   alternates: { canonical: `${siteConfig.url}/supplemental-insurance` },
   openGraph: {
     title: "Supplemental Insurance in Bend, Oregon",
@@ -71,9 +71,9 @@ export default function SupplementalInsurancePage() {
           </ul>
 
           <p>
-            {siteConfig.legalName} can help you compare the supplemental products we represent and think through
-            whether they make sense alongside your Medicare coverage. Carrier and product
-            availability may vary by county.
+            As an independent agency serving Central Oregon, {siteConfig.legalName} can help you compare
+            the supplemental products we represent and think through whether they make sense alongside
+            your Medicare coverage. Carrier and product availability may vary by county.
           </p>
         </div>
       </section>
