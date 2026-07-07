@@ -8,14 +8,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Helping a Parent with Medicare in Bend, Oregon",
+  title: "Helping a Parent with Medicare in Bend and Central Oregon",
   description:
-    "Helping a parent or loved one with Medicare in Bend? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
+    "Helping a parent or loved one with Medicare in Central Oregon — locally or from out of the area? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/helping-parent-with-medicare` },
   openGraph: {
-    title: "Helping a Parent with Medicare in Bend, Oregon",
+    title: "Helping a Parent with Medicare in Bend and Central Oregon",
     description:
-      "Helping a parent or loved one with Medicare in Bend? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
+      "Helping a parent or loved one with Medicare in Central Oregon — locally or from out of the area? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
     url: `${siteConfig.url}/helping-parent-with-medicare`,
   },
 };
@@ -160,8 +160,8 @@ export default function HelpingParentWithMedicarePage() {
             <div className="max-w-3xl">
               <h2 className="text-3xl font-bold text-gray-900">Who this page is for</h2>
               <p className="mt-3 text-lg text-gray-600">
-                Support for Central Oregon families trying to make Medicare decisions with more clarity and less
-                stress.
+                Support for families helping a parent in Central Oregon — whether you live nearby in Bend or are helping
+                from out of the area — so you can make Medicare decisions with more clarity and less stress.
               </p>
             </div>
             <div className="mx-auto hidden w-full max-w-sm rounded-3xl border border-stone-200 bg-stone-50 p-5 shadow-sm md:block">

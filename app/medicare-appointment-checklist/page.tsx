@@ -8,12 +8,12 @@ import { siteConfig, telHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Medicare Appointment Checklist for Bend, Oregon",
   description:
-    "Prepare for your Medicare appointment in Bend, Oregon. See what to bring, including prescription lists, doctors, pharmacies, current coverage, and questions for a licensed local insurance agent.",
+    "Prepare for your Medicare appointment in Bend and Central Oregon. Learn what to bring — prescription lists, doctors, pharmacies, and current coverage — plus questions to ask a licensed local agent by phone, online, or by appointment.",
   alternates: { canonical: `${siteConfig.url}/medicare-appointment-checklist` },
   openGraph: {
     title: "Medicare Appointment Checklist for Bend, Oregon",
     description:
-      "Prepare for your Medicare appointment in Bend, Oregon. See what to bring, including prescription lists, doctors, pharmacies, current coverage, and questions for a licensed local insurance agent.",
+      "Prepare for your Medicare appointment in Bend and Central Oregon. Learn what to bring — prescription lists, doctors, pharmacies, and current coverage — plus questions to ask a licensed local agent by phone, online, or by appointment.",
     url: `${siteConfig.url}/medicare-appointment-checklist`,
   },
 };
@@ -50,7 +50,7 @@ const whyItMatters = [
     body: "If you are still working, employer coverage can affect Medicare timing and what steps make sense next.",
   },
   {
-    title: "Preparation helps",
+    title: "Preparation matters",
     body: "Having this information ready helps your agent explain options from the plans we represent more clearly.",
   },
 ];

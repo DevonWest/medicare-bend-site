@@ -168,8 +168,9 @@ export default function MedicarePlanReviewBendPage() {
             <h2 className="text-3xl font-bold text-gray-900">Why review your Medicare plan each year?</h2>
             <p className="mt-4 text-lg leading-relaxed text-gray-700">
               Reviewing your coverage each year can help you understand what changed before those changes affect your
-              prescriptions, doctors, pharmacy costs, or out-of-pocket expenses. The goal is to avoid surprises and
-              make sure your current coverage still fits your needs.
+              prescriptions, doctors, pharmacy costs, or out-of-pocket expenses. Because the plans and costs available
+              can vary by county and ZIP code across Central Oregon — including Deschutes, Crook, and Jefferson counties
+              — a local review helps you avoid surprises and make sure your current coverage still fits your needs.
             </p>
           </div>
           <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">

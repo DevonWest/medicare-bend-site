@@ -27,9 +27,9 @@ const faqs: FAQItem[] = [
       "Medicare Advantage (also called Part C) is an alternative way to receive your Medicare benefits. Plans are offered by private insurance carriers approved by Medicare and typically bundle Part A (hospital), Part B (medical), and often Part D (prescription drugs). Many plans also include extras like dental, vision, hearing, and fitness programs.",
   },
   {
-    question: "Are Medicare Advantage plans the same everywhere in Bend?",
+    question: "Are Medicare Advantage plans the same everywhere in Central Oregon?",
     answer:
-      "No. Medicare Advantage plan availability, premiums, networks, and benefits can vary by ZIP code and county, and plans change every year. We can show you the plans we represent for your specific address and help you compare them.",
+      "No. Medicare Advantage plan availability, premiums, networks, and benefits can vary by ZIP code and county, and plans change every year. Options offered in Bend (Deschutes County) can differ from those in Prineville (Crook County) or Madras (Jefferson County). We can show you the plans we represent for your specific address and help you compare them.",
   },
   {
     question: "When can I enroll in a Medicare Advantage plan?",
@@ -63,8 +63,9 @@ export default function MedicareAdvantagePage() {
           <h2 className="text-2xl font-bold text-gray-900 pt-4">What we look at together</h2>
           <ul className="list-disc list-outside pl-6 space-y-2">
             <li>
-              <strong>Provider networks.</strong> Whether your doctors and preferred hospitals are
-              in-network in the plans we represent.
+              <strong>Provider networks.</strong> Whether the doctors and hospitals you use across
+              Bend, Redmond, Sisters, and the rest of Central Oregon are in-network in the plans we
+              represent.
             </li>
             <li>
               <strong>Prescription drug coverage.</strong> A side-by-side review of how your

@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Medicare Part D Prescription Drug Plans in Bend, OR",
   description:
-    "Compare Medicare Part D prescription drug plans in Bend. We help you review your medications and how each plan we represent would cover them, including preferred pharmacies.",
+    "Compare Medicare Part D prescription drug plans in Bend and Central Oregon. We review your medications and how each plan we represent would cover them, including formulary tiers and preferred pharmacies.",
   alternates: { canonical: `${siteConfig.url}/medicare-part-d` },
   openGraph: {
     title: "Medicare Part D Prescription Drug Plans in Bend, OR",
@@ -58,7 +58,10 @@ export default function MedicarePartDPage() {
           <p>
             {siteConfig.legalName} offers a no-cost prescription review as part of our consultation.
             Bring your current prescription list — including dosages and how often you fill — and we
-            will help you compare how the Part D plans we represent would cover those medications.
+            will help you compare how the Part D plans we represent would cover those medications. We
+            also factor in the pharmacies you use around Central Oregon, since many plans offer lower
+            copays at their preferred pharmacies, and formularies, costs, and plan availability can
+            vary from one plan and county to the next.
           </p>
 
           <div className="bg-blue-50 border border-blue-100 rounded-lg p-5 not-prose">

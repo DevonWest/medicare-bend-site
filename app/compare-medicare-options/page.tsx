@@ -8,14 +8,14 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Compare Medicare Options in Bend, OR",
+  title: "Compare Medicare Options in Bend & Central Oregon",
   description:
-    "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend with help from a local licensed insurance agent.",
+    "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend and Central Oregon with a local licensed insurance agent.",
   alternates: { canonical: `${siteConfig.url}/compare-medicare-options` },
   openGraph: {
-    title: "Compare Medicare Options in Bend, OR | Medicare in Bend",
+    title: "Compare Medicare Options in Bend & Central Oregon | Medicare in Bend",
     description:
-      "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend with help from a local licensed insurance agent.",
+      "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend and Central Oregon with a local licensed insurance agent.",
     url: `${siteConfig.url}/compare-medicare-options`,
   },
 };
@@ -176,7 +176,10 @@ export default function CompareMedicareOptionsPage() {
           <div>
             <h2 className="text-3xl font-bold text-gray-900">What we compare</h2>
             <p className="mt-3 max-w-3xl text-lg leading-relaxed text-gray-700">
-              We help you organize the details that matter most so you can compare Medicare coverage with more clarity.
+              We start with how you actually use care in Central Oregon — the doctors and hospitals you rely on across
+              Bend, Redmond, and Sisters, the prescriptions you take, and how often you travel — so you can compare
+              Medicare coverage with more clarity. Plan availability can also differ by county, so what fits in
+              Deschutes County may look different in Crook or Jefferson County.
             </p>
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {comparisonItems.map((item) => (
