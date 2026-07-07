@@ -12,6 +12,12 @@ export interface CrmSubmissionResult {
   status?: number;
   path?: string;
   error?: string;
+  /**
+   * True when CRM sync was not attempted because the CRM is not configured
+   * (no `CRM_API_BASE_URL`). This is a normal, non-error state — the website
+   * lead still succeeds and the lead is marked `skipped` rather than `failed`.
+   */
+  skipped?: boolean;
 }
 
 interface CrmConfig {
@@ -23,12 +29,25 @@ function getCrmConfig(): CrmConfig | null {
   const baseUrl = env("CRM_API_BASE_URL");
   const apiKey = env("CRM_API_KEY");
 
+  // The base URL is required to reach the CRM at all. The API key is optional
+  // here (forwarded as `x-api-key` when present) — the live CRM public form
+  // expects it in production, which the deployment docs call out.
   if (!baseUrl) return null;
 
   return {
     baseUrl: baseUrl.replace(/\/+$/, ""),
     apiKey,
   };
+}
+
+/** Whether the minimum CRM configuration (base URL) is present. */
+export function isCrmConfigured(): boolean {
+  return getCrmConfig() !== null;
+}
+
+/** Whether a `CRM_API_KEY` is present (recommended in production). */
+export function hasCrmApiKey(): boolean {
+  return Boolean(env("CRM_API_KEY"));
 }
 
 function tryParseJson(value: string): unknown {
@@ -64,7 +83,12 @@ function extractCrmError(value: unknown, fallbackText: string): string | undefin
 export async function submitCrmLeadForm(lead: CrmLeadInput): Promise<CrmSubmissionResult> {
   const config = getCrmConfig();
   if (!config) {
-    return { ok: false, error: "CRM API is not configured." };
+    return {
+      ok: false,
+      skipped: true,
+      path: CRM_PUBLIC_FORM_SUBMISSION_PATH,
+      error: "CRM sync skipped: CRM_API_BASE_URL is not configured.",
+    };
   }
 
   const path = CRM_PUBLIC_FORM_SUBMISSION_PATH;

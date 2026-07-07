@@ -32,8 +32,8 @@ import {
   validateLead,
 } from "./leadValidation";
 import { submitCrmLeadForm, type CrmSubmissionResult } from "./crm";
-import { CRM_PUBLIC_FORM_SUBMISSION_PATH } from "./crmPaths";
-import { CRM_SYNC_STATUS } from "./leadConstants";
+import { CRM_PUBLIC_FORM_SLUG, CRM_PUBLIC_FORM_SUBMISSION_PATH } from "./crmPaths";
+import { CRM_SYNC_STATUS, type CrmSyncStatus } from "./leadConstants";
 import { getFirestoreAdmin, getFirebaseAdminEnvSummary } from "./firebase-admin";
 import { buildLeadFirestoreDocument } from "./leadFirestore";
 import { getSafeErrorDetails } from "./leadLogging";
@@ -71,7 +71,7 @@ export interface LeadResult {
   id?: string;
   /** True when an existing recent lead was matched instead of creating a new one. */
   duplicate?: boolean;
-  crmSyncStatus?: "synced" | "failed";
+  crmSyncStatus?: "synced" | "failed" | "skipped";
   emailStatus?: "sent" | "failed";
   /** User-facing error message (no internal details). */
   error?: string;
@@ -138,35 +138,44 @@ function extractCrmSyncAttempts(value: unknown): number {
   return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : 0;
 }
 
+/** Map a CRM submission result to its sync-status value. */
+function resolveCrmSyncStatus(result: CrmSubmissionResult): CrmSyncStatus {
+  if (result.skipped) return CRM_SYNC_STATUS.skipped;
+  return result.ok ? CRM_SYNC_STATUS.synced : CRM_SYNC_STATUS.failed;
+}
+
 async function updateCrmStatus(
   ref: DocumentReference,
   payload: LeadPayload,
   result: CrmSubmissionResult,
   attempts: number,
 ) {
+  const status = resolveCrmSyncStatus(result);
+  const synced = status === CRM_SYNC_STATUS.synced;
+  const failed = status === CRM_SYNC_STATUS.failed;
   const nowIso = new Date().toISOString();
 
   try {
     await ref.update({
-      crmSyncStatus: result.ok ? CRM_SYNC_STATUS.synced : CRM_SYNC_STATUS.failed,
+      crmSyncStatus: status,
       crmSyncAttempts: attempts,
-      crmContactId: result.ok ? result.contactId ?? null : null,
-      crmSyncedAt: result.ok ? FieldValue.serverTimestamp() : null,
-      crmSyncedAtIso: result.ok ? nowIso : null,
-      crmSyncFailedAt: result.ok ? null : FieldValue.serverTimestamp(),
-      crmSyncFailedAtIso: result.ok ? null : nowIso,
-      crmSyncErrorSafe: result.ok ? null : result.error ?? null,
+      crmContactId: synced ? result.contactId ?? null : null,
+      crmSyncedAt: synced ? FieldValue.serverTimestamp() : null,
+      crmSyncedAtIso: synced ? nowIso : null,
+      crmSyncFailedAt: failed ? FieldValue.serverTimestamp() : null,
+      crmSyncFailedAtIso: failed ? nowIso : null,
+      crmSyncErrorSafe: failed ? result.error ?? null : null,
       crmResponseStatus: result.status ?? null,
       crmLastAttemptAt: FieldValue.serverTimestamp(),
       crmLastAttemptAtIso: nowIso,
-      crmLastError: result.ok ? null : result.error ?? null,
+      crmLastError: failed ? result.error ?? null : null,
       crmLastResponseStatus: result.status ?? null,
       crmEndpointPath: result.path ?? null,
     });
   } catch (err) {
     logLeadError("[leads] Failed to update CRM sync status in Firestore.", payload, err, {
       leadId: ref.id,
-      crmSyncStatus: result.ok ? CRM_SYNC_STATUS.synced : CRM_SYNC_STATUS.failed,
+      crmSyncStatus: status,
     });
   }
 }
@@ -191,17 +200,42 @@ async function syncLeadToCrm(
       error: "CRM request failed after the lead was saved.",
     };
   }
+
+  // CRM not configured: this is a normal state, not a failure. The website
+  // lead already succeeded — record "skipped" and do not count it as an
+  // attempt or log it as an error.
+  if (crmResult.skipped) {
+    await updateCrmStatus(ref, payload, crmResult, priorAttempts);
+    console.info("[leads] CRM sync skipped — CRM is not configured.", {
+      id: ref.id,
+      crmSyncStatus: CRM_SYNC_STATUS.skipped,
+      crmFormSlug: CRM_PUBLIC_FORM_SLUG,
+      source: payload.source,
+      sourcePath: cleanString(payload.sourcePath) ?? null,
+    });
+    return { ok: true, id: ref.id, crmSyncStatus: CRM_SYNC_STATUS.skipped };
+  }
+
   await updateCrmStatus(ref, payload, crmResult, priorAttempts + 1);
 
   if (!crmResult.ok) {
-    console.error("[leads] CRM form submission failed.", {
+    // A 404 from the CRM means the public form slug is not registered on the
+    // CRM side — surface it clearly as a configuration problem, not a transient
+    // failure, so it is actionable in logs.
+    const isFormNotFound = crmResult.status === 404;
+    const message = isFormNotFound
+      ? "[leads] CRM form not found (404) — the CRM public form slug is not registered. This is a CRM configuration issue."
+      : "[leads] CRM form submission failed.";
+    console.error(message, {
       ...getLeadLogContext(payload),
       leadId: ref.id,
       crmSyncStatus: CRM_SYNC_STATUS.failed,
       crmSyncAttempts: priorAttempts + 1,
+      crmFormSlug: CRM_PUBLIC_FORM_SLUG,
       crmResponseStatus: crmResult.status ?? null,
       crmEndpointPath: crmResult.path ?? null,
       crmSyncErrorSafe: crmResult.error ?? null,
+      crmConfigurationIssue: isFormNotFound,
     });
     return { ok: true, id: ref.id, crmSyncStatus: CRM_SYNC_STATUS.failed };
   }
@@ -296,7 +330,7 @@ export async function submitLeadWithDeps(payload: LeadPayload, deps: SubmitLeadD
           source: payload.source,
           sourcePath: cleanString(payload.sourcePath) ?? null,
         });
-        return { ok: true, id: doc.id, duplicate: true };
+        return { ok: true, id: doc.id, duplicate: true, crmSyncStatus: CRM_SYNC_STATUS.synced };
       }
     }
 

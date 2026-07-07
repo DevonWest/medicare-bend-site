@@ -7,7 +7,7 @@ export interface LeadSubmissionApiResponse {
   ok?: boolean;
   id?: string;
   error?: string;
-  crmSyncStatus?: "synced" | "failed";
+  crmSyncStatus?: "synced" | "failed" | "skipped";
   emailStatus?: "sent" | "failed";
 }
 

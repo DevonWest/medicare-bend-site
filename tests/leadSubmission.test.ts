@@ -18,23 +18,36 @@ function mockServerOnlyModule() {
 async function loadLeadModules() {
   mockServerOnlyModule();
 
-  const [{ handleLeadPost }, { CRM_PUBLIC_FORM_SUBMISSION_PATH }, { CRM_SYNC_STATUS }, { submitLeadWithDeps }] =
-    await Promise.all([
-      import("../app/api/leads/route"),
-      import("../lib/crmPaths"),
-      import("../lib/leadConstants"),
-      import("../lib/leads"),
-    ]);
+  const [
+    { handleLeadPost },
+    { CRM_PUBLIC_FORM_SUBMISSION_PATH },
+    { CRM_SYNC_STATUS },
+    { submitLeadWithDeps },
+    { submitCrmLeadForm, isCrmConfigured },
+  ] = await Promise.all([
+    import("../app/api/leads/route"),
+    import("../lib/crmPaths"),
+    import("../lib/leadConstants"),
+    import("../lib/leads"),
+    import("../lib/crm"),
+  ]);
 
-  return { CRM_PUBLIC_FORM_SUBMISSION_PATH, CRM_SYNC_STATUS, handleLeadPost, submitLeadWithDeps };
+  return {
+    CRM_PUBLIC_FORM_SUBMISSION_PATH,
+    CRM_SYNC_STATUS,
+    handleLeadPost,
+    submitLeadWithDeps,
+    submitCrmLeadForm,
+    isCrmConfigured,
+  };
 }
 
 function makeLeadPayload(): LeadPayload {
   return {
     fullName: "Jane Doe",
     email: "jane@example.com",
-    phone: "509-555-0100",
-    zip: "99206",
+    phone: "541-555-0100",
+    zip: "97701",
     message: "Please call me.",
     source: "contact",
     sourcePath: "/contact",
@@ -210,7 +223,7 @@ test("POST returns 400 when request validation fails", async () => {
     makeLeadRequest({
       fullName: "Jane Doe",
       email: "jane@example.com",
-      phone: "509-555-0100",
+      phone: "541-555-0100",
       source: "contact",
     }),
   );
@@ -249,4 +262,99 @@ test("POST returns 500 when Firestore save fails", async () => {
 
   assert.equal(response.status, 500);
   assert.equal((await response.json()).ok, false);
+});
+
+test("submitCrmLeadForm skips (not fails) when CRM is not configured", async () => {
+  const { submitCrmLeadForm, isCrmConfigured } = await loadLeadModules();
+
+  assert.equal(isCrmConfigured(), false);
+
+  const result = await submitCrmLeadForm({
+    fullName: "Jane Doe",
+    email: "jane@example.com",
+    phone: "541-555-0100",
+    source: "contact",
+  });
+
+  assert.equal(result.ok, false);
+  assert.equal(result.skipped, true);
+});
+
+test("submitLeadWithDeps marks CRM skipped (ok true) when CRM is not configured", async () => {
+  const { CRM_SYNC_STATUS, submitLeadWithDeps } = await loadLeadModules();
+  const fakeFirestore = createFakeFirestore();
+
+  // No submitCrmLeadForm dep -> uses the real one, which is unconfigured in tests.
+  const result = await submitLeadWithDeps(makeLeadPayload(), {
+    getFirestoreAdmin: () => fakeFirestore.db as never,
+    now: () => Date.parse("2026-05-01T20:00:00.000Z"),
+    useDevFallback: () => false,
+  });
+
+  assert.deepEqual(result, {
+    ok: true,
+    id: "lead_123",
+    crmSyncStatus: CRM_SYNC_STATUS.skipped,
+  });
+  assert.equal(fakeFirestore.addedDocs.length, 1);
+  assert.equal(fakeFirestore.updates.length, 1);
+  assert.equal(fakeFirestore.updates[0]?.crmSyncStatus, CRM_SYNC_STATUS.skipped);
+  assert.equal(fakeFirestore.updates[0]?.crmSyncFailedAt, null);
+  assert.equal(fakeFirestore.updates[0]?.crmSyncedAt, null);
+  assert.equal(fakeFirestore.updates[0]?.crmContactId, null);
+});
+
+test("submitLeadWithDeps records CRM 404 as failed after Firestore save", async () => {
+  const { CRM_PUBLIC_FORM_SUBMISSION_PATH, CRM_SYNC_STATUS, submitLeadWithDeps } = await loadLeadModules();
+  const fakeFirestore = createFakeFirestore();
+
+  const result = await submitLeadWithDeps(makeLeadPayload(), {
+    submitCrmLeadForm: async () => ({
+      ok: false,
+      status: 404,
+      path: CRM_PUBLIC_FORM_SUBMISSION_PATH,
+      error: "Form not found.",
+    }),
+    getFirestoreAdmin: () => fakeFirestore.db as never,
+    now: () => Date.parse("2026-05-01T20:00:00.000Z"),
+    useDevFallback: () => false,
+  });
+
+  assert.deepEqual(result, {
+    ok: true,
+    id: "lead_123",
+    crmSyncStatus: CRM_SYNC_STATUS.failed,
+  });
+  assert.equal(fakeFirestore.updates[0]?.crmSyncStatus, CRM_SYNC_STATUS.failed);
+  assert.equal(fakeFirestore.updates[0]?.crmResponseStatus, 404);
+});
+
+test("POST returns 200 ok true with crmSyncStatus skipped when CRM is not configured", async () => {
+  const { CRM_SYNC_STATUS, handleLeadPost } = await loadLeadModules();
+  const response = await handleLeadPost(makeLeadRequest(makeLeadPayload()), {
+    submitLead: async () => ({ ok: true, id: "lead_123", crmSyncStatus: CRM_SYNC_STATUS.skipped }),
+  });
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), {
+    ok: true,
+    id: "lead_123",
+    crmSyncStatus: CRM_SYNC_STATUS.skipped,
+  });
+});
+
+test("POST coerces a non-allowlisted source to unknown and preserves valid Bend sources", async () => {
+  const { handleLeadPost } = await loadLeadModules();
+  const captured: string[] = [];
+  const deps = {
+    submitLead: async (payload: LeadPayload) => {
+      captured.push(payload.source);
+      return { ok: true, id: "lead_123" };
+    },
+  };
+
+  await handleLeadPost(makeLeadRequest({ ...makeLeadPayload(), source: "medicare-spokane" }), deps);
+  await handleLeadPost(makeLeadRequest({ ...makeLeadPayload(), source: "medicare-bend" }), deps);
+
+  assert.deepEqual(captured, ["unknown", "medicare-bend"]);
 });
