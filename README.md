@@ -2,7 +2,7 @@
 
 A production-ready Next.js (App Router) website for a local Medicare insurance agency serving Bend, OR and surrounding Central Oregon communities.
 
-> **Deployment status:** Deployment to Google Cloud is configured in **PR 5** and is **not enabled yet** — nothing is deployed. The GitHub Actions workflow (`.github/workflows/deploy.yml`) still needs its Bend project variables and CRM env wiring; see the `TODO(bend-deploy)` comment at the top of that file. The GCP/Cloud Run instructions below describe the target setup PR 5 will turn on.
+> **Deployment status:** The GitHub Actions workflow (`.github/workflows/deploy.yml`) is configured for the Bend project (`medicare-bend-site` / `medicare-bend-site-beta`, `us-west1`) with a guard that blocks any Spokane target. **Nothing is deployed yet** — a deploy runs only after the Google Cloud setup and GitHub Variables/Secrets are in place and either `DEPLOY_ENABLED=true` (push-to-`main` beta) or a manual dispatch is used. The GCP/Cloud Run instructions below are the setup to complete.
 >
 > **Canonical environment reference:** For the full Bend environment variables, CRM setup, Firestore configuration, and smoke-test details, see [`docs/bend-environment.md`](docs/bend-environment.md) (added in this same PR).
 
@@ -19,10 +19,7 @@ A production-ready Next.js (App Router) website for a local Medicare insurance a
 - JSON-LD structured data (LocalBusiness + FAQPage schemas)
 - Dynamic XML sitemap and robots.txt generation
 - Local SEO page structure:
-  - **Directory pages**: `/directory/[city-state]` for canonicalized legacy city URLs
-  - **Local area Medicare pages**: `/medicare-bend`, `/medicare-redmond`, etc.
-  - **ZIP code pages**: `/zip/[zip]` (e.g., `/zip/97701`)
-  - **Topic pages**: `/topics/[topic]` (e.g., `/topics/medicare-advantage`)
+  - **Central Oregon local Medicare pages**: `/medicare-bend`, `/medicare-redmond`, `/medicare-sisters`, `/medicare-sunriver`, `/medicare-la-pine`, `/medicare-prineville`, `/medicare-madras`
 - Fully responsive design
 - Static generation with `generateStaticParams`
 
@@ -69,11 +66,15 @@ gcloud run deploy medicare-bend-site \
 
 ## Continuous Deployment (GitHub Actions → Cloud Run)
 
-> **Not enabled yet — arrives in PR 5.** The workflow at `.github/workflows/deploy.yml` still carries a `TODO(bend-deploy)` marker and needs the Bend project variables and CRM env wiring described below before it can run.
+> **Configured but not turned on.** The workflow at `.github/workflows/deploy.yml` targets the Bend project, but no deploy runs until (a) the Google Cloud setup and GitHub Variables/Secrets in [`docs/deploy-beta-checklist.md`](docs/deploy-beta-checklist.md) are complete, and (b) either `DEPLOY_ENABLED=true` is set (for push-to-`main` beta deploys) or you run a manual dispatch. See [`docs/bend-environment.md`](docs/bend-environment.md).
 
-The workflow at `.github/workflows/deploy.yml` runs on every push to `main` (and on manual dispatch). It:
+The workflow triggers on push to `main` and on manual dispatch:
+- **Push to `main`** deploys **beta** — and only when the `DEPLOY_ENABLED` repo variable is `true`.
+- **Manual dispatch** lets you choose `beta` or `production`. **Production is only ever deployed by a manual dispatch** (never automatically).
 
-1. Lints (`npm run lint`), tests (`npm test`), and builds (`npm run build`) the project.
+On each run it:
+
+1. Lints (`npm run lint`), typechecks (`npm run typecheck`), tests (`npm test`), and builds (`npm run build`) the project, then runs a sanity check that the built sitemap is Bend-only.
 2. Builds the Docker image and pushes it to Artifact Registry, tagged with the commit SHA.
 3. Deploys the new image to Cloud Run, binding the runtime service account so the container picks up Application Default Credentials for Firestore.
 
@@ -87,10 +88,14 @@ Set these in **Settings → Secrets and variables → Actions**.
 |---|---|---|
 | `GCP_PROJECT_ID` | `medicare-bend-site` | Target GCP project |
 | `GCP_REGION` | `us-west1` | Cloud Run + Artifact Registry region |
-| `CLOUD_RUN_SERVICE` | `medicare-bend-site` | Cloud Run service name |
+| `CLOUD_RUN_SERVICE` | `medicare-bend-site` | Production Cloud Run service name |
+| `CLOUD_RUN_SERVICE_BETA` | `medicare-bend-site-beta` | Beta Cloud Run service name |
 | `ARTIFACT_REGISTRY_REPO` | `web` | Existing Artifact Registry repo in `GCP_REGION` |
-| `RUNTIME_SERVICE_ACCOUNT` | `cloud-run-runtime@<project>.iam.gserviceaccount.com` | SA the container runs as. **Must have `roles/datastore.user`** on the Firestore project. |
+| `RUNTIME_SERVICE_ACCOUNT` | `cloud-run-runtime@<project>.iam.gserviceaccount.com` | SA the container runs as. **Must have `roles/datastore.user`** on the Firestore project, and `roles/secretmanager.secretAccessor` on `crm-prod-api-key` for production CRM sync. |
 | `FIREBASE_PROJECT_ID` | same as `GCP_PROJECT_ID` (usually) | Tells `firebase-admin` which project's Firestore to talk to |
+| `DEPLOY_ENABLED` | `true` | Set to `true` to allow push-to-`main` **beta** deploys. Leave unset to require a manual dispatch for every deploy. Production is **only** deployed by a manual dispatch. |
+
+> **CRM:** the workflow sets `CRM_API_BASE_URL` per target automatically (production only) and injects `CRM_API_KEY` from the Secret Manager secret `crm-prod-api-key` — it is **not** a GitHub secret. Beta omits CRM, so beta leads report `crmSyncStatus: "skipped"`. See [`docs/bend-environment.md`](docs/bend-environment.md).
 
 #### Authentication — pick **one**
 
@@ -126,7 +131,7 @@ The workflow auto-detects which path to use based on whether `GCP_WORKLOAD_IDENT
 
 - [ ] PR is green (lint, test, build all pass via the `ci` job).
 - [ ] No new `FIREBASE_*` secrets are needed — the runtime SA's ADC is used in Cloud Run.
-- [ ] Merge to `main` → workflow auto-deploys.
+- [ ] Set `DEPLOY_ENABLED=true`, then merge to `main` → workflow deploys **beta** (production stays manual-dispatch only).
 - [ ] Verify the new revision in Cloud Run console; check `100%` traffic is on the new revision.
 - [ ] Hit `https://www.medicareinbend.com/api/leads` with a smoke test payload and confirm a doc appears in Firestore.
 - [ ] Watch Cloud Run logs for ~5 min for any `[leads]` or `[api/leads]` errors.
@@ -140,11 +145,9 @@ app/
 ├── sitemap.ts          # Dynamic XML sitemap
 ├── robots.ts           # robots.txt
 ├── not-found.tsx       # 404 page
-├── directory/[location]/ # Canonical legacy directory pages
-├── medicare-*/         # Local area Medicare pages
-├── cities/[city]/      # Legacy city URLs redirected to canonical local pages
-├── zip/[zip]/          # ZIP code local SEO pages
-└── topics/[topic]/     # Medicare topic pages
+├── medicare-*/         # Core Medicare + Central Oregon local area pages
+├── api/                # Lead + review-feedback API routes
+└── healthz/            # Health check endpoint
 components/
 ├── Header.tsx
 ├── Footer.tsx
@@ -266,9 +269,9 @@ Run through this before flipping DNS to the Cloud Run URL.
 
 **SEO / indexing**
 - [ ] `NEXT_PUBLIC_SITE_ENV=production` is set in Cloud Run for the live service
-- [ ] Beta / preview revisions have `NEXT_PUBLIC_SITE_ENV=staging` (or similar) and serve `Disallow: /` at `/robots.txt`
+- [ ] Beta revisions have `NEXT_PUBLIC_SITE_ENV=beta` and serve `Disallow: /` at `/robots.txt`
 - [ ] `/robots.txt` on prod allows crawling and lists `/sitemap.xml`
-- [ ] `/sitemap.xml` includes every city, ZIP, and topic page
+- [ ] `/sitemap.xml` includes the core pages and the 7 Central Oregon local pages (and has **no** ZIP, directory, or health-insurance routes)
 - [ ] Each page has a unique `<title>` and canonical tag pointing at `https://www.medicareinbend.com/...`
 
 **Forms & lead capture**
@@ -294,7 +297,7 @@ Run through this before flipping DNS to the Cloud Run URL.
 
 ## Phase 6 — Beta deployment runbook
 
-> **Deferred to PR 5 — not enabled yet.** The steps below describe the target beta setup. They cannot run until the deploy workflow's `TODO(bend-deploy)` items (Bend project variables + CRM env wiring) are completed in PR 5.
+> **Not enabled yet.** The steps below describe the target beta setup. The deploy workflow is Bend-ready; deployment stays off until the Google Cloud setup and GitHub Variables/Secrets are complete and `DEPLOY_ENABLED=true` (or a manual dispatch) is used. Full runbook: [`docs/deploy-beta-checklist.md`](docs/deploy-beta-checklist.md).
 
 > **For the owner doing the actual deploy:** the full beginner-friendly, click-by-click checklist (GitHub vars, GCP APIs, Artifact Registry, Cloud Run service, IAM, DNS, dispatching the workflow, post-deploy QA, and promotion to prod) is in [`docs/deploy-beta-checklist.md`](docs/deploy-beta-checklist.md). The canonical Bend environment values live in [`docs/bend-environment.md`](docs/bend-environment.md). The summary below is the short version.
 
@@ -325,7 +328,7 @@ GitHub → Actions → **Deploy to Cloud Run** → **Run workflow** → choose:
 - Target: `beta`
 
 The workflow will:
-- Build the image with `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`, `NEXT_PUBLIC_SITE_ENV=staging`, `NEXT_PUBLIC_GTM_ID=$VAR` baked in.
+- Build the image with `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`, `NEXT_PUBLIC_SITE_ENV=beta`, `NEXT_PUBLIC_GTM_ID=$VAR` baked in.
 - Push to `…/site-beta:<sha>` in Artifact Registry.
 - Deploy to the `medicare-bend-site-beta` service with the same vars set as runtime env (and `FIREBASE_PROJECT_ID`, `NODE_ENV=production`).
 
@@ -334,10 +337,10 @@ The workflow will:
 ### Post-deploy QA on beta
 
 Run the [Launch QA checklist](#launch-qa-checklist) against `https://beta.medicareinbend.com`. In particular:
-- `curl -sI https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` (because `NEXT_PUBLIC_SITE_ENV=staging`).
+- `curl -sI https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` (because `NEXT_PUBLIC_SITE_ENV=beta`).
 - `curl -sI https://beta.medicareinbend.com/healthz` returns `200`.
 - View source on any page → `<meta name="robots" content="noindex,nofollow,…">` is present.
-- Submit a test lead → check Firestore `website_leads` for the doc, and GTM Preview for a `generate_lead` event tagged `site_env: "staging"` with **no** name/email/phone/zip in the payload.
+- Submit a test lead → check Firestore `website_leads` for the doc (with `crmSyncStatus: "skipped"` since beta omits CRM), and GTM Preview for a `generate_lead` event tagged `site_env: "beta"` with **no** name/email/phone/zip in the payload.
 - Confirm security headers on `curl -sI https://beta.medicareinbend.com/` (HSTS, `X-Frame-Options: DENY`, etc.).
 
 ### Promote to production
