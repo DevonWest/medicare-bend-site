@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
 import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -57,5 +58,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
   ];
 
-  return staticPages;
+  // Central Oregon local Medicare pages. Bend (the primary city) gets a higher
+  // priority than the surrounding communities.
+  const localPages: MetadataRoute.Sitemap = centralOregonCities.map((city) => ({
+    url: `${baseUrl}${getLocalMedicarePath(city.slug)}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: city.slug === "bend" ? 0.9 : 0.8,
+  }));
+
+  return [...staticPages, ...localPages];
 }
