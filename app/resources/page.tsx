@@ -3,6 +3,7 @@ import Link from "next/link";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import PageHero from "@/components/PageHero";
+import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -189,6 +190,28 @@ export default function ResourcesPage() {
                   ))}
                 </div>
               </section>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-3 text-2xl font-bold text-gray-900 md:text-3xl">
+            Central Oregon Medicare Help
+          </h2>
+          <p className="mb-8 max-w-2xl text-gray-600">
+            Local Medicare guidance for the communities we serve across Central Oregon.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {centralOregonCities.map((city) => (
+              <Link
+                key={city.slug}
+                href={getLocalMedicarePath(city.slug)}
+                className="rounded-full border border-slate-200 bg-slate-50 px-5 py-2 text-sm font-medium text-blue-700 transition-colors hover:border-blue-300 hover:bg-blue-50"
+              >
+                Medicare in {city.name}
+              </Link>
             ))}
           </div>
         </div>

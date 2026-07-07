@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { centralOregonCities } from "@/lib/cities";
+import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
 import { siteConfig, telHref } from "@/lib/site";
 
 const helpLinks: Array<{ href: string; label: string }> = [
@@ -129,10 +129,18 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
               Areas We Serve
             </h3>
-            <p className="text-sm leading-relaxed text-gray-400">
-              Serving Bend and Central Oregon, including{" "}
-              {centralOregonCities.map((city) => city.name).join(", ")}.
-            </p>
+            <ul className="space-y-2 text-sm">
+              {centralOregonCities.map((city) => (
+                <li key={city.slug}>
+                  <Link
+                    href={getLocalMedicarePath(city.slug)}
+                    className="transition-colors hover:text-white"
+                  >
+                    Medicare in {city.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

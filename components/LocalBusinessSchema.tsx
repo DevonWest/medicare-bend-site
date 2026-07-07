@@ -40,6 +40,8 @@ export default function LocalBusinessSchema() {
         },
       })),
       { "@type": "AdministrativeArea", name: "Deschutes County, Oregon" },
+      { "@type": "AdministrativeArea", name: "Crook County, Oregon" },
+      { "@type": "AdministrativeArea", name: "Jefferson County, Oregon" },
       { "@type": "AdministrativeArea", name: "Central Oregon" },
     ],
     serviceType: [
