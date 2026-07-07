@@ -1,8 +1,12 @@
 # Owner deployment checklist — `beta.medicareinbend.com`
 
-> **Not enabled yet — this runs in PR 5.** Deployment to Google Cloud is configured in **PR 5** and is **not** turned on: nothing is deployed. Before any of the steps below will work, the GitHub Actions workflow (`.github/workflows/deploy.yml`) still needs its Bend project variables and CRM env wiring — see the `TODO(bend-deploy)` comment at the top of that file. Do not run this checklist until PR 5 lands.
+> **Bend-ready, but deployment is still OFF.** The GitHub Actions workflow (`.github/workflows/deploy.yml`) is now fully migrated to the Bend project — it targets `medicare-bend-site` / `medicare-bend-site-beta` in `us-west1` only, and a guard step refuses to deploy if any resolved target still references the prior (non-Bend) project/service. Nothing deploys yet, though, until **you** (the owner):
+> 1. complete the Google Cloud setup in this checklist and set the GitHub **Variables/Secrets** in §1, and
+> 2. either set the repo Variable **`DEPLOY_ENABLED=true`** — which lets a push to `main` auto-deploy **beta** (never production) — **or** run a **manual `workflow_dispatch`** (the only way to deploy production).
 >
-> **Canonical environment reference:** the full Bend environment variables, CRM setup, Firestore configuration, and smoke-test details live in [`bend-environment.md`](bend-environment.md) (added in this same PR). Use that as the source of truth for values; this checklist is the click-by-click procedure.
+> Until both are done, merging to `main` deploys nothing. The workflow no longer carries a Bend-deploy TODO.
+>
+> **Canonical environment reference:** the full Bend environment variables, CRM setup, Firestore configuration, and smoke-test details live in [`bend-environment.md`](bend-environment.md). Use that as the source of truth for values; this checklist is the click-by-click procedure.
 
 This is the **step-by-step, click-by-click** checklist to take this repo from "code is ready" to "beta is live at https://beta.medicareinbend.com on Google Cloud Run." Follow it top to bottom. You only do sections 1–6 once. After that, every deploy is just section 7.
 
@@ -33,7 +37,7 @@ This is the **step-by-step, click-by-click** checklist to take this repo from "c
 
 The deploy workflow (`.github/workflows/deploy.yml`) reads these. You set them in **GitHub → your repo → Settings → Secrets and variables → Actions**.
 
-> The workflow still has an open `TODO(bend-deploy)` (PR 5) — it needs these Bend variables plus the CRM env wiring before it will deploy. See [`bend-environment.md`](bend-environment.md) for the full, canonical variable list and CRM values.
+> The workflow is already pointed at the Bend project and services; these Variables/Secrets are all it needs to run. See [`bend-environment.md`](bend-environment.md) for the full, canonical variable list and CRM values.
 
 There are two tabs there: **Variables** (non-sensitive, shows in logs) and **Secrets** (sensitive, masked in logs). Put each item in the right tab.
 
@@ -48,9 +52,10 @@ There are two tabs there: **Variables** (non-sensitive, shows in logs) and **Sec
 | `CLOUD_RUN_SERVICE_BETA` | `medicare-bend-site-beta` | Beta service name (from §4) |
 | `FIREBASE_PROJECT_ID` | `medicare-bend-site` | Usually same as `GCP_PROJECT_ID` |
 | `RUNTIME_SERVICE_ACCOUNT` | `cloud-run-runtime@medicare-bend-site.iam.gserviceaccount.com` | The runtime SA from §5 |
+| `DEPLOY_ENABLED` | `true` | Set to `true` to allow push-to-main **BETA** deploys. Leave unset/false to require a manual dispatch for every deploy. |
 | `NEXT_PUBLIC_GTM_ID` | `GTM-XXXXXXX` | **Optional.** Leave unset to disable Google Tag Manager. |
 
-> **CRM (PR 5):** the workflow also needs `CRM_API_BASE_URL` (e.g. `https://crm-prod-910764532297.us-west1.run.app`) and, if your CRM requires it, `CRM_API_KEY` (a **Secret**) wired into the deploy env. This is part of the `TODO(bend-deploy)` work. Full details in [`bend-environment.md`](bend-environment.md).
+> **CRM — you do NOT add anything here for it.** `CRM_API_BASE_URL` is set by the workflow per-target automatically (production only — `https://crm-prod-910764532297.us-west1.run.app`; beta leaves it empty so beta skips the CRM). `CRM_API_KEY` is **bound at deploy time from Secret Manager** (secret `crm-prod-api-key`), so the owner does **not** add `CRM_API_KEY` as a GitHub secret — it lives only in Secret Manager (see §5e). Full details in [`bend-environment.md`](bend-environment.md).
 
 ### 1b. Authentication — pick ONE of these two options
 
@@ -83,6 +88,8 @@ gcloud services enable \
   iamcredentials.googleapis.com \
   iam.googleapis.com \
   firestore.googleapis.com \
+  secretmanager.googleapis.com \
+  cloudresourcemanager.googleapis.com \
   compute.googleapis.com
 ```
 
@@ -92,6 +99,8 @@ What each one is for:
 - `cloudbuild` — used implicitly by some `gcloud` flows.
 - `iamcredentials` + `iam` — needed for Workload Identity Federation and impersonation.
 - `firestore` — your `website_leads` collection lives here.
+- `secretmanager` — holds the `crm-prod-api-key` secret that the workflow binds into production as `CRM_API_KEY` (§5e).
+- `cloudresourcemanager` — lets the deploy tooling read project metadata and manage IAM policy bindings during setup.
 - `compute` — needed if you ever switch from Cloud Run domain mappings to a Load Balancer (optional, §6 alt path).
 
 You should see `Operation "operations/..." finished successfully.` for each.
@@ -270,6 +279,57 @@ rm /tmp/github-deployer.json
 
 > Don't put this JSON in a Variable, in code, or in chat. Secret only.
 
+### 5e. Secret Manager — CRM API key
+
+> **Only needed before a PRODUCTION deploy.** Beta skips the CRM entirely (no key, no `CRM_API_BASE_URL`), so you can safely do all of §6–§8 without this. Do it before §9.
+
+The workflow injects the CRM API key into the **production** Cloud Run service straight from Secret Manager (secret `crm-prod-api-key`, bound as `CRM_API_KEY`). The key value must **never** land in the repo, in GitHub, or in any log — only its **name** ever appears in the workflow.
+
+1. Create the secret (this creates an empty container, not the value):
+   ```bash
+   gcloud secrets create crm-prod-api-key --replication-policy="automatic"
+   ```
+
+2. Add the key **value** as a new version *without echoing it*. Two safe options — pick one:
+
+   **Option A — pipe from `printf` (do not paste the key into chat/tickets):**
+   ```bash
+   printf "%s" "PASTE_KEY_HERE" | gcloud secrets versions add crm-prod-api-key --data-file=-
+   ```
+   Replace `PASTE_KEY_HERE` with the real key. Afterward **clear your shell history** for that line (e.g. `history -d <n>`, or `unset HISTFILE` before running it) so the key isn't left on disk. Never paste the key into chat, a PR, or a ticket.
+
+   **Option B — read from a file, then delete it:**
+   ```bash
+   # write the key into a file with an editor (no shell echo), then:
+   gcloud secrets versions add crm-prod-api-key --data-file=/path/to/keyfile
+   rm -f /path/to/keyfile
+   ```
+
+3. Grant the **runtime** service account read access to *this secret only* (not project-wide):
+   ```bash
+   gcloud secrets add-iam-policy-binding crm-prod-api-key \
+     --member="serviceAccount:cloud-run-runtime@PROJECT_ID.iam.gserviceaccount.com" \
+     --role="roles/secretmanager.secretAccessor"
+   ```
+
+> The key value lives **only** in Secret Manager. It is never added as a GitHub secret, never printed by the workflow, and never baked into the image. To rotate it, add a new version with step 2 — the workflow always binds `crm-prod-api-key:latest`.
+
+### 5f. Firestore database and indexes
+
+1. Create the Firestore database in **Native mode** in your region (only if the project doesn't already have one):
+   ```bash
+   gcloud firestore databases create --location=REGION
+   ```
+   Use the region (or multi-region) that matches your Cloud Run region — `us-west1` is fine. Native mode is required (the app uses `firebase-admin`); do **not** pick Datastore mode.
+
+2. You don't create the collection by hand — the app **auto-creates `website_leads`** on the first lead submission.
+
+3. Add the two **composite indexes** the duplicate-detection query needs (it looks up an existing lead by normalized email **or** phone within a 10-minute window). On the `website_leads` collection:
+   - `emailNorm` (Ascending) + `submittedAt` (Descending)
+   - `phoneNorm` (Ascending) + `submittedAt` (Descending)
+
+   You can create these in **Cloud Console → Firestore → Indexes → Composite → Create Index**. Easier: the first time the duplicate-check query runs without an index, Firestore returns an error whose log line includes a **"create index" link** — click it and Firestore builds the exact index for you. (Index builds take a few minutes; leads still save while they build.)
+
 ---
 
 ## 6. Domain mapping for `beta.medicareinbend.com` (10 min, plus DNS propagation wait)
@@ -321,18 +381,21 @@ When it shows **OK**, `https://beta.medicareinbend.com` will serve the placehold
    - **Target:** `beta`
 5. Click **Run workflow**.
 
+> You can also trigger a beta deploy by pushing to `main` **once `DEPLOY_ENABLED=true`** is set (§1a). A push to `main` only ever deploys **beta** — production is never deployed by a push.
+
 What happens:
-- The `ci` job runs `npm ci`, `npm run lint`, `npm test`, `npm run build`. All must pass.
-- The `deploy` job authenticates to GCP, builds a Docker image with build-args
+- The `ci` job runs `npm ci`, then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and a **sitemap sanity check** that greps the built sitemap for `medicareinbend.com`, fails on any forbidden URL (a prior-project domain, `/zip`, `/directory`, or health-insurance route), and confirms the `/healthz` route exists. All must pass.
+- The `deploy` job authenticates to GCP, then a guard step fails the deploy if any resolved target (project, services, service accounts) still references the prior (non-Bend) project. It then builds a Docker image with build-args
   - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`
-  - `NEXT_PUBLIC_SITE_ENV=staging`
+  - `NEXT_PUBLIC_SITE_ENV=beta`
   - `NEXT_PUBLIC_GTM_ID=<value of your GitHub variable, or empty>`
 - It pushes the image to `REGION-docker.pkg.dev/PROJECT_ID/web/site-beta:<commit-sha>`.
 - It deploys that image to the `medicare-bend-site-beta` Cloud Run service with the runtime SA attached and these env vars set:
   - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`
-  - `NEXT_PUBLIC_SITE_ENV=staging`
+  - `NEXT_PUBLIC_SITE_ENV=beta`
   - `NEXT_PUBLIC_GTM_ID=<same as above>`
   - `FIREBASE_PROJECT_ID=PROJECT_ID`
+  - `CRM_API_BASE_URL=` **(empty — beta omits the CRM, so no `CRM_API_KEY` secret is bound and lead submissions report `crmSyncStatus: "skipped"`)**
   - `NODE_ENV=production`
 
 The workflow's last step prints the service URL. Total runtime: ~4–7 minutes.
@@ -349,7 +412,7 @@ Open `https://beta.medicareinbend.com` and walk these checks. Anything that fail
 - [ ] Homepage loads, looks right, no console errors (DevTools → Console).
 - [ ] `curl -sI https://beta.medicareinbend.com/healthz` returns `HTTP/2 200`.
 
-### 8b. Search engines are blocked (because `SITE_ENV=staging`)
+### 8b. Search engines are blocked (because `SITE_ENV=beta`)
 - [ ] `curl -s https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` for `User-agent: *`.
 - [ ] View source on the homepage → there's a `<meta name="robots" content="noindex,nofollow,...">` tag in `<head>`.
 - [ ] **Critical** — if either of the above is missing, do not promote to prod. The build args were not threaded.
@@ -360,17 +423,24 @@ curl -sI https://beta.medicareinbend.com/ | grep -iE 'strict-transport|x-frame|x
 ```
 You should see HSTS, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, a Referrer-Policy, a Permissions-Policy, and a CSP. (The exact CSP is whatever Phase 5 set.)
 
-### 8d. Lead form end-to-end
+### 8d. Lead form end-to-end (submit a test lead ONLY if approved)
+Only run this if the owner has approved submitting a test lead. If approved:
 - [ ] Fill out the lead form on beta with **test data** (e.g. name "QA Test", a throwaway email, a fake phone like `541-555-0100`, ZIP `97701`).
 - [ ] Submit. You see the success state.
 - [ ] In Cloud Console → **Firestore** → `website_leads` collection: a new doc exists with your test data and a recent timestamp.
+- [ ] **Because beta omits the CRM, the expected `crmSyncStatus` is `skipped`.** Verify it in the API response (`crmSyncStatus: "skipped"`) or in the Cloud Run logs for that request — `skipped` is logged as info, not an error.
 - [ ] In Cloud Console → **Cloud Run** → `medicare-bend-site-beta` → **Logs**: no `ERROR` or `WARNING` lines for the request that submitted the lead.
+
+### 8d-2. Local pages and beta sitemap/robots
+- [ ] `https://beta.medicareinbend.com/medicare-bend` loads and renders correctly.
+- [ ] `https://beta.medicareinbend.com/medicare-redmond` loads and renders correctly.
+- [ ] The beta **sitemap and robots behave as configured for a non-production env**: `robots.txt` serves `Disallow: /` (beta is never indexed), and `/sitemap.xml` uses the configured site URL and contains no `/zip`, `/directory`, health-insurance, or prior-project (non-Bend) URLs.
 
 ### 8e. GTM tagging (only if you set `NEXT_PUBLIC_GTM_ID`)
 - [ ] In Google Tag Manager, open **Preview** for `GTM-XXXXXXX`, point it at `https://beta.medicareinbend.com`.
 - [ ] Submit another test lead. In the Tag Assistant timeline you see a `generate_lead` event.
 - [ ] Click that event → **Variables**. Confirm:
-  - `site_env` is `"staging"`
+  - `site_env` is `"beta"`
   - **No** name, email, phone, or ZIP appears in the dataLayer payload (PII must not be in tags).
 
 ### 8f. Performance smoke test
@@ -393,20 +463,26 @@ Repeat §6b–6d but for the prod service and prod hostname:
 
 ### 9b. Deploy prod from GitHub Actions
 
+Production is deployed **only** by a manual dispatch — there is no push trigger for production. Make sure §5e (Secret Manager) is done first.
+
 1. **Actions** → **Deploy to Cloud Run** → **Run workflow**.
 2. **Branch:** `main`
 3. **Target:** `production`
 4. **Run workflow.**
 
-The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com`, `NEXT_PUBLIC_SITE_ENV=production`, and your real GTM ID, then deployed to `medicare-bend-site`.
+The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com`, `NEXT_PUBLIC_SITE_ENV=production`, and your real GTM ID, then deployed to `medicare-bend-site`. For production the workflow **also** sets `CRM_API_BASE_URL=https://crm-prod-910764532297.us-west1.run.app` and **binds `CRM_API_KEY` from Secret Manager** (`crm-prod-api-key:latest`) — the key value never appears in the repo, image, env block, or logs.
 
 ### 9c. Verify prod (mirror of §8, but production-mode expectations)
 
 - [ ] `https://www.medicareinbend.com/healthz` → `200`.
-- [ ] `https://www.medicareinbend.com/robots.txt` → **does NOT** contain `Disallow: /` (it should be the production robots policy, allowing crawlers on real pages).
+- [ ] `https://medicareinbend.com` (apex, no `www`) **301-redirects to `https://www.medicareinbend.com`** — and the `Location` header has **no `:8080`** in it (the app's proxy handles the redirect on the standard port).
+- [ ] `https://www.medicareinbend.com/robots.txt` → **does NOT** contain `Disallow: /` (it should be the production robots policy, allowing crawlers on real pages) and it **references the Bend sitemap** (`https://www.medicareinbend.com/sitemap.xml`).
+- [ ] `https://www.medicareinbend.com/sitemap.xml` uses `https://www.medicareinbend.com` throughout and contains **no `/zip`, no `/directory`, no health-insurance routes, and no prior-project (non-Bend) domains** — only `medicareinbend.com`.
 - [ ] View source on a page → **no** `noindex` meta tag.
-- [ ] Submit a real-looking test lead → appears in Firestore `website_leads`, `generate_lead` event fires in real GTM with `site_env: "production"`.
 - [ ] Security headers present (same `curl` as §8c).
+- [ ] **Production lead test (submit ONE test lead, only if approved):** it appears in Firestore `website_leads`, and `generate_lead` fires in real GTM with `site_env: "production"`. Check `crmSyncStatus`:
+  - `synced` — **only** if the CRM has the public form slug `medicare-in-bend-contact` registered (see §9e).
+  - `failed` — if the slug is not yet registered; the log line is marked as a CRM **configuration issue**. The website lead still succeeds either way (Firestore save is independent of CRM sync).
 
 ### 9d. Tell Google about prod
 
@@ -415,6 +491,13 @@ The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com`,
 - [ ] (Optional) Point beneficiaries to Oregon SHIBA (the state's SHIP) for unbiased help: https://healthcare.oregon.gov/shiba/Pages/index.aspx
 
 You're live.
+
+### 9e. CRM-side setup (required before `crmSyncStatus` can be `synced`)
+
+CRM sync only succeeds once the **live CRM has a public form registered with the slug `medicare-in-bend-contact`**. Until that slug exists, a production lead still saves to Firestore and returns `ok: true`, but `crmSyncStatus` is `failed` (with a CRM configuration-issue log line). This is a one-time CRM-side registration — **do not create CRM records as part of setup; only register the form slug.**
+
+The Bend site submits these fields to that form, so make sure the CRM form accepts them:
+`fullName`, `email`, `phone`, `zip`, `message`, `source` / `sourceUrl` / `pageSource`, `referrer`, `utm` (campaign parameters), `clientSubmittedAt`, and `siteSource`.
 
 ---
 
@@ -438,6 +521,8 @@ Then debug on beta (§7 with target `beta`), fix the issue on `main`, and re-run
 
 ## Recurring deploys after this
 
-After everything in §1–§6 is in place, every future change is just:
-1. Merge to `main` (auto-deploys to **production** via the `push` trigger), **or**
-2. **Actions → Deploy to Cloud Run → Run workflow → Target: beta** to test on beta first (recommended for any non-trivial change), then re-run with **Target: production** once beta passes §8.
+After everything in §1–§6 is in place, every future change is:
+1. Merge to `main` → **auto-deploys BETA** (never production), and **only when the repo Variable `DEPLOY_ENABLED=true`**. If `DEPLOY_ENABLED` is unset/false, a merge deploys nothing.
+2. Once beta passes §8, deploy production with a **manual dispatch**: **Actions → Deploy to Cloud Run → Run workflow → Target: `production`**.
+
+> **Production is only ever deployed by a manual `workflow_dispatch` with Target: `production`.** There is no push trigger for production — merging to `main` can never deploy production.
