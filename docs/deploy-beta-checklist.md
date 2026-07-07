@@ -1,11 +1,15 @@
-# Owner deployment checklist — `beta.medicareinspokane.com`
+# Owner deployment checklist — `beta.medicareinbend.com`
 
-This is the **step-by-step, click-by-click** checklist to take this repo from "code is ready" to "beta is live at https://beta.medicareinspokane.com on Google Cloud Run." Follow it top to bottom. You only do sections 1–6 once. After that, every deploy is just section 7.
+> **Not enabled yet — this runs in PR 5.** Deployment to Google Cloud is configured in **PR 5** and is **not** turned on: nothing is deployed. Before any of the steps below will work, the GitHub Actions workflow (`.github/workflows/deploy.yml`) still needs its Bend project variables and CRM env wiring — see the `TODO(bend-deploy)` comment at the top of that file. Do not run this checklist until PR 5 lands.
+>
+> **Canonical environment reference:** the full Bend environment variables, CRM setup, Firestore configuration, and smoke-test details live in [`bend-environment.md`](bend-environment.md) (added in this same PR). Use that as the source of truth for values; this checklist is the click-by-click procedure.
+
+This is the **step-by-step, click-by-click** checklist to take this repo from "code is ready" to "beta is live at https://beta.medicareinbend.com on Google Cloud Run." Follow it top to bottom. You only do sections 1–6 once. After that, every deploy is just section 7.
 
 > **Placeholders used in this doc** — replace them with your real values everywhere they appear:
-> - `PROJECT_ID` → your GCP project, e.g. `medicareinspokane-prod`
-> - `REGION` → a Cloud Run region near Spokane, recommended `us-west1`
-> - `medicareinspokane.com` → your real apex domain (already correct here)
+> - `PROJECT_ID` → your GCP project, e.g. `medicare-bend-site`
+> - `REGION` → a Cloud Run region near Central Oregon, recommended `us-west1`
+> - `medicareinbend.com` → your real apex domain (already correct here)
 >
 > Anywhere this doc says "open the Cloud Console," go to https://console.cloud.google.com and make sure the project picker in the top bar shows your `PROJECT_ID` before clicking anything.
 
@@ -14,8 +18,8 @@ This is the **step-by-step, click-by-click** checklist to take this repo from "c
 ## 0. Prerequisites (5 min)
 
 - [ ] You're an **Owner** or **Editor** on the GCP project `PROJECT_ID`.
-- [ ] You're an **Admin** on the GitHub repo `DevonWest/medicare-spokane-site`.
-- [ ] You can edit DNS records for `medicareinspokane.com` (whoever runs your registrar — GoDaddy, Cloudflare, Namecheap, Google Domains, etc.).
+- [ ] You're an **Admin** on the GitHub repo `DevonWest/medicare-bend-site`.
+- [ ] You can edit DNS records for `medicareinbend.com` (whoever runs your registrar — GoDaddy, Cloudflare, Namecheap, Google Domains, etc.).
 - [ ] You have `gcloud` installed locally **OR** you're comfortable running commands in Cloud Shell (the `>_` icon in the top right of the Cloud Console). Cloud Shell is easier — use it.
 - [ ] In Cloud Shell, run once:
   ```bash
@@ -29,20 +33,24 @@ This is the **step-by-step, click-by-click** checklist to take this repo from "c
 
 The deploy workflow (`.github/workflows/deploy.yml`) reads these. You set them in **GitHub → your repo → Settings → Secrets and variables → Actions**.
 
+> The workflow still has an open `TODO(bend-deploy)` (PR 5) — it needs these Bend variables plus the CRM env wiring before it will deploy. See [`bend-environment.md`](bend-environment.md) for the full, canonical variable list and CRM values.
+
 There are two tabs there: **Variables** (non-sensitive, shows in logs) and **Secrets** (sensitive, masked in logs). Put each item in the right tab.
 
 ### 1a. Variables (tab: "Variables" → "New repository variable")
 
 | Name | Example value | Notes |
 |---|---|---|
-| `GCP_PROJECT_ID` | `medicareinspokane-prod` | Your GCP project ID (not the number) |
+| `GCP_PROJECT_ID` | `medicare-bend-site` | Your GCP project ID (not the number) |
 | `GCP_REGION` | `us-west1` | Same region you'll use for everything else |
 | `ARTIFACT_REGISTRY_REPO` | `web` | The Artifact Registry repo name from §3 |
-| `CLOUD_RUN_SERVICE` | `medicare-spokane-site` | Production service name (from §4) |
-| `CLOUD_RUN_SERVICE_BETA` | `medicare-spokane-site-beta` | Beta service name (from §4) |
-| `FIREBASE_PROJECT_ID` | `medicareinspokane-prod` | Usually same as `GCP_PROJECT_ID` |
-| `RUNTIME_SERVICE_ACCOUNT` | `cloud-run-runtime@medicareinspokane-prod.iam.gserviceaccount.com` | The runtime SA from §5 |
+| `CLOUD_RUN_SERVICE` | `medicare-bend-site` | Production service name (from §4) |
+| `CLOUD_RUN_SERVICE_BETA` | `medicare-bend-site-beta` | Beta service name (from §4) |
+| `FIREBASE_PROJECT_ID` | `medicare-bend-site` | Usually same as `GCP_PROJECT_ID` |
+| `RUNTIME_SERVICE_ACCOUNT` | `cloud-run-runtime@medicare-bend-site.iam.gserviceaccount.com` | The runtime SA from §5 |
 | `NEXT_PUBLIC_GTM_ID` | `GTM-XXXXXXX` | **Optional.** Leave unset to disable Google Tag Manager. |
+
+> **CRM (PR 5):** the workflow also needs `CRM_API_BASE_URL` (e.g. `https://crm-prod-910764532297.us-west1.run.app`) and, if your CRM requires it, `CRM_API_KEY` (a **Secret**) wired into the deploy env. This is part of the `TODO(bend-deploy)` work. Full details in [`bend-environment.md`](bend-environment.md).
 
 ### 1b. Authentication — pick ONE of these two options
 
@@ -52,7 +60,7 @@ The workflow can authenticate to GCP either way. **Option A is recommended** (no
 
 You'll set this up fully in §5d. For now just know you'll add **two more Variables**:
 - `GCP_WORKLOAD_IDENTITY_PROVIDER` — full resource name, looks like `projects/123456789/locations/global/workloadIdentityPools/github-pool/providers/github-provider`
-- `GCP_DEPLOY_SERVICE_ACCOUNT` — the deployer SA email, e.g. `github-deployer@medicareinspokane-prod.iam.gserviceaccount.com`
+- `GCP_DEPLOY_SERVICE_ACCOUNT` — the deployer SA email, e.g. `github-deployer@medicare-bend-site.iam.gserviceaccount.com`
 
 **Option B: Service-account JSON key (legacy, easier first time)**
 
@@ -98,7 +106,7 @@ This is where built Docker images get pushed.
 gcloud artifacts repositories create web \
   --repository-format=docker \
   --location=REGION \
-  --description="Container images for the medicare-spokane-site Next.js app"
+  --description="Container images for the medicare-bend-site Next.js app"
 ```
 
 If it says "already exists," that's fine — skip.
@@ -122,7 +130,7 @@ You need **two** Cloud Run services so beta and prod never share a URL or env va
 The first deploy from GitHub Actions will replace this image — we just need the service to exist so we can attach a domain mapping in §6.
 
 ```bash
-gcloud run deploy medicare-spokane-site-beta \
+gcloud run deploy medicare-bend-site-beta \
   --image=us-docker.pkg.dev/cloudrun/container/hello \
   --region=REGION \
   --platform=managed \
@@ -130,12 +138,12 @@ gcloud run deploy medicare-spokane-site-beta \
   --port=8080
 ```
 
-When it finishes, copy the `Service URL` it prints — it looks like `https://medicare-spokane-site-beta-abcdefg-uw.a.run.app`. Open it in a browser; you should see Google's "It's running!" hello page. That confirms the service is up.
+When it finishes, copy the `Service URL` it prints — it looks like `https://medicare-bend-site-beta-abcdefg-uw.a.run.app`. Open it in a browser; you should see Google's "It's running!" hello page. That confirms the service is up.
 
 ### 4b. (Recommended) Create the production service the same way
 
 ```bash
-gcloud run deploy medicare-spokane-site \
+gcloud run deploy medicare-bend-site \
   --image=us-docker.pkg.dev/cloudrun/container/hello \
   --region=REGION \
   --platform=managed \
@@ -160,7 +168,7 @@ You need **two** service accounts:
 
 ```bash
 gcloud iam service-accounts create cloud-run-runtime \
-  --display-name="Cloud Run runtime SA (medicare-spokane-site)"
+  --display-name="Cloud Run runtime SA (medicare-bend-site)"
 ```
 
 Grant it Firestore access:
@@ -178,7 +186,7 @@ Put `cloud-run-runtime@PROJECT_ID.iam.gserviceaccount.com` into the `RUNTIME_SER
 
 ```bash
 gcloud iam service-accounts create github-deployer \
-  --display-name="GitHub Actions deployer (medicare-spokane-site)"
+  --display-name="GitHub Actions deployer (medicare-bend-site)"
 ```
 
 Grant it the four roles it needs:
@@ -232,13 +240,13 @@ gcloud iam workload-identity-pools providers create-oidc "github-provider" \
   --display-name="GitHub OIDC provider" \
   --issuer-uri="https://token.actions.githubusercontent.com" \
   --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref" \
-  --attribute-condition="assertion.repository == 'DevonWest/medicare-spokane-site'"
+  --attribute-condition="assertion.repository == 'DevonWest/medicare-bend-site'"
 
 # 3. Allow the GitHub repo to impersonate the deployer SA
 gcloud iam service-accounts add-iam-policy-binding \
   github-deployer@PROJECT_ID.iam.gserviceaccount.com \
   --role="roles/iam.workloadIdentityUser" \
-  --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-pool/attribute.repository/DevonWest/medicare-spokane-site"
+  --member="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github-pool/attribute.repository/DevonWest/medicare-bend-site"
 ```
 
 Now go back to GitHub → repo settings and add these two **Variables**:
@@ -264,21 +272,21 @@ rm /tmp/github-deployer.json
 
 ---
 
-## 6. Domain mapping for `beta.medicareinspokane.com` (10 min, plus DNS propagation wait)
+## 6. Domain mapping for `beta.medicareinbend.com` (10 min, plus DNS propagation wait)
 
 We're using Cloud Run's built-in **custom domain mappings** — simpler than a full Load Balancer and free.
 
 ### 6a. Verify the apex domain (one-time, only if you've never done it for this Google account)
 
-If this account has never added a custom domain to GCP for `medicareinspokane.com`, you'll need to verify domain ownership at https://search.google.com/search-console → Add Property → Domain → `medicareinspokane.com`. It will give you a `TXT` record to add at your DNS provider. Add it, click Verify, done. (Skip this if your account already owns the domain in Search Console.)
+If this account has never added a custom domain to GCP for `medicareinbend.com`, you'll need to verify domain ownership at https://search.google.com/search-console → Add Property → Domain → `medicareinbend.com`. It will give you a `TXT` record to add at your DNS provider. Add it, click Verify, done. (Skip this if your account already owns the domain in Search Console.)
 
 ### 6b. Create the Cloud Run domain mapping
 
 In the **Cloud Console**:
 1. Go to **Cloud Run** → **Manage Custom Domains** (button at top of the services list).
 2. Click **Add Mapping**.
-3. **Service**: select `medicare-spokane-site-beta`.
-4. **Domain**: enter `beta.medicareinspokane.com`.
+3. **Service**: select `medicare-bend-site-beta`.
+4. **Domain**: enter `beta.medicareinbend.com`.
 5. Click **Continue**. It will show you a **CNAME** record to add — usually:
    ```
    beta   CNAME   ghs.googlehosted.com.
@@ -288,16 +296,16 @@ In the **Cloud Console**:
 
 At your DNS provider (GoDaddy / Cloudflare / Namecheap / Google Domains / etc.):
 - **Type:** CNAME
-- **Name / Host:** `beta` (some providers want `beta.medicareinspokane.com` — both work)
+- **Name / Host:** `beta` (some providers want `beta.medicareinbend.com` — both work)
 - **Value / Target:** `ghs.googlehosted.com.` (include the trailing dot if the UI accepts it)
 - **TTL:** 300 (5 min) for the first 24 hours, then bump to 3600 once you're stable
 - **Cloudflare users only:** click the orange cloud to set the record to **DNS only** (grey cloud) for the initial setup. You can re-enable proxying later if you want, but Cloud Run's auto-issued cert needs DNS-only at first.
 
 ### 6d. Wait for the cert
 
-Back in Cloud Run → Manage Custom Domains, the row for `beta.medicareinspokane.com` will progress through `Awaiting domain verification` → `Provisioning certificate` → `OK`. This usually takes 5–30 minutes but can take up to 24 hours. Refresh occasionally.
+Back in Cloud Run → Manage Custom Domains, the row for `beta.medicareinbend.com` will progress through `Awaiting domain verification` → `Provisioning certificate` → `OK`. This usually takes 5–30 minutes but can take up to 24 hours. Refresh occasionally.
 
-When it shows **OK**, `https://beta.medicareinspokane.com` will serve the placeholder hello page from §4a.
+When it shows **OK**, `https://beta.medicareinbend.com` will serve the placeholder hello page from §4a.
 
 > **Skip the Load Balancer alternative unless you need it.** A global HTTPS Load Balancer + serverless NEG is only worth it if you want Cloud Armor / IAP / a single IP for multiple services. For one beta subdomain, domain mapping is correct.
 
@@ -316,12 +324,12 @@ When it shows **OK**, `https://beta.medicareinspokane.com` will serve the placeh
 What happens:
 - The `ci` job runs `npm ci`, `npm run lint`, `npm test`, `npm run build`. All must pass.
 - The `deploy` job authenticates to GCP, builds a Docker image with build-args
-  - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinspokane.com`
+  - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`
   - `NEXT_PUBLIC_SITE_ENV=staging`
   - `NEXT_PUBLIC_GTM_ID=<value of your GitHub variable, or empty>`
 - It pushes the image to `REGION-docker.pkg.dev/PROJECT_ID/web/site-beta:<commit-sha>`.
-- It deploys that image to the `medicare-spokane-site-beta` Cloud Run service with the runtime SA attached and these env vars set:
-  - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinspokane.com`
+- It deploys that image to the `medicare-bend-site-beta` Cloud Run service with the runtime SA attached and these env vars set:
+  - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`
   - `NEXT_PUBLIC_SITE_ENV=staging`
   - `NEXT_PUBLIC_GTM_ID=<same as above>`
   - `FIREBASE_PROJECT_ID=PROJECT_ID`
@@ -335,38 +343,38 @@ The workflow's last step prints the service URL. Total runtime: ~4–7 minutes.
 
 ## 8. Verify beta after deploy (15 min)
 
-Open `https://beta.medicareinspokane.com` and walk these checks. Anything that fails → fix before §9.
+Open `https://beta.medicareinbend.com` and walk these checks. Anything that fails → fix before §9.
 
 ### 8a. Site is up and serving the new image
 - [ ] Homepage loads, looks right, no console errors (DevTools → Console).
-- [ ] `curl -sI https://beta.medicareinspokane.com/healthz` returns `HTTP/2 200`.
+- [ ] `curl -sI https://beta.medicareinbend.com/healthz` returns `HTTP/2 200`.
 
 ### 8b. Search engines are blocked (because `SITE_ENV=staging`)
-- [ ] `curl -s https://beta.medicareinspokane.com/robots.txt` shows `Disallow: /` for `User-agent: *`.
+- [ ] `curl -s https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` for `User-agent: *`.
 - [ ] View source on the homepage → there's a `<meta name="robots" content="noindex,nofollow,...">` tag in `<head>`.
 - [ ] **Critical** — if either of the above is missing, do not promote to prod. The build args were not threaded.
 
 ### 8c. Security headers are set
 ```bash
-curl -sI https://beta.medicareinspokane.com/ | grep -iE 'strict-transport|x-frame|x-content-type|referrer-policy|permissions-policy|content-security-policy'
+curl -sI https://beta.medicareinbend.com/ | grep -iE 'strict-transport|x-frame|x-content-type|referrer-policy|permissions-policy|content-security-policy'
 ```
 You should see HSTS, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, a Referrer-Policy, a Permissions-Policy, and a CSP. (The exact CSP is whatever Phase 5 set.)
 
 ### 8d. Lead form end-to-end
-- [ ] Fill out the lead form on beta with **test data** (e.g. name "QA Test", a throwaway email, a fake phone like `509-555-0100`, ZIP `99201`).
+- [ ] Fill out the lead form on beta with **test data** (e.g. name "QA Test", a throwaway email, a fake phone like `541-555-0100`, ZIP `97701`).
 - [ ] Submit. You see the success state.
 - [ ] In Cloud Console → **Firestore** → `website_leads` collection: a new doc exists with your test data and a recent timestamp.
-- [ ] In Cloud Console → **Cloud Run** → `medicare-spokane-site-beta` → **Logs**: no `ERROR` or `WARNING` lines for the request that submitted the lead.
+- [ ] In Cloud Console → **Cloud Run** → `medicare-bend-site-beta` → **Logs**: no `ERROR` or `WARNING` lines for the request that submitted the lead.
 
 ### 8e. GTM tagging (only if you set `NEXT_PUBLIC_GTM_ID`)
-- [ ] In Google Tag Manager, open **Preview** for `GTM-XXXXXXX`, point it at `https://beta.medicareinspokane.com`.
+- [ ] In Google Tag Manager, open **Preview** for `GTM-XXXXXXX`, point it at `https://beta.medicareinbend.com`.
 - [ ] Submit another test lead. In the Tag Assistant timeline you see a `generate_lead` event.
 - [ ] Click that event → **Variables**. Confirm:
   - `site_env` is `"staging"`
   - **No** name, email, phone, or ZIP appears in the dataLayer payload (PII must not be in tags).
 
 ### 8f. Performance smoke test
-- [ ] Run https://pagespeed.web.dev/ against `https://beta.medicareinspokane.com`. Mobile Performance ≥ 80 is the target. Anything red → investigate before prod.
+- [ ] Run https://pagespeed.web.dev/ against `https://beta.medicareinbend.com`. Mobile Performance ≥ 80 is the target. Anything red → investigate before prod.
 
 If all of 8a–8f pass, beta is good.
 
@@ -379,8 +387,8 @@ You only do this **after** all of §8 passes on beta.
 ### 9a. Map the production domain (one-time)
 
 Repeat §6b–6d but for the prod service and prod hostname:
-- **Service:** `medicare-spokane-site`
-- **Domain:** `www.medicareinspokane.com` (and optionally `medicareinspokane.com` apex)
+- **Service:** `medicare-bend-site`
+- **Domain:** `www.medicareinbend.com` (and optionally `medicareinbend.com` apex)
 - DNS at registrar: `www CNAME ghs.googlehosted.com.` (apex needs A/AAAA records — Cloud Console will list the four IPs to use; some registrars don't support apex CNAME, in which case use the four A records)
 
 ### 9b. Deploy prod from GitHub Actions
@@ -390,20 +398,21 @@ Repeat §6b–6d but for the prod service and prod hostname:
 3. **Target:** `production`
 4. **Run workflow.**
 
-The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinspokane.com`, `NEXT_PUBLIC_SITE_ENV=production`, and your real GTM ID, then deployed to `medicare-spokane-site`.
+The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com`, `NEXT_PUBLIC_SITE_ENV=production`, and your real GTM ID, then deployed to `medicare-bend-site`.
 
 ### 9c. Verify prod (mirror of §8, but production-mode expectations)
 
-- [ ] `https://www.medicareinspokane.com/healthz` → `200`.
-- [ ] `https://www.medicareinspokane.com/robots.txt` → **does NOT** contain `Disallow: /` (it should be the production robots policy, allowing crawlers on real pages).
+- [ ] `https://www.medicareinbend.com/healthz` → `200`.
+- [ ] `https://www.medicareinbend.com/robots.txt` → **does NOT** contain `Disallow: /` (it should be the production robots policy, allowing crawlers on real pages).
 - [ ] View source on a page → **no** `noindex` meta tag.
 - [ ] Submit a real-looking test lead → appears in Firestore `website_leads`, `generate_lead` event fires in real GTM with `site_env: "production"`.
 - [ ] Security headers present (same `curl` as §8c).
 
 ### 9d. Tell Google about prod
 
-- [ ] Google Search Console → add `https://www.medicareinspokane.com` as a property → submit `https://www.medicareinspokane.com/sitemap.xml`.
-- [ ] (Optional) Google Business Profile → make sure the website link points to `https://www.medicareinspokane.com`.
+- [ ] Google Search Console → add `https://www.medicareinbend.com` as a property → submit `https://www.medicareinbend.com/sitemap.xml`.
+- [ ] (Optional) Google Business Profile → make sure the website link points to `https://www.medicareinbend.com`.
+- [ ] (Optional) Point beneficiaries to Oregon SHIBA (the state's SHIP) for unbiased help: https://healthcare.oregon.gov/shiba/Pages/index.aspx
 
 You're live.
 
@@ -415,10 +424,10 @@ Cloud Run keeps every revision. To roll back instantly without rebuilding:
 
 ```bash
 # List recent revisions
-gcloud run revisions list --service=medicare-spokane-site --region=REGION
+gcloud run revisions list --service=medicare-bend-site --region=REGION
 
 # Send 100% of traffic to the last known-good revision
-gcloud run services update-traffic medicare-spokane-site \
+gcloud run services update-traffic medicare-bend-site \
   --region=REGION \
   --to-revisions=<previous-revision-name>=100
 ```

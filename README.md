@@ -1,6 +1,10 @@
-# Medicare Spokane Site
+# Medicare in Bend Site
 
-A production-ready Next.js (App Router) website for a local Medicare insurance agency serving Spokane, WA and surrounding Eastern Washington communities.
+A production-ready Next.js (App Router) website for a local Medicare insurance agency serving Bend, OR and surrounding Central Oregon communities.
+
+> **Deployment status:** Deployment to Google Cloud is configured in **PR 5** and is **not enabled yet** — nothing is deployed. The GitHub Actions workflow (`.github/workflows/deploy.yml`) still needs its Bend project variables and CRM env wiring; see the `TODO(bend-deploy)` comment at the top of that file. The GCP/Cloud Run instructions below describe the target setup PR 5 will turn on.
+>
+> **Canonical environment reference:** For the full Bend environment variables, CRM setup, Firestore configuration, and smoke-test details, see [`docs/bend-environment.md`](docs/bend-environment.md) (added in this same PR).
 
 ## Tech Stack
 
@@ -16,8 +20,8 @@ A production-ready Next.js (App Router) website for a local Medicare insurance a
 - Dynamic XML sitemap and robots.txt generation
 - Local SEO page structure:
   - **Directory pages**: `/directory/[city-state]` for canonicalized legacy city URLs
-  - **Local area Medicare pages**: `/medicare-spokane`, `/medicare-spokane-valley`, etc.
-  - **ZIP code pages**: `/zip/[zip]` (e.g., `/zip/99201`)
+  - **Local area Medicare pages**: `/medicare-bend`, `/medicare-redmond`, etc.
+  - **ZIP code pages**: `/zip/[zip]` (e.g., `/zip/97701`)
   - **Topic pages**: `/topics/[topic]` (e.g., `/topics/medicare-advantage`)
 - Fully responsive design
 - Static generation with `generateStaticParams`
@@ -40,28 +44,32 @@ npm start
 
 ## Docker / Google Cloud Run
 
+> Cloud Run deployment is wired up in **PR 5** and is not live yet. The commands below are the target reference.
+
 The Dockerfile is a multi-stage Alpine/Node 20 build that produces the Next.js [`standalone`](https://nextjs.org/docs/app/api-reference/config/next-config-js/output) output. The runtime stage runs as a non-root user and listens on `0.0.0.0:8080` (Cloud Run's expected contract).
 
 ```bash
 # Build Docker image
-docker build -t medicare-spokane-site .
+docker build -t medicare-bend-site .
 
 # Run locally (Cloud Run-style: PORT 8080)
 docker run -p 8080:8080 \
   -e NEXT_PUBLIC_SITE_URL=http://localhost:8080 \
-  medicare-spokane-site
+  medicare-bend-site
 
 # Manual one-off deploy (for emergencies — normal deploys go through CI)
-gcloud run deploy medicare-spokane-site \
-  --image=REGION-docker.pkg.dev/PROJECT/REPO/medicare-spokane-site:TAG \
+gcloud run deploy medicare-bend-site \
+  --image=REGION-docker.pkg.dev/PROJECT/REPO/medicare-bend-site:TAG \
   --platform=managed \
   --region=us-west1 \
   --allow-unauthenticated \
   --service-account=cloud-run-runtime@PROJECT.iam.gserviceaccount.com \
-  --set-env-vars=NEXT_PUBLIC_SITE_URL=https://www.medicareinspokane.com,FIREBASE_PROJECT_ID=PROJECT,NODE_ENV=production
+  --set-env-vars=NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com,FIREBASE_PROJECT_ID=PROJECT,NODE_ENV=production
 ```
 
 ## Continuous Deployment (GitHub Actions → Cloud Run)
+
+> **Not enabled yet — arrives in PR 5.** The workflow at `.github/workflows/deploy.yml` still carries a `TODO(bend-deploy)` marker and needs the Bend project variables and CRM env wiring described below before it can run.
 
 The workflow at `.github/workflows/deploy.yml` runs on every push to `main` (and on manual dispatch). It:
 
@@ -77,9 +85,9 @@ Set these in **Settings → Secrets and variables → Actions**.
 
 | Variable | Example | Purpose |
 |---|---|---|
-| `GCP_PROJECT_ID` | `medicareinspokane-prod` | Target GCP project |
+| `GCP_PROJECT_ID` | `medicare-bend-site` | Target GCP project |
 | `GCP_REGION` | `us-west1` | Cloud Run + Artifact Registry region |
-| `CLOUD_RUN_SERVICE` | `medicare-spokane-site` | Cloud Run service name |
+| `CLOUD_RUN_SERVICE` | `medicare-bend-site` | Cloud Run service name |
 | `ARTIFACT_REGISTRY_REPO` | `web` | Existing Artifact Registry repo in `GCP_REGION` |
 | `RUNTIME_SERVICE_ACCOUNT` | `cloud-run-runtime@<project>.iam.gserviceaccount.com` | SA the container runs as. **Must have `roles/datastore.user`** on the Firestore project. |
 | `FIREBASE_PROJECT_ID` | same as `GCP_PROJECT_ID` (usually) | Tells `firebase-admin` which project's Firestore to talk to |
@@ -120,7 +128,7 @@ The workflow auto-detects which path to use based on whether `GCP_WORKLOAD_IDENT
 - [ ] No new `FIREBASE_*` secrets are needed — the runtime SA's ADC is used in Cloud Run.
 - [ ] Merge to `main` → workflow auto-deploys.
 - [ ] Verify the new revision in Cloud Run console; check `100%` traffic is on the new revision.
-- [ ] Hit `https://www.medicareinspokane.com/api/leads` with a smoke test payload and confirm a doc appears in Firestore.
+- [ ] Hit `https://www.medicareinbend.com/api/leads` with a smoke test payload and confirm a doc appears in Firestore.
 - [ ] Watch Cloud Run logs for ~5 min for any `[leads]` or `[api/leads]` errors.
 
 ## Project Structure
@@ -153,33 +161,33 @@ lib/
 
 | Variable | Description | Default |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | The canonical URL of the site | `https://www.medicareinspokane.com` |
+| `NEXT_PUBLIC_SITE_URL` | The canonical URL of the site | `https://www.medicareinbend.com` |
 | `PORT` | Port the server listens on (Cloud Run sets this automatically) | `8080` |
 | `LEADS_COLLECTION` | Firestore collection for lead documents | `website_leads` |
 | `FIREBASE_PROJECT_ID` | GCP project that owns the Firestore database | _required for lead capture_ |
 | `FIREBASE_CLIENT_EMAIL` | Service-account client email (admin SDK) | _required if not using ADC_ |
 | `FIREBASE_PRIVATE_KEY` | Service-account private key. Newlines may be escaped as `\n` — they are unescaped at runtime. **Server-only — never expose to the client.** | _required if not using ADC_ |
 | `GOOGLE_APPLICATION_CREDENTIALS` | Path to a service-account JSON. Used as a fallback when the three vars above are not set. | _optional_ |
-| `CRM_API_BASE_URL` | Base URL for the CRM public form submission endpoint. **Server-only — never expose to the client.** | _required for CRM sync_ |
+| `CRM_API_BASE_URL` | Base URL for the CRM public form submission endpoint (e.g. `https://crm-prod-910764532297.us-west1.run.app`). **Server-only — never expose to the client.** | _required for CRM sync_ |
 | `CRM_API_KEY` | Optional server-side API key forwarded to the CRM public form submission endpoint as an `x-api-key` header. Never expose it to the client. | _optional_ |
 | `NEXT_PUBLIC_GTM_ID` | Google Tag Manager container ID (e.g. `GTM-XXXXXXX`). When set, GTM is loaded site-wide and lead submissions fire a `generate_lead` dataLayer event. Empty disables GTM entirely. | _optional_ |
 | `NEXT_PUBLIC_SITE_ENV` | `production`, `staging`, `beta`, `preview`, or `development`. Anything other than `production` forces `noindex,nofollow` on every page and a blanket `Disallow: /` in `robots.txt`. The conversion event is tagged with this so you can filter staging traffic out of GA4 / Ads. | `production` |
 
-**Production (Cloud Run):** set only `NEXT_PUBLIC_SITE_URL`, `FIREBASE_PROJECT_ID`, and `NODE_ENV=production`. **Do not** set `FIREBASE_CLIENT_EMAIL` / `FIREBASE_PRIVATE_KEY` — Cloud Run's runtime service account provides Application Default Credentials automatically (see the deployment section below).
+**Production (Cloud Run):** set only `NEXT_PUBLIC_SITE_URL`, `FIREBASE_PROJECT_ID`, and `NODE_ENV=production`. **Do not** set `FIREBASE_CLIENT_EMAIL` / `FIREBASE_PRIVATE_KEY` — Cloud Run's runtime service account provides Application Default Credentials automatically (see the deployment section below). See [`docs/bend-environment.md`](docs/bend-environment.md) for the full, canonical list of Bend values.
 
 
 When running on Google Cloud Run, the simplest setup is to grant the Cloud Run service account the `roles/datastore.user` (Firestore) role and rely on Application Default Credentials — no `FIREBASE_*` env vars are required in that case.
 
 ## Lead Capture (Firestore)
 
-`POST /api/leads` validates the request, writes a sanitized document to the `website_leads` collection as a backup, then submits the full form payload to the CRM public form endpoint from the server-side route. Standard lead forms require `fullName` plus either `email` or `phone`; `zip` and `message` are optional. Stored fields:
+`POST /api/leads` validates the request, writes a sanitized document to the `website_leads` collection as a backup, then submits the full form payload to the CRM public form endpoint (`api/public/forms/medicare-in-bend-contact/submit`) from the server-side route. Standard lead forms require `fullName` plus either `email` or `phone`; `zip` and `message` are optional. Stored fields:
 
 - `fullName`, `email`, `phone`, `zip`, `message`
 - `emailNorm`, `phoneNorm` — normalized identities used for dedupe
-- `source` (`homepage` | `contact` | `rx-drug-review` | `compare-medicare-options` | `turning-65-medicare-spokane` | `working-past-65-medicare` | `helping-parent-with-medicare` | `medicare-appointment-checklist` | `medicare-plan-review-spokane` | `medicare-enrollment-resources` | `medicare-advantage` | `medicare-supplements` | `medicare-part-d` | `supplemental-insurance` | `advantage-vs-supplement` | `medicare-spokane` | `medicare-spokane-valley` | `medicare-liberty-lake` | `medicare-cheney` | `medicare-airway-heights` | `medicare-medical-lake` | `medicare-mead` | `medicare-deer-park` | `unknown`)
+- `source` (`homepage` | `contact` | `compare-medicare-options` | `rx-drug-review` | `turning-65-medicare-bend` | `working-past-65-medicare` | `helping-parent-with-medicare` | `medicare-appointment-checklist` | `medicare-plan-review-bend` | `medicare-enrollment-resources` | `medicare-advantage` | `medicare-supplements` | `medicare-part-d` | `supplemental-insurance` | `carriers` | `testimonials` | `about` | `request-contact` | `medicare-faq` | `medicare-bend` | `medicare-redmond` | `medicare-sisters` | `medicare-sunriver` | `medicare-la-pine` | `medicare-prineville` | `medicare-madras` | `review-feedback` | `unknown`)
 - Attribution: `sourcePath`, `referrer`, `utm`, `clientSubmittedAt`
 - Server stamps: `submittedAt` (Firestore Timestamp), `submittedAtIso`, `createdAt` (`serverTimestamp`)
-- Workflow: `status: "new"`, `siteSource: "medicareinspokane.com"`
+- Workflow: `status: "new"`, `siteSource: "medicareinbend.com"`
 - CRM sync tracking: `crmSyncStatus`, `crmSyncAttempts`, `crmContactId`, `crmLastAttemptAt`, `crmLastAttemptAtIso`, `crmLastError`, `crmLastResponseStatus`, `crmEndpointPath`
 
 If the same normalized email **or** phone submits again within 10 minutes, the existing document id is returned with `duplicate: true` instead of creating a new doc. If that recent lead has not synced to the CRM yet, the server retries the CRM sync against the existing Firestore backup before responding.
@@ -261,7 +269,7 @@ Run through this before flipping DNS to the Cloud Run URL.
 - [ ] Beta / preview revisions have `NEXT_PUBLIC_SITE_ENV=staging` (or similar) and serve `Disallow: /` at `/robots.txt`
 - [ ] `/robots.txt` on prod allows crawling and lists `/sitemap.xml`
 - [ ] `/sitemap.xml` includes every city, ZIP, and topic page
-- [ ] Each page has a unique `<title>` and canonical tag pointing at `https://www.medicareinspokane.com/...`
+- [ ] Each page has a unique `<title>` and canonical tag pointing at `https://www.medicareinbend.com/...`
 
 **Forms & lead capture**
 - [ ] Submitting the homepage form creates a Firestore doc in `website_leads`
@@ -271,7 +279,7 @@ Run through this before flipping DNS to the Cloud Run URL.
 - [ ] GTM Preview mode confirms the event fires and contains only the whitelisted fields
 
 **Security headers**
-- [ ] `curl -I https://www.medicareinspokane.com/` shows all headers from `next.config.ts`
+- [ ] `curl -I https://www.medicareinbend.com/` shows all headers from `next.config.ts`
 - [ ] `X-Powered-By` header is absent
 - [ ] HTTPS enforced (HSTS); HTTP redirects to HTTPS at the load balancer / Cloud Run domain
 
@@ -286,26 +294,28 @@ Run through this before flipping DNS to the Cloud Run URL.
 
 ## Phase 6 — Beta deployment runbook
 
-> **For the owner doing the actual deploy:** the full beginner-friendly, click-by-click checklist (GitHub vars, GCP APIs, Artifact Registry, Cloud Run service, IAM, DNS, dispatching the workflow, post-deploy QA, and promotion to prod) is in [`docs/deploy-beta-checklist.md`](docs/deploy-beta-checklist.md). The summary below is the short version.
+> **Deferred to PR 5 — not enabled yet.** The steps below describe the target beta setup. They cannot run until the deploy workflow's `TODO(bend-deploy)` items (Bend project variables + CRM env wiring) are completed in PR 5.
 
-Phase 6 deploys the site to a **separate** Cloud Run service at `beta.medicareinspokane.com` so production QA can happen against real Cloud Run + real Firestore without risking the live root domain.
+> **For the owner doing the actual deploy:** the full beginner-friendly, click-by-click checklist (GitHub vars, GCP APIs, Artifact Registry, Cloud Run service, IAM, DNS, dispatching the workflow, post-deploy QA, and promotion to prod) is in [`docs/deploy-beta-checklist.md`](docs/deploy-beta-checklist.md). The canonical Bend environment values live in [`docs/bend-environment.md`](docs/bend-environment.md). The summary below is the short version.
+
+Phase 6 deploys the site to a **separate** Cloud Run service at `beta.medicareinbend.com` so production QA can happen against real Cloud Run + real Firestore without risking the live root domain.
 
 ### One-time setup
 
 1. **Create a second Cloud Run service** (empty placeholder is fine — the workflow will replace it):
    ```bash
-   gcloud run deploy medicare-spokane-site-beta \
+   gcloud run deploy medicare-bend-site-beta \
      --image=us-docker.pkg.dev/cloudrun/container/hello \
      --region="$GCP_REGION" \
      --no-allow-unauthenticated   # tighten until you're ready
    ```
 2. **Add GitHub repo variables** (Settings → Secrets and variables → Actions → Variables):
-   - `CLOUD_RUN_SERVICE_BETA` = `medicare-spokane-site-beta`
+   - `CLOUD_RUN_SERVICE_BETA` = `medicare-bend-site-beta`
    - `NEXT_PUBLIC_GTM_ID` = `GTM-XXXXXXX` (or leave unset to disable GTM)
    - All existing prod vars must remain set: `GCP_PROJECT_ID`, `GCP_REGION`, `ARTIFACT_REGISTRY_REPO`, `RUNTIME_SERVICE_ACCOUNT`, `FIREBASE_PROJECT_ID`, `CLOUD_RUN_SERVICE`.
 3. **Map the beta domain** in Cloud Run → Manage Custom Domains:
-   - Domain: `beta.medicareinspokane.com`
-   - Service: `medicare-spokane-site-beta`
+   - Domain: `beta.medicareinbend.com`
+   - Service: `medicare-bend-site-beta`
    - Add the CNAME record GCP gives you to your DNS provider.
 
 ### Trigger the beta deploy
@@ -315,21 +325,21 @@ GitHub → Actions → **Deploy to Cloud Run** → **Run workflow** → choose:
 - Target: `beta`
 
 The workflow will:
-- Build the image with `NEXT_PUBLIC_SITE_URL=https://beta.medicareinspokane.com`, `NEXT_PUBLIC_SITE_ENV=staging`, `NEXT_PUBLIC_GTM_ID=$VAR` baked in.
+- Build the image with `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`, `NEXT_PUBLIC_SITE_ENV=staging`, `NEXT_PUBLIC_GTM_ID=$VAR` baked in.
 - Push to `…/site-beta:<sha>` in Artifact Registry.
-- Deploy to the `medicare-spokane-site-beta` service with the same vars set as runtime env (and `FIREBASE_PROJECT_ID`, `NODE_ENV=production`).
+- Deploy to the `medicare-bend-site-beta` service with the same vars set as runtime env (and `FIREBASE_PROJECT_ID`, `NODE_ENV=production`).
 
 > ⚠️ `NEXT_PUBLIC_*` values are inlined into the client JS bundle at `next build`. Setting them only on Cloud Run is not enough — they must also be passed as `--build-arg` (the workflow does this).
 
 ### Post-deploy QA on beta
 
-Run the [Launch QA checklist](#launch-qa-checklist) against `https://beta.medicareinspokane.com`. In particular:
-- `curl -sI https://beta.medicareinspokane.com/robots.txt` shows `Disallow: /` (because `NEXT_PUBLIC_SITE_ENV=staging`).
-- `curl -sI https://beta.medicareinspokane.com/healthz` returns `200`.
+Run the [Launch QA checklist](#launch-qa-checklist) against `https://beta.medicareinbend.com`. In particular:
+- `curl -sI https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` (because `NEXT_PUBLIC_SITE_ENV=staging`).
+- `curl -sI https://beta.medicareinbend.com/healthz` returns `200`.
 - View source on any page → `<meta name="robots" content="noindex,nofollow,…">` is present.
 - Submit a test lead → check Firestore `website_leads` for the doc, and GTM Preview for a `generate_lead` event tagged `site_env: "staging"` with **no** name/email/phone/zip in the payload.
-- Confirm security headers on `curl -sI https://beta.medicareinspokane.com/` (HSTS, `X-Frame-Options: DENY`, etc.).
+- Confirm security headers on `curl -sI https://beta.medicareinbend.com/` (HSTS, `X-Frame-Options: DENY`, etc.).
 
 ### Promote to production
 
-After beta passes QA, re-run the same workflow with **Target: production**. It rebuilds with `NEXT_PUBLIC_SITE_ENV=production` and `NEXT_PUBLIC_SITE_URL=https://www.medicareinspokane.com` and deploys to the `medicare-spokane-site` service.
+After beta passes QA, re-run the same workflow with **Target: production**. It rebuilds with `NEXT_PUBLIC_SITE_ENV=production` and `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com` and deploys to the `medicare-bend-site` service.

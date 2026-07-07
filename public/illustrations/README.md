@@ -1,4 +1,4 @@
-# Medicare in Spokane PNG Illustration Pack
+# Medicare in Bend PNG Illustration Pack
 
 Upload these files to:
 
@@ -7,10 +7,10 @@ public/illustrations/
 Recommended usage:
 - homepage-guidance.png → homepage guidance/help section
 - prescription-review.png → /rx-drug-review and /medicare-part-d
-- turning-65-checklist.png → /turning-65-medicare-spokane
+- turning-65-checklist.png → /turning-65-medicare-bend
 - helping-parent.png → /helping-parent-with-medicare
-- office-location.png → /contact and OfficeLocationTrust until a real office photo is available
-- annual-plan-review.png → /medicare-plan-review-spokane
+- office-location.png → /contact and OfficeLocationTrust (service-area illustration; no physical office is claimed)
+- annual-plan-review.png → /medicare-plan-review-bend
 - compare-options.png → /compare-medicare-options and /carriers
 - request-confirmation.png → confirmation/success state if desired
 
