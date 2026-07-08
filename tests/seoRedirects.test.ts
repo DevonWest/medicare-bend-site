@@ -16,7 +16,7 @@ const CANONICAL = "https://www.medicareinbend.com";
 
 test("legacy redirect map includes only generic, location-agnostic destinations", () => {
   assert.deepEqual(legacyRedirects, {
-    "/about": "/our-team",
+    "/about": "/contact",
     "/home": "/",
     "/request-a-quote": "/contact",
     "/request-contact": "/contact",
@@ -35,7 +35,7 @@ test("legacy redirect lookup returns canonical destinations and normalizes trail
   assert.equal(getLegacyRedirectDestination("/videos"), "/resources");
   assert.equal(getLegacyRedirectDestination("/rx-drug-lookup"), "/rx-drug-review");
   assert.equal(getLegacyRedirectDestination("/request-a-quote"), "/contact");
-  assert.equal(getLegacyRedirectDestination("/about"), "/our-team");
+  assert.equal(getLegacyRedirectDestination("/about"), "/contact");
   assert.equal(getLegacyRedirectDestination("/does-not-exist"), null);
 });
 
@@ -179,12 +179,13 @@ test("sitemap includes canonical Bend routes and excludes removed/legacy routes"
 
   // Present, canonical Bend routes.
   assert.ok(sitemapUrls.has(`${siteConfig.url}/contact`));
-  assert.ok(sitemapUrls.has(`${siteConfig.url}/our-team`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/rx-drug-review`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/turning-65-medicare-bend`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-plan-review-bend`));
 
-  // Redirect-only or non-canonical routes must not appear.
+  // Redirect-only, removed, or non-canonical routes must not appear.
+  // /our-team is temporarily removed pending the finalized Bend team roster.
+  assert.equal(sitemapUrls.has(`${siteConfig.url}/our-team`), false);
   assert.equal(sitemapUrls.has(`${siteConfig.url}/about`), false);
   assert.equal(sitemapUrls.has(`${siteConfig.url}/home`), false);
   assert.equal(sitemapUrls.has(`${siteConfig.url}/videos`), false);
