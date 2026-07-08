@@ -21,18 +21,29 @@ export default function Header() {
         <div className={headerRowClassName}>
           <Link
             href="/"
-            className="flex min-w-0 items-center"
+            className="flex min-w-0 items-center gap-2 sm:gap-3"
             aria-label="Medicare in Bend home page"
           >
+            {/* Icon-only brand mark (no baked-in text) + rendered brand text, so
+                the visible brand always tracks siteConfig and stays Bend-safe. */}
             <Image
-              src="/brand/logo-horizontal.png"
-              alt="Medicare in Bend by Health Insurance Options"
-              width={1324}
-              height={216}
+              src="/brand/hio-icon.png"
+              alt=""
+              aria-hidden="true"
+              width={512}
+              height={512}
               priority
-              sizes="(min-width: 1280px) 336px, (min-width: 1024px) 320px, (min-width: 640px) 220px, 200px"
-              className="h-auto w-[200px] object-contain sm:w-[220px] landscape-mobile:w-[150px] lg:w-[320px] xl:w-[336px]"
+              sizes="48px"
+              className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10 lg:h-11 lg:w-11 landscape-mobile:h-7 landscape-mobile:w-7"
             />
+            <span className="flex min-w-0 flex-col leading-tight">
+              <span className="truncate text-lg font-extrabold tracking-tight text-blue-700 sm:text-xl lg:text-2xl landscape-mobile:text-base">
+                {siteConfig.shortName}
+              </span>
+              <span className="mt-0.5 truncate text-[9px] font-semibold uppercase tracking-[0.14em] text-gray-500 sm:text-[10px] lg:text-[11px]">
+                By Health Insurance Options
+              </span>
+            </span>
           </Link>
 
           <nav
