@@ -26,7 +26,6 @@ const resourceLinks: Array<{ href: string; label: string }> = [
 ];
 
 const aboutLinks: Array<{ href: string; label: string }> = [
-  { href: "/our-team", label: "Our Team" },
   { href: "/testimonials", label: "Testimonials" },
   { href: "/review", label: "Review Us" },
   { href: "/contact", label: "Contact" },

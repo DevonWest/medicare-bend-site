@@ -7,7 +7,9 @@
  * domain with no prior crawl history). Only safe, generic path renames remain.
  */
 export const legacyRedirects = {
-  "/about": "/our-team",
+  // The team/our-team page is temporarily removed, so /about points to /contact
+  // until the Bend team roster is finalized and the team page is restored.
+  "/about": "/contact",
   "/home": "/",
   "/request-a-quote": "/contact",
   "/request-contact": "/contact",

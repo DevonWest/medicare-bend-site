@@ -6,7 +6,6 @@ import { siteConfig, telHref } from "@/lib/site";
 const primaryNav: HeaderNavItem[] = [
   { href: "/", label: "Home" },
   { href: "/medicare-bend", label: "Medicare Help" },
-  { href: "/our-team", label: "Our Team" },
   { href: "/resources", label: "Resources" },
   { href: "/contact", label: "Contact" },
 ];
