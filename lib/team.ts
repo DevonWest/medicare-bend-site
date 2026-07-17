@@ -21,9 +21,7 @@ export type TeamMember = {
 
 // The Bend site's agent of record is Scott Lewis, a licensed insurance agent
 // local to Bend. Do not add fabricated bios — extend this list only with
-// verified team information. When Scott's headshot is added to the repo at
-// public/team/scott-lewis.jpg, set `image` below to render it (until then the
-// card falls back to initials).
+// verified team information.
 export const teamMembers: TeamMember[] = [
   {
     name: "Scott Lewis",
@@ -39,6 +37,7 @@ export const teamMembers: TeamMember[] = [
     ],
     phone: siteConfig.phone,
     email: siteConfig.email,
+    image: "/team/scott-lewis.jpg",
     active: true,
     reviewable: true,
     sortOrder: 1,
