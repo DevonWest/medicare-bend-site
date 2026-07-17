@@ -47,7 +47,7 @@ function makeValidPayload() {
     fullName: "Jane Doe",
     email: "jane@example.com",
     phone: "509-555-0100",
-    agentSlug: "devon-west",
+    agentSlug: "scott-lewis",
     rating: 3,
     message: "I had trouble understanding my options.",
     sourcePath: "/review/feedback",
@@ -138,7 +138,7 @@ test("feedback API stores valid 1-4 star feedback", async () => {
   assert.equal(addedDocs.length, 1);
   assert.equal(addedDocs[0]?.fullName, "Jane Doe");
   assert.equal(addedDocs[0]?.rating, 3);
-  assert.equal(addedDocs[0]?.agentSlug, "devon-west");
+  assert.equal(addedDocs[0]?.agentSlug, "scott-lewis");
 });
 
 test("review feedback returns success when CRM sync fails after Firestore save", async () => {
@@ -176,7 +176,7 @@ test("review feedback document stores the required Firestore fields", async () =
       fullName: "Jane Doe",
       email: "Jane@example.com",
       phone: "509-555-0100",
-      agentSlug: "devon-west",
+      agentSlug: "scott-lewis",
       rating: 2,
       message: "Follow-up needed.",
       sourcePath: "/review/feedback",
@@ -187,8 +187,8 @@ test("review feedback document stores the required Firestore fields", async () =
   assert.equal(doc.fullName, "Jane Doe");
   assert.equal(doc.email, "jane@example.com");
   assert.equal(doc.phone, "509-555-0100");
-  assert.equal(doc.agentSlug, "devon-west");
-  assert.equal(doc.agentName, "Devon West");
+  assert.equal(doc.agentSlug, "scott-lewis");
+  assert.equal(doc.agentName, "Scott Lewis");
   assert.equal(doc.rating, 2);
   assert.equal(doc.message, "Follow-up needed.");
   assert.equal(doc.sourcePath, "/review/feedback");
