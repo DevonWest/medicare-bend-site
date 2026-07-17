@@ -7,8 +7,10 @@ import FriendlyIllustration from "@/components/FriendlyIllustration";
 import LeadForm from "@/components/LeadForm";
 import OfficeLocationTrust from "@/components/OfficeLocationTrust";
 import ProcessSection from "@/components/ProcessSection";
+import TeamPreviewGrid from "@/components/TeamPreviewGrid";
 import TrustBenefits from "@/components/TrustBenefits";
 import { siteConfig, telHref } from "@/lib/site";
+import { getHomepageTeamPreviewMembers } from "@/lib/team";
 
 export const metadata: Metadata = {
   title: `${siteConfig.shortName} | ${siteConfig.positioning}`,
@@ -64,6 +66,8 @@ const whatHappensNextSteps: string[] = [
 ];
 
 export default function HomePage() {
+  const previewMembers = getHomepageTeamPreviewMembers();
+
   return (
     <>
       {/* Hero */}
@@ -149,6 +153,12 @@ export default function HomePage() {
 
             <div className="mt-6 hidden max-w-sm rounded-3xl border border-white/10 bg-white/10 p-4 shadow-lg backdrop-blur-sm lg:block">
               <FriendlyIllustration name="homepageGuidance" priority />
+            </div>
+
+            <div className="mt-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-blue-50 shadow-sm backdrop-blur-sm">
+              <Link href="/our-team" className="underline-offset-2 hover:underline">
+                Meet our Central Oregon licensed team →
+              </Link>
             </div>
           </div>
 
@@ -304,6 +314,28 @@ export default function HomePage() {
 
       {/* Process section */}
       <ProcessSection />
+
+      {/* Team preview */}
+      <section className="py-20 px-4 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">
+            Meet Our Local Medicare Team
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto text-lg">
+            Our Central Oregon licensed agents work together to help clients understand Medicare
+            options with clear, no-cost guidance.
+          </p>
+          <TeamPreviewGrid members={previewMembers} />
+          <div className="mt-12 text-center">
+            <Link
+              href="/our-team"
+              className="inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 text-white font-semibold px-7 py-3 rounded-lg transition-colors text-base"
+            >
+              Meet the Full Team
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* RX review band */}
       <section className="py-16 px-4 bg-blue-50 border-y border-blue-100">

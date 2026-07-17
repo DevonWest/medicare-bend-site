@@ -20,37 +20,37 @@ test("outbound Google review routing is disabled until a Bend review URL is set"
 
 test("5-star rating routes to the internal feedback page while no public review URL is configured", () => {
   assert.equal(
-    getReviewRatingDestination("devon-west", 5),
-    "/review/feedback?agent=devon-west&rating=5",
+    getReviewRatingDestination("scott-lewis", 5),
+    "/review/feedback?agent=scott-lewis&rating=5",
   );
 });
 
 test("1-4 star ratings go to the internal feedback page with rating and agent params", () => {
   assert.equal(
-    getReviewRatingDestination("devon-west", 4),
-    "/review/feedback?agent=devon-west&rating=4",
+    getReviewRatingDestination("scott-lewis", 4),
+    "/review/feedback?agent=scott-lewis&rating=4",
   );
   assert.equal(
-    getReviewRatingDestination("devon-west", 1),
-    "/review/feedback?agent=devon-west&rating=1",
+    getReviewRatingDestination("scott-lewis", 1),
+    "/review/feedback?agent=scott-lewis&rating=1",
   );
 });
 
 test("reviewable team members are limited to the current Bend roster", () => {
   const names = getActiveReviewableTeamMembers().map((member) => member.name);
 
-  assert.deepEqual(names, ["Devon West", "Denise Chan"]);
+  assert.deepEqual(names, ["Scott Lewis"]);
   assert.ok(!names.includes("Lynn Wold"));
   assert.ok(!names.includes("Kristi Wright"));
   assert.ok(!names.includes("Karen Speerstra"));
-  assert.equal(getTeamMemberSlug("Devon West"), "devon-west");
+  assert.equal(getTeamMemberSlug("Scott Lewis"), "scott-lewis");
 });
 
 test("active licensed agents are the current Bend roster in neutral alphabetical order", () => {
   const members = getActiveLicensedTeamMembers();
   const names = members.map((member) => member.name);
 
-  assert.deepEqual(names, ["Denise Chan", "Devon West"]);
+  assert.deepEqual(names, ["Scott Lewis"]);
   assert.ok(
     members.every(
       (member) => member.active && !member.retired && member.title.includes("Licensed Insurance Agent"),
@@ -58,11 +58,11 @@ test("active licensed agents are the current Bend roster in neutral alphabetical
   );
 });
 
-test("homepage team preview keeps all active licensed agents visible and places Devon West and Denise Chan last", () => {
+test("homepage team preview keeps all active licensed agents visible", () => {
   const previewMembers = getHomepageTeamPreviewMembers();
   const previewNames = previewMembers.map((member) => member.name);
 
-  assert.deepEqual(previewNames, ["Devon West", "Denise Chan"]);
+  assert.deepEqual(previewNames, ["Scott Lewis"]);
   assert.deepEqual(
     [...previewNames].sort(),
     [...getActiveLicensedTeamMembers().map((member) => member.name)].sort(),
@@ -79,7 +79,7 @@ test("team last-name helper handles suffixes, hyphenated names, and single-word 
 });
 
 test("team initials helper ignores extra spaces", () => {
-  assert.equal(getTeamMemberInitials("  Denise   Chan "), "DC");
+  assert.equal(getTeamMemberInitials("  Scott   Lewis "), "SL");
 });
 
 test("review feedback validation accepts rating 5 while Google routing is disabled", () => {

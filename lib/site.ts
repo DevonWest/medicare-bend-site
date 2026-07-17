@@ -26,9 +26,8 @@ export const siteConfig = {
   description:
     "Health Insurance Options LLC is a licensed independent insurance agency serving Bend and Central Oregon, helping local Medicare beneficiaries compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options. No-cost consultations with a licensed insurance professional.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.medicareinbend.com",
-  // TODO(bend-contact): replace with the real Bend phone number (555-0100 is a
-  // reserved fictional number used only as a placeholder for now).
-  phone: "541-555-0100",
+  // Direct line for the site's licensed Bend agent, Scott Lewis.
+  phone: "(949) 426-0372",
   // TODO(bend-contact): confirm this matches the canonical domain mailbox.
   email: "info@medicareinbend.com",
   hours: "Mon – Fri, 9:00 AM – 5:00 PM Pacific",

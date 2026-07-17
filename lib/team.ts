@@ -19,18 +19,17 @@ export type TeamMember = {
   sortOrder: number;
 };
 
-// PR 1 team roster is intentionally limited to Devon West and Denise Chan for
-// the Bend launch. The prior team members are removed from the public Bend site
-// pending approval and Bend-specific bios. Do not add fabricated Bend bios —
-// extend this list only with verified team information.
+// The Bend site's agent of record is Scott Lewis, a licensed insurance agent
+// local to Bend. Do not add fabricated bios — extend this list only with
+// verified team information. When Scott's headshot is added to the repo at
+// public/team/scott-lewis.jpg, set `image` below to render it (until then the
+// card falls back to initials).
 export const teamMembers: TeamMember[] = [
   {
-    name: "Devon West",
-    title: "Owner & Licensed Insurance Agent",
+    name: "Scott Lewis",
+    title: "Licensed Insurance Agent",
     shortBio:
-      "Devon created Medicare Saving Solutions to help people on Medicare make confident, informed decisions about their health plan options. He focuses on educating people who are turning 65, helping clients compare options from the plans represented, and continuing to serve as a resource year after year.",
-    longBio:
-      "Devon started Medicare Saving Solutions with the goal of helping people avoid overpaying for Medicare Supplement or Medicare Advantage coverage when more suitable options may be available. He believes in straightforward education, clear explanations, and ongoing service so clients feel supported beyond the initial enrollment decision.",
+      "Scott Lewis is a licensed insurance agent local to Bend, helping Central Oregon residents understand and compare their Medicare options with no-cost, no-pressure guidance.",
     specialties: [
       "Medicare Advantage",
       "Medicare Supplement (Medigap)",
@@ -40,31 +39,9 @@ export const teamMembers: TeamMember[] = [
     ],
     phone: siteConfig.phone,
     email: siteConfig.email,
-    image: "/team/devon-west.jpg",
     active: true,
     reviewable: true,
     sortOrder: 1,
-  },
-  {
-    name: "Denise Chan",
-    title: "Co-Owner & Licensed Insurance Agent",
-    shortBio:
-      "Denise Chan is a dedicated insurance agent focused on Medicare health insurance. Her background in customer service helps her guide clients with patience, care, and attention to detail.",
-    longBio:
-      "Before focusing on Medicare insurance, Denise developed strong customer service skills through 12 years of experience at Bank of America. She is known for her commitment to client support and for helping people feel cared for throughout the Medicare decision process. Denise enjoys family life with Devon, their children, and their two huskies.",
-    specialties: [
-      "Medicare Advantage",
-      "Medicare Supplement (Medigap)",
-      "Medicare Part D",
-      "Client Support",
-      "Plan Reviews",
-    ],
-    phone: siteConfig.phone,
-    email: siteConfig.email,
-    image: "/team/denise-chan.jpg",
-    active: true,
-    reviewable: true,
-    sortOrder: 2,
   },
 ];
 
@@ -136,7 +113,7 @@ export function getActiveLicensedTeamMembers(): TeamMember[] {
     });
 }
 
-const homepageTeamPreviewEndNames = ["Devon West", "Denise Chan"] as const;
+const homepageTeamPreviewEndNames = ["Scott Lewis"] as const;
 const homepageTeamPreviewEndNameSet = new Set<string>(homepageTeamPreviewEndNames);
 
 export function getHomepageTeamPreviewMembers(): TeamMember[] {
