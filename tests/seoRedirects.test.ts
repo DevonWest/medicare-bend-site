@@ -183,6 +183,14 @@ test("sitemap includes canonical Bend routes and excludes removed/legacy routes"
   assert.ok(sitemapUrls.has(`${siteConfig.url}/rx-drug-review`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/turning-65-medicare-bend`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-plan-review-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/central-oregon-medicare-provider-networks`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/st-charles-medicare-plans-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/summit-health-medicare-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-advantage-vs-supplement-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/moving-to-bend-medicare`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/health-insurance-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/oregon-health-insurance-changes-2027`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/editorial-standards`));
 
   // Redirect-only or non-canonical routes must not appear.
   assert.equal(sitemapUrls.has(`${siteConfig.url}/about`), false);
@@ -191,12 +199,13 @@ test("sitemap includes canonical Bend routes and excludes removed/legacy routes"
   assert.equal(sitemapUrls.has(`${siteConfig.url}/request-contact`), false);
   assert.equal(sitemapUrls.has(`${siteConfig.url}/request-a-quote`), false);
   assert.equal(sitemapUrls.has(`${siteConfig.url}/rx-drug-lookup`), false);
+  assert.equal(sitemapUrls.has(`${siteConfig.url}/testimonials`), false);
 
-  // No Spokane, directory, ZIP, or health-insurance routes may remain.
+  // No Spokane, directory, or thin ZIP routes may remain.
   const urls = Array.from(sitemapUrls);
   assert.equal(urls.some((url) => url.includes("spokane")), false);
   assert.equal(urls.some((url) => url.includes("/directory/")), false);
   assert.equal(urls.some((url) => url.includes("/zip/")), false);
-  assert.equal(urls.some((url) => url.includes("health-insurance")), false);
+  assert.equal(urls.filter((url) => url.includes("health-insurance")).length, 2);
   assert.equal(urls.some((url) => url.toLowerCase().includes("washington")), false);
 });

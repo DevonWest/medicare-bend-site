@@ -5,7 +5,7 @@ import { siteConfig, telHref } from "@/lib/site";
 const serviceBullets = [
   "Help by phone, online, or by appointment",
   "Serving all of Central Oregon",
-  "Licensed local insurance agents",
+  "Licensed local insurance agent",
   "No-cost Medicare consultations",
 ];
 
@@ -25,7 +25,7 @@ export default function OfficeLocationTrust() {
               <div className="space-y-4 text-base leading-relaxed text-gray-700 md:text-lg">
                 <p>
                   {siteConfig.serviceAreaStatement} Whether you prefer to talk by phone, meet
-                  online, or set up an appointment, our team is here to guide you through your
+                  online, or set up an appointment, Scott is here to guide you through your
                   Medicare options with clarity and confidence.
                 </p>
               </div>

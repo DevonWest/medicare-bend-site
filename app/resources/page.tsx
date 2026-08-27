@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "Browse Bend and Central Oregon Medicare guides for turning 65, comparing options, reviewing prescriptions, and finding trusted Medicare and government resources.",
   alternates: { canonical: `${siteConfig.url}/resources` },
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Medicare Resource Library for Central Oregon",
     description:
       "Browse Central Oregon Medicare guides for turning 65, comparing options, reviewing prescriptions, and trusted Medicare and government resources.",
@@ -28,6 +29,28 @@ interface ResourceLink {
 }
 
 const resourceSections: Array<{ title: string; intro: string; items: ResourceLink[] }> = [
+  {
+    title: "Central Oregon Provider & Plan Guides",
+    intro:
+      "Use current provider and government sources to check local networks before choosing coverage.",
+    items: [
+      {
+        href: "/central-oregon-medicare-provider-networks",
+        title: "Central Oregon Medicare Provider Networks",
+        body: "Verify St. Charles, Summit Health, individual clinicians, and exact Medicare Advantage plans without confusing acceptance, availability, and network status.",
+      },
+      {
+        href: "/st-charles-medicare-plans-bend",
+        title: "St. Charles and Medicare Plans",
+        body: "Review what St. Charles currently confirms for Medicare and 2026 Medicare Advantage participation, plus what still requires verification.",
+      },
+      {
+        href: "/summit-health-medicare-bend",
+        title: "Summit Health and Medicare",
+        body: "Understand Summit Health's published Medicare statement and how to verify an exact plan, clinic, and clinician.",
+      },
+    ],
+  },
   {
     title: "Getting Started with Medicare",
     intro:
@@ -46,10 +69,38 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
         ctaLabel: "Read More",
       },
       {
+        href: "/medicare-advantage-vs-supplement-bend",
+        title: "Medicare Advantage vs. Supplement in Bend",
+        body: "Compare provider access, prescriptions, costs, travel, and enrollment timing for two common coverage paths.",
+        ctaLabel: "Compare",
+      },
+      {
+        href: "/moving-to-bend-medicare",
+        title: "Moving to Bend with Medicare",
+        body: "Use a move checklist for address changes, county plan availability, provider networks, prescriptions, and Special Enrollment Period timing.",
+      },
+      {
         href: "/medicare-appointment-checklist",
         title: "What to Bring to Your Medicare Appointment",
         body: "Use this simple checklist to organize prescriptions, doctors, pharmacies, and questions before your visit.",
         ctaLabel: "Read More",
+      },
+    ],
+  },
+  {
+    title: "Individual Health Insurance",
+    intro:
+      "Information for Central Oregon residents who buy coverage outside an employer or Medicare.",
+    items: [
+      {
+        href: "/oregon-health-insurance-changes-2027",
+        title: "2027 Oregon Health Insurance Changes",
+        body: "See final rate changes, Central Oregon county carrier choices, individual-market exits, and Oregon's new Marketplace transition.",
+      },
+      {
+        href: "/health-insurance-bend",
+        title: "Individual Health Insurance in Bend",
+        body: "Compare provider networks, prescriptions, total costs, Marketplace savings, and enrollment timing.",
       },
     ],
   },
@@ -121,8 +172,8 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
       },
       {
         href: "/carriers",
-        title: "Carriers We Represent",
-        body: "See the carriers we currently work with for Medicare Advantage, Medicare Supplement, and Part D coverage in Central Oregon.",
+        title: "Carrier & Plan Availability",
+        body: "Learn how current carrier appointments, local plan availability, provider networks, and product details are verified.",
       },
     ],
   },
@@ -136,7 +187,7 @@ const officialResources: ResourceLink[] = [
     external: true,
   },
   {
-    href: "https://healthcare.oregon.gov/shiba/Pages/index.aspx",
+    href: "https://shiba.oregon.gov/",
     title: "Oregon SHIBA (SHIP)",
     body: "Oregon's Senior Health Insurance Benefits Assistance program — free Medicare counseling through the state's SHIP program.",
     external: true,

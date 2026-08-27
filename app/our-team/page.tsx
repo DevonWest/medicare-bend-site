@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import TeamSection from "@/components/TeamSection";
 import { siteConfig } from "@/lib/site";
 import { getPublicTeamMembers } from "@/lib/team";
 
 export const metadata: Metadata = {
-  title: "Meet Our Bend Medicare Team | Health Insurance Options",
+  title: "Meet Scott Lewis, Bend Medicare Agent",
   description:
-    "Meet the local licensed insurance professionals at Health Insurance Options LLC who help Central Oregon residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.",
+    "Meet Scott Lewis, a licensed insurance agent local to Bend who helps Central Oregon residents compare Medicare coverage options.",
   alternates: { canonical: `${siteConfig.url}/our-team` },
   openGraph: {
-    title: "Meet Our Bend Medicare Team | Health Insurance Options",
+    images: ["/opengraph-image"],
+    title: "Meet Scott Lewis, Bend Medicare Agent",
     description:
-      "Meet the local licensed insurance professionals at Health Insurance Options LLC who help Central Oregon residents compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options.",
+      "Meet Scott Lewis, a licensed insurance agent local to Bend who helps Central Oregon residents compare Medicare coverage options.",
     url: `${siteConfig.url}/our-team`,
   },
 };
@@ -31,7 +33,7 @@ const teamSchema = {
       name: member.name,
       jobTitle: member.title,
       worksFor: {
-        "@type": "InsuranceAgency",
+        "@type": "Organization",
         name: siteConfig.legalName,
         url: siteConfig.url,
       },
@@ -48,14 +50,11 @@ export default function OurTeamPage() {
   return (
     <>
       {/* Person schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(teamSchema) }}
-      />
+      <JsonLd data={teamSchema} />
 
       <PageHero
-        title="Meet Your Local Medicare Team in Bend"
-        subtitle="Licensed insurance professionals helping Central Oregon residents compare Medicare options — at no cost."
+        title="Meet Scott Lewis, Your Local Bend Agent"
+        subtitle="A licensed insurance agent local to Bend, helping Central Oregon residents compare Medicare options at no cost."
         crumbs={[{ href: "/", label: "Home" }, { label: "Our Team" }]}
       />
 
@@ -63,17 +62,16 @@ export default function OurTeamPage() {
       <section className="py-14 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            {siteConfig.legalName} is a locally owned, licensed independent insurance agency serving
-            Bend and Central Oregon. Our team of licensed insurance professionals is dedicated to
-            helping Central Oregon residents understand and compare Medicare options — including
+            {siteConfig.legalName} is a licensed independent insurance agency serving Bend and Central
+            Oregon. Scott Lewis is local to Bend and helps Central Oregon residents understand and
+            compare Medicare options — including
             Medicare Advantage, Medicare Supplement, Medicare Part D, and supplemental insurance —
             with friendly, no-pressure guidance.
           </p>
           <p>
-            {siteConfig.serviceAreaStatement} When you reach out, you are talking to someone who
-            knows the local healthcare landscape, the area&apos;s carrier networks, and what matters
-            most to people here. We offer no-cost consultations and stay available year-round — not
-            just during enrollment season.
+            {siteConfig.serviceAreaStatement} Scott can help you verify local provider and pharmacy
+            details against the plans the agency represents. Consultations are offered at no cost,
+            and the agency remains available outside enrollment season.
           </p>
           <p>
             Whether you are turning 65, retiring, moving off an employer plan, or simply reviewing
@@ -86,10 +84,9 @@ export default function OurTeamPage() {
       {/* Team grid */}
       <section className="py-14 px-4 bg-gray-50 border-t border-gray-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-3">Our Team</h2>
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-3">Your Local Agent</h2>
           <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
-            Our team includes licensed insurance agents ready to help you compare Medicare options
-            across Bend and Central Oregon.
+            Scott provides licensed insurance guidance for residents across Bend and Central Oregon.
           </p>
           <TeamSection members={members} showContactCTA />
         </div>
@@ -106,7 +103,7 @@ export default function OurTeamPage() {
               {
                 title: "We know your area's plans",
                 body:
-                  "Plan availability, networks, and benefits vary by county. Our team works specifically in Bend and Central Oregon, so we know which plans are available here and how they compare.",
+                  "Plan availability, networks, and benefits vary by county. Scott can help check current options at your address and compare the plans the agency represents.",
               },
               {
                 title: "Your doctors and pharmacies matter",
@@ -121,7 +118,7 @@ export default function OurTeamPage() {
               {
                 title: "Available year-round",
                 body:
-                  "Medicare questions don't only come up in October. Our team is available Monday through Friday, year-round, for plan changes, billing questions, and Annual Enrollment reviews.",
+                  "Medicare questions don't only come up in October. The agency is available Monday through Friday for plan-service questions and Annual Enrollment reviews.",
               },
               {
                 title: "No-cost, no-obligation",
@@ -155,8 +152,8 @@ export default function OurTeamPage() {
 
       {/* Bottom CTA */}
       <CTASection
-        heading="Ready to Talk With Our Team?"
-        subheading="No cost, no pressure — just straightforward Medicare guidance from local Central Oregon professionals."
+        heading="Ready to Talk With Scott?"
+        subheading="No cost, no pressure — straightforward Medicare guidance from a licensed agent local to Bend."
       />
     </>
   );

@@ -7,11 +7,12 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Supplemental Insurance in Bend (Dental, Vision, Hospital Indemnity)",
+  title: "Supplemental Insurance in Bend, Oregon",
   description:
-    "Explore supplemental insurance options in Bend and across Central Oregon — dental, vision, and hospital indemnity coverage that can complement your Medicare plan. No-cost help comparing options.",
+    "Review dental, vision, and hospital indemnity coverage in Bend, including benefits, exclusions, waiting periods, networks, and total costs.",
   alternates: { canonical: `${siteConfig.url}/supplemental-insurance` },
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Supplemental Insurance in Bend, Oregon",
     description:
       "Dental, vision, and hospital indemnity coverage that can complement your Medicare plan.",

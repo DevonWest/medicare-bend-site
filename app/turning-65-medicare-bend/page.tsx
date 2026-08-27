@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
@@ -9,12 +10,13 @@ import { siteConfig, telHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Turning 65 Medicare Help in Bend, Oregon",
   description:
-    "Turning 65 in Bend? Get local help understanding Medicare enrollment, Medicare Advantage, Medicare Supplement, and Part D options from a licensed insurance agent serving Central Oregon.",
+    "Turning 65 in Bend? Review Medicare enrollment timing, employer coverage, Medicare Advantage, Medicare Supplement, and Part D options.",
   alternates: { canonical: `${siteConfig.url}/turning-65-medicare-bend` },
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Turning 65 Medicare Help in Bend, Oregon",
     description:
-      "Turning 65 in Bend? Get local help understanding Medicare enrollment, Medicare Advantage, Medicare Supplement, and Part D options from a licensed insurance agent serving Central Oregon.",
+      "Turning 65 in Bend? Review Medicare enrollment timing, employer coverage, Medicare Advantage, Medicare Supplement, and Part D options.",
     url: `${siteConfig.url}/turning-65-medicare-bend`,
   },
 };
@@ -99,6 +101,7 @@ const internalLinks = [
 export default function TurningSixtyFivePage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Turning 65" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 landscape-mobile:py-5 text-white">
         <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 landscape-mobile:mb-2 text-sm text-blue-200">
@@ -120,7 +123,7 @@ export default function TurningSixtyFivePage() {
               Turning 65 in Bend? Get Help Understanding Medicare
             </h1>
             <p className="max-w-3xl text-xl landscape-mobile:text-base text-blue-100">
-              Medicare can feel overwhelming at first. Our local licensed agents help Central Oregon residents
+              Medicare can feel overwhelming at first. A local licensed agent helps Central Oregon residents
               understand enrollment timing, compare options from the plans we represent, and avoid common mistakes.
             </p>
             <div className="mt-8 landscape-mobile:mt-4 flex flex-col gap-4 landscape-mobile:gap-3 sm:flex-row landscape-mobile:flex-row">

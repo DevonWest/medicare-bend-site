@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
 import PageHero from "@/components/PageHero";
-import { carriers } from "@/lib/carriers";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Carriers We Represent in Bend & Central Oregon",
+  title: "Medicare Carrier and Plan Availability in Bend",
   description:
-    "Health Insurance Options LLC represents Medicare Advantage, Medicare Supplement, Part D, dental, and vision carriers serving Bend and Central Oregon.",
+    "Learn how Medicare carrier, plan, county, and provider availability are verified for Bend and Central Oregon before you compare coverage.",
   alternates: { canonical: `${siteConfig.url}/carriers` },
   openGraph: {
-    title: "Medicare Carriers We Represent in Bend & Central Oregon",
+    images: ["/opengraph-image"],
+    title: "Medicare Carrier and Plan Availability in Bend",
     description:
-      "The carriers we currently represent for Medicare Advantage, Medicare Supplement, Part D, and supplemental coverage in Central Oregon.",
+      "How to verify current Medicare carrier, plan, county, and provider availability in Central Oregon.",
     url: `${siteConfig.url}/carriers`,
   },
 };
@@ -23,47 +24,51 @@ export default function CarriersPage() {
   return (
     <>
       <PageHero
-        title="Carriers We Represent"
-        subtitle="The insurance organizations we currently work with for Medicare Advantage, Medicare Supplement, Part D, dental, vision, and other supplemental coverage in Bend and Central Oregon."
+        title="Medicare Carrier & Plan Availability"
+        subtitle="Carrier appointments, county availability, exact products, and provider networks are separate facts. We verify the current details before comparing coverage."
         crumbs={[{ href: "/", label: "Home" }, { label: "Carriers" }]}
         illustration={<FriendlyIllustration name="compareOptions" />}
       />
 
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 text-sm text-amber-900 leading-relaxed mb-8">
-            <p className="font-semibold mb-1">A note on availability</p>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 text-base text-amber-900 leading-relaxed mb-8">
+            <p className="font-semibold mb-1">Why there is no static carrier logo wall</p>
             <p>
-              Carrier and plan availability may vary by county, product type, and enrollment
-              period. The list below reflects the organizations we currently represent — not every
-              plan from every carrier will be available to every Central Oregon resident. A licensed
-              insurance professional can confirm what is available at your address and during the
-              current enrollment period.
+              Carrier appointments and product availability can change by year, county, product,
+              and enrollment period. A stale list can imply choices that are not available at your
+              address, so this page does not publish a carrier as represented until its current
+              Bend/Oregon details are verified for public display.
             </p>
           </div>
 
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {carriers.map((c) => (
-              <li
-                key={c.name}
-                className="bg-gray-50 border border-gray-200 rounded-xl p-5 hover:border-blue-300 transition-colors"
-              >
-                <h2 className="text-lg font-semibold text-gray-900 mb-2">{c.name}</h2>
-                <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">Offers</p>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  {c.productTypes.join(" · ")}
-                </p>
+          <h2 className="text-3xl font-bold text-gray-900">What we confirm for your comparison</h2>
+          <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {[
+              "The plans the agency is authorized to represent",
+              "Availability at your exact address and for the current plan year",
+              "Your doctors, hospitals, and pharmacies in the exact plan directory",
+              "Your prescriptions, tiers, utilization rules, and expected costs",
+            ].map((item) => (
+              <li key={item} className="rounded-xl border border-gray-200 bg-gray-50 p-5 text-gray-800">
+                <span className="mr-2 font-bold text-blue-700" aria-hidden="true">✓</span>{item}
               </li>
             ))}
           </ul>
 
           <p className="mt-8 text-sm text-gray-600 leading-relaxed">
-            Carrier names and product lines are subject to change. For the most current information
-            on what is available in your ZIP code, please call us at{" "}
+            For the most current information on the plans the agency represents at your address,
+            call{" "}
             <a href={telHref} className="text-blue-700 underline">
               {siteConfig.phone}
             </a>
             .
+          </p>
+          <p className="mt-4 text-sm text-gray-600">
+            Looking for hospital and clinic participation? Use the{" "}
+            <Link href="/central-oregon-medicare-provider-networks" className="text-blue-700 underline">
+              Central Oregon provider-network guide
+            </Link>. Provider participation does not prove agency representation.
           </p>
         </div>
       </section>
@@ -75,8 +80,8 @@ export default function CarriersPage() {
       </section>
 
       <CTASection
-        heading="Want Help Reviewing Carrier Options?"
-        subheading="A licensed insurance professional can help you compare the carriers and plans we represent."
+        heading="Want Help Reviewing Current Options?"
+        subheading="A licensed insurance agent can confirm and compare the plans the agency represents in your area."
       />
     </>
   );

@@ -6,10 +6,9 @@
  * marketing rules allow for a licensed independent insurance agency that does
  * not represent every plan in the area.
  *
- * TODO(bend-contact): confirm the final Bend phone number, email address, and
- * whether a physical Bend office address exists. Until then, contact details
- * are placeholders and MUST be verified before any deployment. Keep contact
- * values centralized here — do not hard-code them across pages/components.
+ * The public phone and email are centralized here. No physical office is
+ * claimed; structured data and copy must preserve the service-area posture
+ * unless a verified public street address is added later.
  */
 export const siteConfig = {
   /** Public-facing brand / site name. */
@@ -24,11 +23,10 @@ export const siteConfig = {
   positioning: "Guiding You Through the Confusion of Medicare.",
   tagline: "Local Central Oregon Medicare Help",
   description:
-    "Health Insurance Options LLC is a licensed independent insurance agency serving Bend and Central Oregon, helping local Medicare beneficiaries compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options. No-cost consultations with a licensed insurance professional.",
+    "Independent Medicare guidance for Bend and Central Oregon. Compare plans we represent with a licensed local agent in a no-cost consultation.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.medicareinbend.com",
   // Direct line for the site's licensed Bend agent, Scott Lewis.
   phone: "(949) 426-0372",
-  // TODO(bend-contact): confirm this matches the canonical domain mailbox.
   email: "info@medicareinbend.com",
   hours: "Mon – Fri, 9:00 AM – 5:00 PM Pacific",
   // No physical Bend office is claimed yet. We describe the service area

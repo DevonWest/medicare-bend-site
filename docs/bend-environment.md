@@ -3,15 +3,13 @@
 Canonical reference for environment variables, CRM/lead configuration, Firestore,
 and the manual smoke tests for **medicareinbend.com**.
 
-> **Nothing is deployed yet, but the workflow is Bend-ready.** The GitHub Actions
-> workflow (`.github/workflows/deploy.yml`) is now fully migrated to the Bend
+> **Production is live and the workflow is Bend-ready.** The GitHub Actions
+> workflow (`.github/workflows/deploy.yml`) is migrated to the Bend
 > project (`medicare-bend-site` / `medicare-bend-site-beta`, `us-west1`) with a
 > guard that refuses to deploy anything referencing the prior (non-Bend) project.
-> Deployment stays OFF until the owner completes the Google Cloud setup, sets the
-> GitHub Variables/Secrets, and either sets the repo Variable `DEPLOY_ENABLED=true`
+> Automatic beta deployment stays off unless the owner sets the repo Variable `DEPLOY_ENABLED=true`
 > (push-to-main deploys **beta** only) or runs a manual `workflow_dispatch`
-> (the only way to deploy **production**). No Google Cloud resources are created
-> and no DNS is connected by this repo — see
+> (the only way to deploy **production**). Cloud resources and DNS are managed outside this repo — see
 > [`deploy-beta-checklist.md`](deploy-beta-checklist.md) for the click-by-click runbook.
 
 ---
@@ -143,7 +141,7 @@ Special cases:
 
 ---
 
-## 5. Planned Google Cloud resources (not created yet)
+## 5. Google Cloud resource reference
 
 | Resource | Value |
 |---|---|
@@ -170,9 +168,9 @@ either sets `DEPLOY_ENABLED=true` (push-to-main beta) or runs a manual dispatch
 (production). A guard step fails the deploy if any resolved target still references
 the prior (non-Bend) project/service.
 
-### 5a. DNS / domain mapping (planned — do not connect yet)
+### 5a. DNS / domain mapping reference
 
-Documented for reference only; no DNS is connected by this repo. Cloud Run custom
+DNS is managed outside this repo. Cloud Run custom
 domain mappings issue their own certs, so records point at Google's frontend:
 
 | Host | Record | Value | Target service |
@@ -208,8 +206,8 @@ leads with the owner's approval. After a beta/prod deploy:
      with a CRM configuration-issue log. The website lead still succeeds.
 6. Confirm `/sitemap.xml` uses `https://www.medicareinbend.com` and `/robots.txt`
    references the Bend sitemap; on beta, confirm `Disallow: /`. The sitemap must
-   contain no `/zip`, `/directory`, health-insurance, or prior-project (non-Bend)
-   URLs — only `medicareinbend.com`.
+   contain no `/zip`, `/directory`, or prior-project (non-Bend) URLs — only
+   approved public routes on `medicareinbend.com`.
 7. On production, confirm the apex `medicareinbend.com` 301-redirects to
    `https://www.medicareinbend.com` with no `:8080` in the redirect `Location`.
 
@@ -224,7 +222,7 @@ leads with the owner's approval. After a beta/prod deploy:
 
 ## 7. Open TODOs (need real values from the owner)
 
-- **Bend phone** — placeholder `541-555-0100` in `lib/site.ts` (`TODO(bend-contact)`).
+- **Bend phone** — `(949) 426-0372`, currently identified in `lib/site.ts` as Scott Lewis's direct line; owner should reconfirm it during release review.
 - **Bend email** — `info@medicareinbend.com` (confirm).
 - **Physical office vs. appointment-only** — currently "by phone, online, and by
   appointment" (no street address claimed).
@@ -233,7 +231,7 @@ leads with the owner's approval. After a beta/prod deploy:
   disabled; all ratings are collected internally).
 - **Bend/Oregon carrier representation count** — the CMS disclaimer stays generic
   until confirmed; do not add a specific organization/product count.
-- **Final Bend team roster** — currently Devon West and Denise Chan only.
+- **Final Bend team roster** — currently Scott Lewis only; add people only after their public details are verified.
 - **CRM-side registration** of the `medicare-in-bend-contact` public form slug.
 - **Google Cloud / Cloud Run / DNS setup** — owner-run setup, not done from this
   repo (see [`deploy-beta-checklist.md`](deploy-beta-checklist.md)).

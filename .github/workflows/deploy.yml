@@ -97,8 +97,12 @@ jobs:
             || { echo "::error::sitemap does not use https://www.medicareinbend.com"; exit 1; }
           grep -q "/medicare-bend</loc>" "$SITEMAP" \
             || { echo "::error::sitemap is missing the /medicare-bend local page"; exit 1; }
-          if grep -qiE "medicareinspokane|spokane|/zip/|/directory/|health-insurance" "$SITEMAP"; then
-            echo "::error::sitemap contains a forbidden Spokane/ZIP/directory/health-insurance URL"; exit 1
+          grep -q "/central-oregon-medicare-provider-networks</loc>" "$SITEMAP" \
+            || { echo "::error::sitemap is missing the provider-network guide"; exit 1; }
+          grep -q "/health-insurance-bend</loc>" "$SITEMAP" \
+            || { echo "::error::sitemap is missing the Bend health-insurance guide"; exit 1; }
+          if grep -qiE "medicareinspokane|spokane|/zip/|/directory/" "$SITEMAP"; then
+            echo "::error::sitemap contains a forbidden Spokane/ZIP/directory URL"; exit 1
           fi
           test -f app/healthz/route.ts || { echo "::error::/healthz route is missing"; exit 1; }
           echo "Sanity checks passed: sitemap is Bend-only and /healthz exists."

@@ -384,7 +384,7 @@ When it shows **OK**, `https://beta.medicareinbend.com` will serve the placehold
 > You can also trigger a beta deploy by pushing to `main` **once `DEPLOY_ENABLED=true`** is set (§1a). A push to `main` only ever deploys **beta** — production is never deployed by a push.
 
 What happens:
-- The `ci` job runs `npm ci`, then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and a **sitemap sanity check** that greps the built sitemap for `medicareinbend.com`, fails on any forbidden URL (a prior-project domain, `/zip`, `/directory`, or health-insurance route), and confirms the `/healthz` route exists. All must pass.
+- The `ci` job runs `npm ci`, then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and a **sitemap sanity check** that greps the built sitemap for `medicareinbend.com`, fails on any prior-project, `/zip`, or `/directory` URL, confirms the approved health-insurance and provider guides, and confirms the `/healthz` route exists. All must pass.
 - The `deploy` job authenticates to GCP, then a guard step fails the deploy if any resolved target (project, services, service accounts) still references the prior (non-Bend) project. It then builds a Docker image with build-args
   - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`
   - `NEXT_PUBLIC_SITE_ENV=beta`
@@ -434,7 +434,7 @@ Only run this if the owner has approved submitting a test lead. If approved:
 ### 8d-2. Local pages and beta sitemap/robots
 - [ ] `https://beta.medicareinbend.com/medicare-bend` loads and renders correctly.
 - [ ] `https://beta.medicareinbend.com/medicare-redmond` loads and renders correctly.
-- [ ] The beta **sitemap and robots behave as configured for a non-production env**: `robots.txt` serves `Disallow: /` (beta is never indexed), and `/sitemap.xml` uses the configured site URL and contains no `/zip`, `/directory`, health-insurance, or prior-project (non-Bend) URLs.
+- [ ] The beta **sitemap and robots behave as configured for a non-production env**: `robots.txt` serves `Disallow: /` (beta is never indexed), and `/sitemap.xml` uses the configured site URL and contains approved health-insurance/provider guides but no `/zip`, `/directory`, or prior-project URLs.
 
 ### 8e. GTM tagging (only if you set `NEXT_PUBLIC_GTM_ID`)
 - [ ] In Google Tag Manager, open **Preview** for `GTM-XXXXXXX`, point it at `https://beta.medicareinbend.com`.
@@ -477,7 +477,7 @@ The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com`,
 - [ ] `https://www.medicareinbend.com/healthz` → `200`.
 - [ ] `https://medicareinbend.com` (apex, no `www`) **301-redirects to `https://www.medicareinbend.com`** — and the `Location` header has **no `:8080`** in it (the app's proxy handles the redirect on the standard port).
 - [ ] `https://www.medicareinbend.com/robots.txt` → **does NOT** contain `Disallow: /` (it should be the production robots policy, allowing crawlers on real pages) and it **references the Bend sitemap** (`https://www.medicareinbend.com/sitemap.xml`).
-- [ ] `https://www.medicareinbend.com/sitemap.xml` uses `https://www.medicareinbend.com` throughout and contains **no `/zip`, no `/directory`, no health-insurance routes, and no prior-project (non-Bend) domains** — only `medicareinbend.com`.
+- [ ] `https://www.medicareinbend.com/sitemap.xml` uses `https://www.medicareinbend.com` throughout, contains the approved health-insurance and provider guides, and contains **no `/zip`, no `/directory`, and no prior-project domains**.
 - [ ] View source on a page → **no** `noindex` meta tag.
 - [ ] Security headers present (same `curl` as §8c).
 - [ ] **Production lead test (submit ONE test lead, only if approved):** it appears in Firestore `website_leads`, and `generate_lead` fires in real GTM with `site_env: "production"`. Check `crmSyncStatus`:

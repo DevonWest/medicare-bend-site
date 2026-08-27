@@ -10,9 +10,10 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Medicare Advantage Plans in Bend, OR",
   description:
-    "Compare Medicare Advantage (Part C) plans in Bend with a licensed independent insurance agency. We help you review network, drug, and benefit differences across the carriers we represent.",
+    "Compare Medicare Advantage plans in Bend by reviewing provider networks, prescriptions, benefits, and total costs with a licensed local agent.",
   alternates: { canonical: `${siteConfig.url}/medicare-advantage` },
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Medicare Advantage Plans in Bend, OR",
     description:
       "Compare Medicare Advantage (Part C) options with a licensed independent insurance agency serving Bend and Central Oregon.",

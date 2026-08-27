@@ -1,13 +1,13 @@
 import { siteConfig } from "@/lib/site";
 import { centralOregonCities } from "@/lib/cities";
+import JsonLd from "@/components/JsonLd";
 
-export default function LocalBusinessSchema() {
+export default function OrganizationSchema() {
   const sameAs: string[] = [];
   if (siteConfig.social.facebook) sameAs.push(siteConfig.social.facebook);
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": ["InsuranceAgency", "LocalBusiness"],
+  const organization = {
+    "@type": "Organization",
     "@id": `${siteConfig.url}#organization`,
     name: siteConfig.legalName,
     alternateName: [siteConfig.name, siteConfig.shortName],
@@ -17,18 +17,14 @@ export default function LocalBusinessSchema() {
     url: siteConfig.url,
     telephone: siteConfig.phone,
     email: siteConfig.email,
-    priceRange: "Free consultation",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: siteConfig.address.addressLocality,
-      addressRegion: siteConfig.address.addressRegion,
-      addressCountry: siteConfig.address.addressCountry,
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      // Approximate coordinates for Bend, OR.
-      latitude: 44.0582,
-      longitude: -121.3153,
+    logo: `${siteConfig.url}/brand/hio-logo.png`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: siteConfig.phone,
+      email: siteConfig.email,
+      contactType: "customer service",
+      areaServed: "US-OR",
+      availableLanguage: "English",
     },
     areaServed: [
       ...centralOregonCities.map((city) => ({
@@ -44,14 +40,6 @@ export default function LocalBusinessSchema() {
       { "@type": "AdministrativeArea", name: "Jefferson County, Oregon" },
       { "@type": "AdministrativeArea", name: "Central Oregon" },
     ],
-    serviceType: [
-      "Medicare Advantage",
-      "Medicare Supplement",
-      "Medicare Part D",
-      "Supplemental Insurance",
-      "Medicare Enrollment Assistance",
-      "Prescription Drug Plan Review",
-    ],
     knowsAbout: [
       "Medicare",
       "Medicare Advantage (Part C)",
@@ -62,20 +50,25 @@ export default function LocalBusinessSchema() {
       "Medicare Annual Enrollment Period",
       "Turning 65 and Medicare",
     ],
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "17:00",
-    },
-    sameAs,
-    disclaimer: siteConfig.disclaimer,
+    ...(sameAs.length ? { sameAs } : {}),
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      organization,
+      {
+        "@type": "WebSite",
+        "@id": `${siteConfig.url}#website`,
+        url: siteConfig.url,
+        name: siteConfig.name,
+        description: siteConfig.description,
+        publisher: { "@id": `${siteConfig.url}#organization` },
+        inLanguage: "en-US",
+      },
+    ],
+  };
+
+  return <JsonLd data={schema} />;
 }
+

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
@@ -9,12 +10,13 @@ import { siteConfig, telHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Annual Medicare Plan Review in Bend, Oregon",
   description:
-    "Review your Medicare plan in Bend with help from a local licensed insurance agent serving Central Oregon. Check prescriptions, doctors, pharmacies, premiums, copays, and plan options.",
+    "Review your Medicare plan in Bend by checking prescriptions, doctors, pharmacies, premiums, copays, benefits, and next-year changes.",
   alternates: { canonical: `${siteConfig.url}/medicare-plan-review-bend` },
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Annual Medicare Plan Review in Bend | Medicare in Bend",
     description:
-      "Review your Medicare plan in Bend with help from a local licensed insurance agent serving Central Oregon. Check prescriptions, doctors, pharmacies, premiums, copays, and plan options.",
+      "Review your Medicare plan in Bend by checking prescriptions, doctors, pharmacies, premiums, copays, benefits, and next-year changes.",
     url: `${siteConfig.url}/medicare-plan-review-bend`,
   },
 };
@@ -124,6 +126,7 @@ const internalLinks = [
 export default function MedicarePlanReviewBendPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Annual Plan Review" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
@@ -138,7 +141,7 @@ export default function MedicarePlanReviewBendPage() {
               Annual Medicare Plan Review in Bend
             </h1>
             <p className="mt-4 text-xl leading-relaxed text-blue-100">
-              Medicare plans can change from year to year. Our local licensed agents can help you review your current
+              Medicare plans can change from year to year. A local licensed agent can help you review your current
               coverage, prescriptions, doctors, pharmacies, and options from the plans we represent.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">

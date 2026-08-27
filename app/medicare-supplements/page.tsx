@@ -8,12 +8,13 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Supplement (Medigap) Plans in Bend, OR",
+  title: "Medicare Supplement Plans in Bend, Oregon",
   description:
-    "Compare standardized Medicare Supplement (Medigap) options in Bend and Central Oregon. These plans work alongside Original Medicare to help with deductibles, coinsurance, and other out-of-pocket costs.",
+    "Compare standardized Medicare Supplement options in Bend, including benefits, premiums, enrollment timing, provider access, and Part D needs.",
   alternates: { canonical: `${siteConfig.url}/medicare-supplements` },
   openGraph: {
-    title: "Medicare Supplement (Medigap) Plans in Bend, OR",
+    images: ["/opengraph-image"],
+    title: "Medicare Supplement Plans in Bend, Oregon",
     description:
       "Compare Medicare Supplement options with a licensed independent insurance agency serving Bend and Central Oregon.",
     url: `${siteConfig.url}/medicare-supplements`,

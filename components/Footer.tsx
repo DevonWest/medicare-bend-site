@@ -11,6 +11,7 @@ const helpLinks: Array<{ href: string; label: string }> = [
   { href: "/carriers", label: "Carriers" },
   { href: "/medicare-faq", label: "Medicare FAQ" },
   { href: "/medicare-enrollment-resources", label: "Enrollment Resources" },
+  { href: "/health-insurance-bend", label: "Individual Health Insurance" },
 ];
 
 const resourceLinks: Array<{ href: string; label: string }> = [
@@ -22,7 +23,8 @@ const resourceLinks: Array<{ href: string; label: string }> = [
   { href: "/medicare-plan-review-bend", label: "Annual Medicare Plan Review" },
   { href: "/helping-parent-with-medicare", label: "Helping a Parent with Medicare" },
   { href: "/working-past-65-medicare", label: "Working Past 65 & Medicare" },
-  { href: "/medicare-part-d", label: "Medicare Part D" },
+  { href: "/central-oregon-medicare-provider-networks", label: "Provider Network Guide" },
+  { href: "/oregon-health-insurance-changes-2027", label: "2027 Oregon Health Changes" },
 ];
 
 const aboutLinks: Array<{ href: string; label: string }> = [
@@ -30,7 +32,7 @@ const aboutLinks: Array<{ href: string; label: string }> = [
   { href: "/testimonials", label: "Testimonials" },
   { href: "/review", label: "Review Us" },
   { href: "/contact", label: "Contact" },
-  { href: "/contact", label: "Request a Call" },
+  { href: "/editorial-standards", label: "Editorial Standards" },
 ];
 
 export default function Footer() {

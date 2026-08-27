@@ -56,6 +56,8 @@ test("common Bend page sources are allowlisted", () => {
     "about",
     "request-contact",
     "medicare-faq",
+    "health-insurance-bend",
+    "oregon-health-insurance-changes-2027",
     "review-feedback",
     "unknown",
   ];
@@ -65,11 +67,11 @@ test("common Bend page sources are allowlisted", () => {
   }
 });
 
-test("no Spokane, Washington, or health-insurance lead sources remain", () => {
+test("no Spokane or Washington lead sources remain", () => {
   for (const source of allowlist) {
     assert.doesNotMatch(
       source,
-      /spokane|washington|health-insurance/i,
+      /spokane|washington/i,
       `unexpected lead source: "${source}"`,
     );
   }

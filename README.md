@@ -2,7 +2,7 @@
 
 A production-ready Next.js (App Router) website for a local Medicare insurance agency serving Bend, OR and surrounding Central Oregon communities.
 
-> **Deployment status:** The GitHub Actions workflow (`.github/workflows/deploy.yml`) is configured for the Bend project (`medicare-bend-site` / `medicare-bend-site-beta`, `us-west1`) with a guard that blocks any Spokane target. **Nothing is deployed yet** — a deploy runs only after the Google Cloud setup and GitHub Variables/Secrets are in place and either `DEPLOY_ENABLED=true` (push-to-`main` beta) or a manual dispatch is used. The GCP/Cloud Run instructions below are the setup to complete.
+> **Deployment status:** The production site is live at [medicareinbend.com](https://www.medicareinbend.com). The GitHub Actions workflow targets the Bend Cloud Run services and blocks Spokane targets. Pushes can deploy beta when `DEPLOY_ENABLED=true`; production remains a manual dispatch.
 >
 > **Canonical environment reference:** For the full Bend environment variables, CRM setup, Firestore configuration, and smoke-test details, see [`docs/bend-environment.md`](docs/bend-environment.md) (added in this same PR).
 
@@ -16,7 +16,9 @@ A production-ready Next.js (App Router) website for a local Medicare insurance a
 ## Features
 
 - SEO-optimized layout with metadata, Open Graph, and Twitter cards
-- JSON-LD structured data (LocalBusiness + FAQPage schemas)
+- JSON-LD structured data (Organization, WebSite, Service, Article, BreadcrumbList, and FAQPage)
+- Source-linked Central Oregon provider-network and 2027 Oregon market guides
+- Generated Open Graph image and dated XML sitemap entries
 - Dynamic XML sitemap and robots.txt generation
 - Local SEO page structure:
   - **Central Oregon local Medicare pages**: `/medicare-bend`, `/medicare-redmond`, `/medicare-sisters`, `/medicare-sunriver`, `/medicare-la-pine`, `/medicare-prineville`, `/medicare-madras`
@@ -41,7 +43,7 @@ npm start
 
 ## Docker / Google Cloud Run
 
-> Cloud Run deployment is wired up in **PR 5** and is not live yet. The commands below are the target reference.
+The commands below are the operational reference for the existing Cloud Run deployment.
 
 The Dockerfile is a multi-stage Alpine/Node 20 build that produces the Next.js [`standalone`](https://nextjs.org/docs/app/api-reference/config/next-config-js/output) output. The runtime stage runs as a non-root user and listens on `0.0.0.0:8080` (Cloud Run's expected contract).
 
@@ -152,11 +154,10 @@ components/
 ├── Header.tsx
 ├── Footer.tsx
 ├── CTASection.tsx
-└── LocalBusinessSchema.tsx
+└── OrganizationSchema.tsx
 lib/
 ├── cities.ts           # City data
-├── zips.ts             # ZIP code data
-├── topics.ts           # Medicare topic data
+├── guideSources.ts     # Primary sources for reviewed guides
 └── site.ts             # Site-wide config
 ```
 
@@ -187,7 +188,7 @@ When running on Google Cloud Run, the simplest setup is to grant the Cloud Run s
 
 - `fullName`, `email`, `phone`, `zip`, `message`
 - `emailNorm`, `phoneNorm` — normalized identities used for dedupe
-- `source` (`homepage` | `contact` | `compare-medicare-options` | `rx-drug-review` | `turning-65-medicare-bend` | `working-past-65-medicare` | `helping-parent-with-medicare` | `medicare-appointment-checklist` | `medicare-plan-review-bend` | `medicare-enrollment-resources` | `medicare-advantage` | `medicare-supplements` | `medicare-part-d` | `supplemental-insurance` | `carriers` | `testimonials` | `about` | `request-contact` | `medicare-faq` | `medicare-bend` | `medicare-redmond` | `medicare-sisters` | `medicare-sunriver` | `medicare-la-pine` | `medicare-prineville` | `medicare-madras` | `review-feedback` | `unknown`)
+- `source` (`homepage` | `contact` | `compare-medicare-options` | `rx-drug-review` | `turning-65-medicare-bend` | `working-past-65-medicare` | `helping-parent-with-medicare` | `medicare-appointment-checklist` | `medicare-plan-review-bend` | `medicare-enrollment-resources` | `medicare-advantage` | `medicare-supplements` | `medicare-part-d` | `supplemental-insurance` | `carriers` | `testimonials` | `about` | `request-contact` | `medicare-faq` | `health-insurance-bend` | `oregon-health-insurance-changes-2027` | `medicare-bend` | `medicare-redmond` | `medicare-sisters` | `medicare-sunriver` | `medicare-la-pine` | `medicare-prineville` | `medicare-madras` | `review-feedback` | `unknown`)
 - Attribution: `sourcePath`, `referrer`, `utm`, `clientSubmittedAt`
 - Server stamps: `submittedAt` (Firestore Timestamp), `submittedAtIso`, `createdAt` (`serverTimestamp`)
 - Workflow: `status: "new"`, `siteSource: "medicareinbend.com"`
@@ -242,7 +243,7 @@ Tracking is **opt-in** via `NEXT_PUBLIC_GTM_ID`. When that variable is set, the 
 |---|---|
 | `/healthz` | Liveness probe for Cloud Run / uptime monitors. Returns `{ status: "ok", uptime }` with `Cache-Control: no-store`. Performs no I/O so it cannot fail because of Firestore. |
 | `/robots.txt` | Auto-generated. Disallows everything when `NEXT_PUBLIC_SITE_ENV` ≠ `production`. |
-| `/sitemap.xml` | Auto-generated from `lib/cities`, `lib/zips`, `lib/topics`. |
+| `/sitemap.xml` | Auto-generated from the public route inventory and `lib/cities`. |
 
 ## Security headers
 
@@ -271,7 +272,7 @@ Run through this before flipping DNS to the Cloud Run URL.
 - [ ] `NEXT_PUBLIC_SITE_ENV=production` is set in Cloud Run for the live service
 - [ ] Beta revisions have `NEXT_PUBLIC_SITE_ENV=beta` and serve `Disallow: /` at `/robots.txt`
 - [ ] `/robots.txt` on prod allows crawling and lists `/sitemap.xml`
-- [ ] `/sitemap.xml` includes the core pages and the 7 Central Oregon local pages (and has **no** ZIP, directory, or health-insurance routes)
+- [ ] `/sitemap.xml` includes the core guides, health-insurance pages, and 7 Central Oregon local pages (and has **no** thin ZIP or directory routes)
 - [ ] Each page has a unique `<title>` and canonical tag pointing at `https://www.medicareinbend.com/...`
 
 **Forms & lead capture**
