@@ -50,6 +50,13 @@ test("deploy workflow preserves lint/typecheck/test/build validation", () => {
   assert.match(deployYml, /npm run build/);
 });
 
+test("deploy workflow smoke-tests the live revision after deployment", () => {
+  assert.match(deployYml, /name: Verify deployed revision/);
+  assert.match(deployYml, /\$SERVICE_URL\/health/);
+  assert.match(deployYml, /"status":"healthy"/);
+  assert.match(deployYml, /\$SERVICE_URL\/central-oregon-medicare-provider-networks/);
+});
+
 test("Dockerfile defaults to the Bend production URL and bakes no secrets", () => {
   assert.match(dockerfile, /ARG NEXT_PUBLIC_SITE_URL=https:\/\/www\.medicareinbend\.com/);
   assert.doesNotMatch(dockerfile, /CRM_API_KEY|crm-prod-api-key|-----BEGIN/);

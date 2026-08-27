@@ -149,7 +149,8 @@ app/
 ├── not-found.tsx       # 404 page
 ├── medicare-*/         # Core Medicare + Central Oregon local area pages
 ├── api/                # Lead + review-feedback API routes
-└── healthz/            # Health check endpoint
+├── health/             # Canonical health check endpoint
+└── healthz/            # Compatibility health check alias
 components/
 ├── Header.tsx
 ├── Footer.tsx
@@ -241,7 +242,8 @@ Tracking is **opt-in** via `NEXT_PUBLIC_GTM_ID`. When that variable is set, the 
 
 | Path | Purpose |
 |---|---|
-| `/healthz` | Liveness probe for Cloud Run / uptime monitors. Returns `{ status: "ok", uptime }` with `Cache-Control: no-store`. Performs no I/O so it cannot fail because of Firestore. |
+| `/health` | Canonical liveness probe for Cloud Run, deployment smoke tests, and uptime monitors. Returns `{ ok: true, service: "medicare-bend-site", status: "healthy" }` with `Cache-Control: no-store`. Performs no I/O. |
+| `/healthz` | Compatibility alias with the same fixed response. New infrastructure checks should use `/health`. |
 | `/robots.txt` | Auto-generated. Disallows everything when `NEXT_PUBLIC_SITE_ENV` ≠ `production`. |
 | `/sitemap.xml` | Auto-generated from the public route inventory and `lib/cities`. |
 
@@ -266,7 +268,7 @@ Run through this before flipping DNS to the Cloud Run URL.
 - [ ] `npm test` all green
 - [ ] `npm run build` succeeds and reports the expected route count
 - [ ] Container starts locally on `:8080` (`docker run -p 8080:8080 …`)
-- [ ] `GET /healthz` returns 200 with `{"status":"ok"}`
+- [ ] `GET /health` returns 200 with `{"ok":true,"service":"medicare-bend-site","status":"healthy"}`
 
 **SEO / indexing**
 - [ ] `NEXT_PUBLIC_SITE_ENV=production` is set in Cloud Run for the live service
@@ -339,7 +341,7 @@ The workflow will:
 
 Run the [Launch QA checklist](#launch-qa-checklist) against `https://beta.medicareinbend.com`. In particular:
 - `curl -sI https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` (because `NEXT_PUBLIC_SITE_ENV=beta`).
-- `curl -sI https://beta.medicareinbend.com/healthz` returns `200`.
+- `curl -sI https://beta.medicareinbend.com/health` returns `200`.
 - View source on any page → `<meta name="robots" content="noindex,nofollow,…">` is present.
 - Submit a test lead → check Firestore `website_leads` for the doc (with `crmSyncStatus: "skipped"` since beta omits CRM), and GTM Preview for a `generate_lead` event tagged `site_env: "beta"` with **no** name/email/phone/zip in the payload.
 - Confirm security headers on `curl -sI https://beta.medicareinbend.com/` (HSTS, `X-Frame-Options: DENY`, etc.).

@@ -12,6 +12,7 @@ const publicContentRoots = publicContentRootNames.map((dir) => join(root, dir));
 
 const excludedPathParts = [
   `${join("app", "api")}${"/"}`,
+  `${join("app", "health")}${"/"}`,
   `${join("app", "healthz")}${"/"}`,
   join("app", "layout.tsx"),
   join("app", "sitemap.ts"),
