@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
 import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
     "Contact Medicare in Bend — a licensed independent insurance agency helping Central Oregon residents with Medicare Advantage, Medicare Supplement, and Part D options.",
   alternates: { canonical: `${siteConfig.url}/contact` },
   openGraph: {
+    images: ["/opengraph-image"],
     title: "Contact a Licensed Bend Medicare Agent",
     description:
       "Reach a licensed independent insurance agency for Medicare help in Bend and Central Oregon.",
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Contact" }]} />
       {/* Hero */}
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white py-16 landscape-mobile:py-5 px-4">
         <div className="max-w-5xl mx-auto">

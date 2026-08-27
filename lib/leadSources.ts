@@ -18,6 +18,8 @@ export const LEAD_SOURCES = [
   "about",
   "request-contact",
   "medicare-faq",
+  "health-insurance-bend",
+  "oregon-health-insurance-changes-2027",
   // Central Oregon local pages (routes added in a later PR; kept here so the
   // lead API accepts them as soon as those pages ship).
   "medicare-bend",

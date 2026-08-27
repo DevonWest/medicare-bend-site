@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Appointment Checklist for Bend, Oregon",
+  title: "Medicare Appointment Checklist in Bend",
   description:
-    "Prepare for your Medicare appointment in Bend and Central Oregon. Learn what to bring — prescription lists, doctors, pharmacies, and current coverage — plus questions to ask a licensed local agent by phone, online, or by appointment.",
+    "Prepare for a Bend Medicare appointment with a checklist for prescriptions, doctors, pharmacies, current coverage, timing, and questions.",
   alternates: { canonical: `${siteConfig.url}/medicare-appointment-checklist` },
   openGraph: {
-    title: "Medicare Appointment Checklist for Bend, Oregon",
+    images: ["/opengraph-image"],
+    title: "Medicare Appointment Checklist in Bend",
     description:
-      "Prepare for your Medicare appointment in Bend and Central Oregon. Learn what to bring — prescription lists, doctors, pharmacies, and current coverage — plus questions to ask a licensed local agent by phone, online, or by appointment.",
+      "Prepare for a Bend Medicare appointment with a checklist for prescriptions, doctors, pharmacies, current coverage, timing, and questions.",
     url: `${siteConfig.url}/medicare-appointment-checklist`,
   },
 };
@@ -121,6 +123,7 @@ const relatedLinks = [
 export default function MedicareAppointmentChecklistPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Appointment Checklist" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">

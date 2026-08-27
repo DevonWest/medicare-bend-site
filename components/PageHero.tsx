@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 interface Crumb {
   href?: string;
@@ -16,6 +17,7 @@ interface PageHeroProps {
 export default function PageHero({ title, subtitle, crumbs, illustration }: PageHeroProps) {
   return (
     <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white py-16 landscape-mobile:py-5 px-4">
+      <BreadcrumbSchema items={crumbs} />
       <div className={`mx-auto ${illustration ? "max-w-6xl" : "max-w-5xl"}`}>
         <div className={illustration ? "grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center" : undefined}>
           <div>

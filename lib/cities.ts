@@ -58,7 +58,7 @@ export const centralOregonCities: City[] = [
     zipCodes: ["97756"],
     leadSource: "medicare-redmond",
     metaDescription:
-      "Get local Medicare help in Redmond, Oregon. Review Medicare Advantage, Medicare Supplement, and Part D options with licensed guidance across Redmond and the wider Central Oregon area.",
+      "Get Medicare help in Redmond, Oregon. Review Medicare Advantage, Medicare Supplement, Part D, local providers, prescriptions, and costs.",
     heroSummary:
       "Local Medicare guidance for Redmond residents comparing coverage across Redmond and Central Oregon.",
     localContext:
@@ -75,7 +75,7 @@ export const centralOregonCities: City[] = [
     zipCodes: ["97759"],
     leadSource: "medicare-sisters",
     metaDescription:
-      "Get local Medicare help in Sisters, Oregon. Review Medicare Advantage, Medicare Supplement, and Part D options with licensed guidance, including provider access in nearby Redmond and Bend.",
+      "Get Medicare help in Sisters, Oregon. Review plan types, prescriptions, costs, and provider access in Sisters, Redmond, and Bend.",
     heroSummary: "Local Medicare guidance for Sisters residents, with an eye on nearby provider access.",
     localContext:
       "Sisters is a smaller Central Oregon community, and residents sometimes travel to Redmond or Bend for specialists, imaging, or hospital care. That pattern is worth keeping in mind when you review plan networks and pharmacy access, so both your everyday care in Sisters and any trips for specialty care are covered.",
@@ -91,7 +91,7 @@ export const centralOregonCities: City[] = [
     zipCodes: ["97707"],
     leadSource: "medicare-sunriver",
     metaDescription:
-      "Get local Medicare help in Sunriver, Oregon. Review Medicare Advantage, Medicare Supplement, and Part D options with licensed guidance for full-time and seasonal Central Oregon residents.",
+      "Get Medicare help in Sunriver, Oregon. Review plan types, prescriptions, provider access, costs, and coverage for time spent away.",
     heroSummary: "Local Medicare guidance for Sunriver's full-time and seasonal residents.",
     localContext:
       "Sunriver is a resort and residential community where many people are seasonal or part-time residents. If you spend part of the year away, it helps to understand how a plan handles care outside the area — Medicare Supplement plans let you see any provider nationwide who accepts Medicare, while Medicare Advantage plans use networks — along with how to fill prescriptions while you travel.",
@@ -123,7 +123,7 @@ export const centralOregonCities: City[] = [
     zipCodes: ["97754"],
     leadSource: "medicare-prineville",
     metaDescription:
-      "Get local Medicare help in Prineville, Oregon. Review Medicare Advantage, Medicare Supplement, and Part D options with licensed guidance for Crook County and Central Oregon.",
+      "Get Medicare help in Prineville, Oregon. Review Crook County plan availability, providers, prescriptions, Medicare Advantage, and Medigap.",
     heroSummary: "Local Medicare guidance for Prineville and Crook County residents.",
     localContext:
       "Prineville is in Crook County, and Medicare Advantage and Part D availability can differ from neighboring Deschutes County because plans are offered county by county. Many Prineville residents also use providers in Redmond or Bend, so it helps to review both what is available in Crook County and whether those providers are in-network before you decide.",
@@ -139,7 +139,7 @@ export const centralOregonCities: City[] = [
     zipCodes: ["97741"],
     leadSource: "medicare-madras",
     metaDescription:
-      "Get local Medicare help in Madras, Oregon. Review Medicare Advantage, Medicare Supplement, and Part D options with licensed guidance for Jefferson County and Central Oregon.",
+      "Get Medicare help in Madras, Oregon. Review Jefferson County plan availability, providers, prescriptions, Medicare Advantage, and Medigap.",
     heroSummary: "Local Medicare guidance for Madras and Jefferson County residents.",
     localContext:
       "Madras is in Jefferson County, where the Medicare plans offered can differ from those in Deschutes or Crook County, since availability is set at the county level. If you travel to Redmond or Bend for certain care, it's worth confirming those providers and pharmacies work with the plans you're comparing.",

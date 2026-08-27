@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import LeadForm from "@/components/LeadForm";
@@ -7,14 +8,15 @@ import CTASection from "@/components/CTASection";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Working Past 65 and Medicare in Bend and Central Oregon",
+  title: "Working Past 65 With Medicare in Bend",
   description:
-    "Still working at 65? Get local help understanding Medicare timing, employer coverage, creditable coverage, Part B, Part D, and HSA questions in Bend and Central Oregon.",
+    "Still working at 65 in Bend? Review Medicare timing, employer size, creditable drug coverage, Part B, Part D, and HSA coordination questions.",
   alternates: { canonical: `${siteConfig.url}/working-past-65-medicare` },
   openGraph: {
-    title: "Working Past 65 and Medicare in Bend and Central Oregon | Medicare in Bend",
+    images: ["/opengraph-image"],
+    title: "Working Past 65 With Medicare in Bend",
     description:
-      "Still working at 65? Get local help understanding Medicare timing, employer coverage, creditable coverage, Part B, Part D, and HSA questions in Bend and Central Oregon.",
+      "Still working at 65 in Bend? Review Medicare timing, employer size, creditable drug coverage, Part B, Part D, and HSA coordination questions.",
     url: `${siteConfig.url}/working-past-65-medicare`,
   },
 };
@@ -54,7 +56,7 @@ const internalLinks = [
   {
     href: "/compare-medicare-options",
     title: "Compare Medicare Options",
-    body: "See how local licensed agents help Central Oregon residents compare Medicare coverage options.",
+    body: "See how a local licensed agent helps Central Oregon residents compare Medicare coverage options.",
   },
   {
     href: "/medicare-part-d",
@@ -104,6 +106,7 @@ const faqs: FAQItem[] = [
 export default function WorkingPastSixtyFivePage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Working Past 65" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">

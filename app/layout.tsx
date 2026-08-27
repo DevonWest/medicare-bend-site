@@ -3,7 +3,7 @@ import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import LocalBusinessSchema from "@/components/LocalBusinessSchema";
+import OrganizationSchema from "@/components/OrganizationSchema";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
 import { siteConfig } from "@/lib/site";
 import { getGtmId, isProduction } from "@/lib/env";
@@ -42,6 +42,7 @@ export const metadata: Metadata = {
   creator: siteConfig.legalName,
   publisher: siteConfig.legalName,
   openGraph: {
+    images: ["/opengraph-image"],
     type: "website",
     locale: siteConfig.openGraph.locale,
     url: siteConfig.url,
@@ -51,6 +52,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/opengraph-image"],
     title: `${siteConfig.shortName} | ${siteConfig.positioning}`,
     description: siteConfig.description,
   },
@@ -94,7 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <LocalBusinessSchema />
+        <OrganizationSchema />
       </head>
       {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
       <body className="flex min-h-screen flex-col bg-white font-sans text-gray-900 antialiased">

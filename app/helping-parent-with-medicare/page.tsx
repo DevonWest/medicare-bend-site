@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
@@ -8,14 +9,15 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Helping a Parent with Medicare in Bend and Central Oregon",
+  title: "Helping a Parent With Medicare in Bend",
   description:
-    "Helping a parent or loved one with Medicare in Central Oregon — locally or from out of the area? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
+    "Help a parent in Central Oregon review Medicare timing, plan types, prescriptions, doctors, and next steps with a licensed local agent.",
   alternates: { canonical: `${siteConfig.url}/helping-parent-with-medicare` },
   openGraph: {
-    title: "Helping a Parent with Medicare in Bend and Central Oregon",
+    images: ["/opengraph-image"],
+    title: "Helping a Parent With Medicare in Bend",
     description:
-      "Helping a parent or loved one with Medicare in Central Oregon — locally or from out of the area? Get local guidance reviewing Medicare Advantage, Medicare Supplement, Part D, prescriptions, doctors, and plan options across Central Oregon.",
+      "Help a parent in Central Oregon review Medicare timing, plan types, prescriptions, doctors, and next steps with a licensed local agent.",
     url: `${siteConfig.url}/helping-parent-with-medicare`,
   },
 };
@@ -104,13 +106,14 @@ const internalLinks = [
   {
     href: "/contact",
     title: "Contact Us",
-    body: "Schedule a consultation by phone, online, or by appointment with our local licensed agents.",
+    body: "Schedule a consultation by phone, online, or by appointment with a local licensed agent.",
   },
 ];
 
 export default function HelpingParentWithMedicarePage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Helping a Parent" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
@@ -130,7 +133,7 @@ export default function HelpingParentWithMedicarePage() {
             </h1>
             <p className="max-w-3xl text-xl text-blue-100">
               If you&apos;re helping a parent, spouse, or loved one understand Medicare, you don&apos;t have to
-              figure it out alone. Our local licensed agents can help review plan options, prescriptions,
+              figure it out alone. A local licensed agent can help review plan options, prescriptions,
               doctors, and next steps in plain English.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">

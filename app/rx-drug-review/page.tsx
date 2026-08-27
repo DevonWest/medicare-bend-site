@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
@@ -7,12 +8,13 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Prescription (Part D) Drug Review — Bend, OR",
+  title: "Medicare Prescription Drug Review in Bend",
   description:
-    "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend and Central Oregon. Bring your medication list and compare costs and coverage with a licensed insurance agent.",
+    "Review Medicare prescription coverage in Bend by checking each medication, formulary tier, utilization rule, pharmacy, and estimated annual cost.",
   alternates: { canonical: `${siteConfig.url}/rx-drug-review` },
   openGraph: {
-    title: "Medicare Prescription (Part D) Drug Review — Bend, OR",
+    images: ["/opengraph-image"],
+    title: "Medicare Prescription Drug Review in Bend",
     description:
       "Get local help reviewing prescription drug coverage for Medicare Advantage and Part D plans in Bend and Central Oregon.",
     url: `${siteConfig.url}/rx-drug-review`,
@@ -61,6 +63,7 @@ const faqs: FAQItem[] = [
 export default function RxDrugReviewPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Prescription Drug Review" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white py-16 landscape-mobile:py-5 px-4">
         <div className="max-w-5xl mx-auto">
           <nav aria-label="Breadcrumb" className="text-blue-200 text-sm mb-4 landscape-mobile:mb-2">
@@ -82,7 +85,7 @@ export default function RxDrugReviewPage() {
           </h1>
           <p className="text-xl landscape-mobile:text-base text-blue-100 max-w-4xl">
             Prescription coverage can vary by plan, pharmacy, tier, and ZIP code. Our licensed
-            local agents can help you compare how the Medicare Advantage and Part D plans we
+            a local licensed agent can help you compare how the Medicare Advantage and Part D plans we
             represent may cover your current medications.
           </p>
         </div>

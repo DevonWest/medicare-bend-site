@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
@@ -8,14 +9,15 @@ import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Compare Medicare Options in Bend & Central Oregon",
+  title: "Compare Medicare Plans in Bend, Oregon",
   description:
-    "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend and Central Oregon with a local licensed insurance agent.",
+    "Compare Medicare Advantage, Medicare Supplement, Part D, providers, prescriptions, and costs with a licensed agent local to Bend.",
   alternates: { canonical: `${siteConfig.url}/compare-medicare-options` },
   openGraph: {
-    title: "Compare Medicare Options in Bend & Central Oregon | Medicare in Bend",
+    images: ["/opengraph-image"],
+    title: "Compare Medicare Plans in Bend, Oregon",
     description:
-      "Compare Medicare Advantage, Medicare Supplement, Part D, and supplemental insurance options in Bend and Central Oregon with a local licensed insurance agent.",
+      "Compare Medicare Advantage, Medicare Supplement, Part D, providers, prescriptions, and costs with a licensed agent local to Bend.",
     url: `${siteConfig.url}/compare-medicare-options`,
   },
 };
@@ -108,6 +110,7 @@ const faqs: FAQItem[] = [
 export default function CompareMedicareOptionsPage() {
   return (
     <>
+      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Compare Medicare Options" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">

@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   alternates: { canonical: siteConfig.url },
   openGraph: {
+    images: ["/opengraph-image"],
     title: `${siteConfig.shortName} | ${siteConfig.positioning}`,
     description: siteConfig.description,
     url: siteConfig.url,
@@ -53,14 +54,14 @@ const homepageFaqs: FAQItem[] = [
 ];
 
 const trustBullets: string[] = [
-  "Central Oregon team",
-  "Licensed local agents",
+  "Bend-area guidance",
+  "Licensed local agent",
   "No-cost consultations",
 ];
 
 const whatHappensNextSteps: string[] = [
   "We review your request.",
-  "A licensed local Medicare agent contacts you.",
+  "Scott, a licensed local insurance agent, contacts you.",
   "We help compare options from the plans we represent.",
   "There is no cost or obligation.",
 ];
@@ -81,14 +82,13 @@ export default function HomePage() {
               Medicare Help for Central Oregon Residents
             </h1>
             <p className="mb-6 text-lg leading-relaxed text-blue-50 md:text-xl">
-              Work with local licensed agents who guide you through your Medicare options with
-              clarity and confidence.
+              Work with Scott Lewis, a licensed agent local to Bend, for clear, no-pressure Medicare guidance.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               <a
                 href={telHref}
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 text-base font-bold text-blue-800 shadow-md transition-colors hover:bg-blue-50 sm:px-7 sm:text-lg"
-                aria-label={`Call Now (${siteConfig.phone})`}
+                aria-label={`Call ${siteConfig.phone}`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +105,7 @@ export default function HomePage() {
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 7V5z"
                   />
                 </svg>
-                Call Now ({siteConfig.phone})
+                Call {siteConfig.phone}
               </a>
               <Link
                 href="/contact"
@@ -116,10 +116,8 @@ export default function HomePage() {
             </div>
 
             <p className="mt-4 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-semibold text-blue-50 shadow-sm backdrop-blur-sm sm:text-base">
-              <span className="tracking-[0.2em] text-amber-300" aria-hidden="true">
-                ★★★★★
-              </span>
-              <span>Trusted by Central Oregon Medicare clients</span>
+              <span className="text-amber-300" aria-hidden="true">✓</span>
+              <span>No-cost, no-obligation consultation</span>
             </p>
 
             {/* Trust bullets */}
@@ -157,7 +155,7 @@ export default function HomePage() {
 
             <div className="mt-6 inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-blue-50 shadow-sm backdrop-blur-sm">
               <Link href="/our-team" className="underline-offset-2 hover:underline">
-                Meet our Central Oregon licensed team →
+                Meet your local licensed agent →
               </Link>
             </div>
           </div>
@@ -246,10 +244,10 @@ export default function HomePage() {
                   "Bring your medication list and compare how Medicare Advantage and Part D plans we represent may cover your prescriptions.",
               },
               {
-                href: "/medicare-part-d",
-                title: "Medicare Part D",
+                href: "/central-oregon-medicare-provider-networks",
+                title: "Provider Network Guide",
                 body:
-                  "Walk through your prescription list and compare standalone Part D plans we represent, including preferred pharmacies.",
+                  "Check St. Charles, Summit Health, and exact Medicare Advantage networks using current local sources.",
               },
             ].map((card) => (
               <Link
@@ -293,7 +291,7 @@ export default function HomePage() {
             Talk With a Local, Licensed Central Oregon Agent
           </h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Independent guidance from a Central Oregon team — at your pace, with no pressure.
+            Independent guidance from a licensed agent local to Bend — at your pace, with no pressure.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
@@ -319,10 +317,10 @@ export default function HomePage() {
       <section className="py-20 px-4 bg-slate-50 border-y border-slate-100">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">
-            Meet Our Local Medicare Team
+            Meet Your Local Medicare Agent
           </h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto text-lg">
-            Our Central Oregon licensed agents work together to help clients understand Medicare
+            Scott Lewis is local to Bend and helps Central Oregon residents understand Medicare
             options with clear, no-cost guidance.
           </p>
           <TeamPreviewGrid members={previewMembers} />
@@ -331,7 +329,7 @@ export default function HomePage() {
               href="/our-team"
               className="inline-flex items-center justify-center bg-blue-700 hover:bg-blue-800 text-white font-semibold px-7 py-3 rounded-lg transition-colors text-base"
             >
-              Meet the Full Team
+              Meet Scott Lewis
             </Link>
           </div>
         </div>

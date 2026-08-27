@@ -13,18 +13,18 @@ interface TrustBenefitsProps {
 const defaultItems: Benefit[] = [
   {
     icon: "📍",
-    title: "Local Medicare Experts",
-    body: "Our Central Oregon team works with neighbors in Bend, Redmond, Sisters, Sunriver, La Pine, Prineville, and Madras — and knows the local doctors, hospitals, and provider networks.",
+    title: "Local Medicare Guidance",
+    body: "Scott Lewis is local to Bend and helps residents across Central Oregon check plan availability, providers, prescriptions, and costs.",
   },
   {
     icon: "🗂️",
     title: "Multiple Carrier Options",
-    body: "As a licensed independent insurance agency, we represent multiple carriers so you can compare options and review choices side-by-side instead of being limited to one company.",
+    body: "As a licensed independent insurance agency, we help compare the available options the agency is authorized to represent in your area.",
   },
   {
     icon: "📅",
     title: "Year-Round Support",
-    body: "We are not just here at enrollment. Call us any time of year for billing questions, ID card help, plan changes, and Annual Enrollment reviews.",
+    body: "Questions can arise after enrollment. Contact the agency during the year for plan-service questions and Annual Enrollment reviews.",
   },
   {
     icon: "👥",
@@ -34,7 +34,7 @@ const defaultItems: Benefit[] = [
 ];
 
 export default function TrustBenefits({
-  heading = "Why Central Oregon Residents Choose Us",
+  heading = "How We Help Central Oregon Residents",
   subheading = "Independent guidance from a licensed local agency serving Bend and Central Oregon.",
   items = defaultItems,
 }: TrustBenefitsProps) {

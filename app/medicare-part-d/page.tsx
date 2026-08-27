@@ -8,12 +8,13 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Part D Prescription Drug Plans in Bend, OR",
+  title: "Medicare Part D Plans in Bend, Oregon",
   description:
-    "Compare Medicare Part D prescription drug plans in Bend and Central Oregon. We review your medications and how each plan we represent would cover them, including formulary tiers and preferred pharmacies.",
+    "Compare Medicare Part D plans in Bend by checking prescriptions, formularies, tiers, utilization rules, pharmacies, and estimated annual costs.",
   alternates: { canonical: `${siteConfig.url}/medicare-part-d` },
   openGraph: {
-    title: "Medicare Part D Prescription Drug Plans in Bend, OR",
+    images: ["/opengraph-image"],
+    title: "Medicare Part D Plans in Bend, Oregon",
     description:
       "Help comparing standalone Medicare Part D plans, including a prescription review.",
     url: `${siteConfig.url}/medicare-part-d`,

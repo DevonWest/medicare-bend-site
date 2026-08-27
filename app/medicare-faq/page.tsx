@@ -6,12 +6,13 @@ import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare FAQ – Common Questions in Bend, Oregon",
+  title: "Medicare FAQ for Bend, Oregon",
   description:
-    "Answers to common Medicare questions for Central Oregon beneficiaries: eligibility, enrollment, employer coverage, doctors, Part C, Part D, creditable coverage, and more.",
+    "Clear answers for Bend residents about Medicare eligibility, enrollment, employer coverage, doctors, Medicare Advantage, and Part D.",
   alternates: { canonical: `${siteConfig.url}/medicare-faq` },
   openGraph: {
-    title: "Medicare FAQ – Common Questions in Bend, Oregon",
+    images: ["/opengraph-image"],
+    title: "Medicare FAQ for Bend, Oregon",
     description:
       "Clear answers to common Medicare questions from Central Oregon residents — eligibility, enrollment timing, employer coverage, Part C, and Part D.",
     url: `${siteConfig.url}/medicare-faq`,

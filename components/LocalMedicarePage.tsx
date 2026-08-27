@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CTASection from "@/components/CTASection";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import Disclaimer from "@/components/Disclaimer";
+import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import { getCityBySlug, getLocalMedicarePath } from "@/lib/cities";
 import { siteConfig, telHref } from "@/lib/site";
@@ -26,6 +28,7 @@ export function getLocalMedicareMetadata(citySlug: string): Metadata {
     description: city.metaDescription,
     alternates: { canonical },
     openGraph: {
+      images: ["/opengraph-image"],
       title: `Medicare Help in ${city.name}, OR | ${siteConfig.shortName}`,
       description: city.metaDescription,
       url: canonical,
@@ -106,12 +109,12 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
 
   const localSchema = {
     "@context": "https://schema.org",
-    "@type": ["InsuranceAgency", "LocalBusiness"],
-    "@id": `${siteConfig.url}${canonicalPath}`,
-    name: `${siteConfig.legalName} — Medicare Help in ${city.name}`,
+    "@type": "Service",
+    "@id": `${siteConfig.url}${canonicalPath}#service`,
+    name: `Medicare guidance in ${city.name}, Oregon`,
     description: city.metaDescription,
     url: `${siteConfig.url}${canonicalPath}`,
-    telephone: siteConfig.phone,
+    provider: { "@id": `${siteConfig.url}#organization` },
     areaServed: {
       "@type": "City",
       name: city.name,
@@ -130,13 +133,12 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }}
-      />
-
       {/* Hero */}
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
+        <JsonLd data={localSchema} />
+        <BreadcrumbSchema
+          items={[{ href: "/", label: "Home" }, { label: `Medicare Help in ${city.name}` }]}
+        />
         <div className="mx-auto max-w-5xl">
           <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
             <Link href="/" className="hover:text-white">
@@ -276,7 +278,7 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
             <LeadForm
               source={city.leadSource}
               heading={`Request Medicare Help in ${city.name}`}
-              subheading={`Share your questions about Medicare coverage in ${city.name}, and our Central Oregon team will follow up.`}
+              subheading={`Share your questions about Medicare coverage in ${city.name}, and Scott will follow up.`}
               showMessage
             />
           </div>

@@ -7,14 +7,16 @@ import { siteConfig } from "@/lib/site";
 import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Client Testimonials",
+  title: "Client Reviews",
   description:
-    "Reviews from Central Oregon Medicare clients who work with Health Insurance Options LLC and our local team of licensed insurance professionals.",
+    "No verified Bend client reviews are published yet. Contact Health Insurance Options for direct help with your Medicare questions.",
+  robots: { index: false, follow: true },
   alternates: { canonical: `${siteConfig.url}/testimonials` },
   openGraph: {
-    title: "Client Testimonials",
+    images: ["/opengraph-image"],
+    title: "Client Reviews",
     description:
-      "Central Oregon Medicare clients on working with Health Insurance Options LLC.",
+      "No verified Bend client reviews are published yet. Contact Health Insurance Options for direct Medicare help.",
     url: `${siteConfig.url}/testimonials`,
   },
 };
@@ -29,8 +31,8 @@ export default function TestimonialsPage() {
   return (
     <>
       <PageHero
-        title="Client Testimonials"
-        subtitle="Feedback from Central Oregon residents we help navigate Medicare."
+        title="Client Reviews"
+        subtitle="Verified Bend client reviews will appear here when they are available for publication."
         crumbs={[{ href: "/", label: "Home" }, { label: "Testimonials" }]}
       />
 
@@ -71,9 +73,8 @@ export default function TestimonialsPage() {
           <div className="mx-auto max-w-2xl rounded-2xl border border-gray-200 bg-slate-50 p-8 text-center shadow-sm">
             <h2 className="text-2xl font-bold text-gray-900">Reviews are on the way</h2>
             <p className="mt-3 text-base leading-relaxed text-gray-700">
-              We&apos;re a growing Central Oregon Medicare practice and are gathering reviews from
-              the clients we help. In the meantime, we&apos;d be glad to talk through your Medicare
-              questions.
+              No verified Bend reviews are published yet. In the meantime, we&apos;d be glad to talk
+              through your Medicare questions directly.
             </p>
             <Link
               href="/contact"

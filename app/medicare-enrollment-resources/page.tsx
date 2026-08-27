@@ -7,12 +7,13 @@ import PageHero from "@/components/PageHero";
 import { siteConfig, telHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Medicare Enrollment Resources for Central Oregon Beneficiaries",
+  title: "Medicare Enrollment Guide for Central Oregon",
   description:
-    "Step-by-step Medicare enrollment resources for Central Oregon beneficiaries — Initial Enrollment Period, Annual Enrollment, Special Enrollment Periods, late enrollment penalties, and how to apply through Social Security.",
+    "Understand Medicare enrollment periods, late penalties, employer-coverage timing, and how to apply through Social Security in Central Oregon.",
   alternates: { canonical: `${siteConfig.url}/medicare-enrollment-resources` },
   openGraph: {
-    title: "Medicare Enrollment Resources for Central Oregon Beneficiaries",
+    images: ["/opengraph-image"],
+    title: "Medicare Enrollment Guide for Central Oregon",
     description:
       "Understand Medicare enrollment timing in Central Oregon — Initial Enrollment, Annual Enrollment, Special Enrollment Periods, and how to apply through Social Security.",
     url: `${siteConfig.url}/medicare-enrollment-resources`,

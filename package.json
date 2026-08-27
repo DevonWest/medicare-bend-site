@@ -8,14 +8,14 @@
     "start": "next start -p ${PORT:-8080} -H 0.0.0.0",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/*.test.ts",
-    "content:validate": "tsx --test tests/contentQuality.test.ts",
-    "sitemap:check": "tsx --test tests/seoRedirects.test.ts"
+    "test": "node --import tsx --test tests/*.test.ts",
+    "content:validate": "node --import tsx --test tests/contentQuality.test.ts",
+    "sitemap:check": "node --import tsx --test tests/seoRedirects.test.ts"
   },
   "dependencies": {
-    "@next/third-parties": "^16.2.4",
-    "firebase-admin": "^13.8.0",
-    "next": "16.2.4",
+    "@next/third-parties": "16.3.3",
+    "firebase-admin": "14.3.0",
+    "next": "16.3.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "server-only": "^0.0.1"
@@ -26,7 +26,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.3.3",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
