@@ -384,7 +384,7 @@ When it shows **OK**, `https://beta.medicareinbend.com` will serve the placehold
 > You can also trigger a beta deploy by pushing to `main` **once `DEPLOY_ENABLED=true`** is set (§1a). A push to `main` only ever deploys **beta** — production is never deployed by a push.
 
 What happens:
-- The `ci` job runs `npm ci`, then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and a **sitemap sanity check** that greps the built sitemap for `medicareinbend.com`, fails on any prior-project, `/zip`, or `/directory` URL, confirms the approved health-insurance and provider guides, and confirms the `/healthz` route exists. All must pass.
+- The `ci` job runs `npm ci`, then `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and a **sitemap sanity check** that greps the built sitemap for `medicareinbend.com`, fails on any prior-project, `/zip`, or `/directory` URL, confirms the approved health-insurance and provider guides, and confirms the `/health` route plus `/healthz` compatibility alias exist. All must pass.
 - The `deploy` job authenticates to GCP, then a guard step fails the deploy if any resolved target (project, services, service accounts) still references the prior (non-Bend) project. It then builds a Docker image with build-args
   - `NEXT_PUBLIC_SITE_URL=https://beta.medicareinbend.com`
   - `NEXT_PUBLIC_SITE_ENV=beta`
@@ -398,7 +398,7 @@ What happens:
   - `CRM_API_BASE_URL=` **(empty — beta omits the CRM, so no `CRM_API_KEY` secret is bound and lead submissions report `crmSyncStatus: "skipped"`)**
   - `NODE_ENV=production`
 
-The workflow's last step prints the service URL. Total runtime: ~4–7 minutes.
+After deployment, the workflow verifies `/health`, the homepage, and the provider-network guide on the Cloud Run service URL. A failed smoke check fails the deployment job instead of reporting a false-green release. The final step prints the service URL. Total runtime: ~4–7 minutes.
 
 > **If it fails, the error is in the job log.** Common causes: missing GitHub variable (read the `Validate target service variable is set` step), Artifact Registry repo doesn't exist (§3), or the deployer SA missing a role (§5b/c).
 
@@ -410,7 +410,7 @@ Open `https://beta.medicareinbend.com` and walk these checks. Anything that fail
 
 ### 8a. Site is up and serving the new image
 - [ ] Homepage loads, looks right, no console errors (DevTools → Console).
-- [ ] `curl -sI https://beta.medicareinbend.com/healthz` returns `HTTP/2 200`.
+- [ ] `curl -sI https://beta.medicareinbend.com/health` returns `HTTP/2 200`.
 
 ### 8b. Search engines are blocked (because `SITE_ENV=beta`)
 - [ ] `curl -s https://beta.medicareinbend.com/robots.txt` shows `Disallow: /` for `User-agent: *`.
@@ -474,7 +474,7 @@ The image is rebuilt with `NEXT_PUBLIC_SITE_URL=https://www.medicareinbend.com`,
 
 ### 9c. Verify prod (mirror of §8, but production-mode expectations)
 
-- [ ] `https://www.medicareinbend.com/healthz` → `200`.
+- [ ] `https://www.medicareinbend.com/health` → `200`.
 - [ ] `https://medicareinbend.com` (apex, no `www`) **301-redirects to `https://www.medicareinbend.com`** — and the `Location` header has **no `:8080`** in it (the app's proxy handles the redirect on the standard port).
 - [ ] `https://www.medicareinbend.com/robots.txt` → **does NOT** contain `Disallow: /` (it should be the production robots policy, allowing crawlers on real pages) and it **references the Bend sitemap** (`https://www.medicareinbend.com/sitemap.xml`).
 - [ ] `https://www.medicareinbend.com/sitemap.xml` uses `https://www.medicareinbend.com` throughout, contains the approved health-insurance and provider guides, and contains **no `/zip`, no `/directory`, and no prior-project domains**.

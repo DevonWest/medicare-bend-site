@@ -104,8 +104,9 @@ jobs:
           if grep -qiE "medicareinspokane|spokane|/zip/|/directory/" "$SITEMAP"; then
             echo "::error::sitemap contains a forbidden Spokane/ZIP/directory URL"; exit 1
           fi
-          test -f app/healthz/route.ts || { echo "::error::/healthz route is missing"; exit 1; }
-          echo "Sanity checks passed: sitemap is Bend-only and /healthz exists."
+          test -f app/health/route.ts || { echo "::error::/health route is missing"; exit 1; }
+          test -f app/healthz/route.ts || { echo "::error::/healthz compatibility route is missing"; exit 1; }
+          echo "Sanity checks passed: sitemap is Bend-only and health routes exist."
 
   deploy:
     name: Build image and deploy to Cloud Run
@@ -234,6 +235,36 @@ jobs:
             FIREBASE_PROJECT_ID=${{ env.FIREBASE_PROJECT_ID }}
             CRM_API_BASE_URL=${{ steps.cfg.outputs.crm_base_url }}
             NODE_ENV=production
+
+      - name: Verify deployed revision
+        env:
+          SERVICE: ${{ steps.cfg.outputs.service }}
+        run: |
+          set -euo pipefail
+          SERVICE_URL="$(gcloud run services describe "$SERVICE" \
+            --region "$REGION" \
+            --format='value(status.url)')"
+          test -n "$SERVICE_URL" || { echo "::error::Cloud Run returned no service URL"; exit 1; }
+
+          health_ok=false
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent --show-error --max-time 20 "$SERVICE_URL/health" \
+              | grep -q '"status":"healthy"'; then
+              health_ok=true
+              break
+            fi
+            echo "Health probe attempt $attempt failed; retrying in 5 seconds."
+            sleep 5
+          done
+          if [ "$health_ok" != "true" ]; then
+            echo "::error::Deployed service failed its /health smoke check"
+            exit 1
+          fi
+
+          curl --fail --silent --show-error --max-time 20 "$SERVICE_URL/" > /dev/null
+          curl --fail --silent --show-error --max-time 20 \
+            "$SERVICE_URL/central-oregon-medicare-provider-networks" > /dev/null
+          echo "Verified /health, the homepage, and the provider-network guide on $SERVICE_URL."
 
       - name: Show service URL
         run: |
