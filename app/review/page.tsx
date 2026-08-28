@@ -7,10 +7,17 @@ import { siteConfig } from "@/lib/site";
 import { getActiveReviewableTeamMembers, getTeamMemberSlug } from "@/lib/team";
 
 export const metadata: Metadata = {
-  title: "Review Our Medicare Team | Medicare in Bend",
+  title: "Review Our Medicare Team",
   description:
     "Choose the Medicare in Bend team member you worked with so your review or feedback reaches the right person.",
   alternates: { canonical: `${siteConfig.url}/review` },
+  openGraph: {
+    images: ["/opengraph-image"],
+    title: "Review Our Medicare Team | Medicare in Bend",
+    description:
+      "Choose the Medicare in Bend team member you worked with so your review or feedback reaches the right person.",
+    url: `${siteConfig.url}/review`,
+  },
   robots: {
     index: true,
     follow: true,

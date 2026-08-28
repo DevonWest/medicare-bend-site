@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import CTASection from "@/components/CTASection";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Disclaimer from "@/components/Disclaimer";
 import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
@@ -136,17 +136,11 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
       {/* Hero */}
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <JsonLd data={localSchema} />
-        <BreadcrumbSchema
-          items={[{ href: "/", label: "Home" }, { label: `Medicare Help in ${city.name}` }]}
-        />
         <div className="mx-auto max-w-5xl">
-          <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span>Medicare Help in {city.name}</span>
-          </nav>
+          <Breadcrumbs
+            items={[{ href: "/", label: "Home" }, { label: `Medicare Help in ${city.name}` }]}
+            className="mb-4 text-sm text-blue-200"
+          />
           <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
             Medicare Help in {city.name}, Oregon
           </h1>

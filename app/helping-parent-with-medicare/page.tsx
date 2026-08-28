@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
@@ -113,20 +113,16 @@ const internalLinks = [
 export default function HelpingParentWithMedicarePage() {
   return (
     <>
-      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Helping a Parent" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
-          <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href="/resources" className="hover:text-white">
-              Resources
-            </Link>
-            <span className="mx-2">/</span>
-            <span>Helping a Parent with Medicare</span>
-          </nav>
+          <Breadcrumbs
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/resources", label: "Resources" },
+              { label: "Helping a Parent with Medicare" },
+            ]}
+            className="mb-4 text-sm text-blue-200"
+          />
           <div className="max-w-4xl">
             <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
               Helping a Parent with Medicare in Bend?

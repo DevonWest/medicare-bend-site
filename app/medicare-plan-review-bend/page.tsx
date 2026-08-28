@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
@@ -126,16 +126,12 @@ const internalLinks = [
 export default function MedicarePlanReviewBendPage() {
   return (
     <>
-      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Annual Plan Review" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
-          <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span>Annual Medicare Plan Review</span>
-          </nav>
+          <Breadcrumbs
+            items={[{ href: "/", label: "Home" }, { label: "Annual Medicare Plan Review" }]}
+            className="mb-4 text-sm text-blue-200"
+          />
           <div className="max-w-4xl">
             <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">
               Annual Medicare Plan Review in Bend
