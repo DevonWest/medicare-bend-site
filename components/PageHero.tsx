@@ -1,40 +1,24 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
-
-interface Crumb {
-  href?: string;
-  label: string;
-}
+import Breadcrumbs from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/BreadcrumbSchema";
 
 interface PageHeroProps {
   title: string;
   subtitle?: string;
-  crumbs: Crumb[];
+  crumbs: BreadcrumbItem[];
   illustration?: ReactNode;
 }
 
 export default function PageHero({ title, subtitle, crumbs, illustration }: PageHeroProps) {
   return (
     <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white py-16 landscape-mobile:py-5 px-4">
-      <BreadcrumbSchema items={crumbs} />
       <div className={`mx-auto ${illustration ? "max-w-6xl" : "max-w-5xl"}`}>
         <div className={illustration ? "grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center" : undefined}>
           <div>
-            <nav aria-label="Breadcrumb" className="text-blue-200 text-sm mb-4 landscape-mobile:mb-2">
-              {crumbs.map((c, i) => (
-                <span key={`${i}-${c.href ?? c.label}`}>
-                  {c.href ? (
-                    <Link href={c.href} className="hover:text-white">
-                      {c.label}
-                    </Link>
-                  ) : (
-                    <span>{c.label}</span>
-                  )}
-                  {i < crumbs.length - 1 ? <span className="mx-2">/</span> : null}
-                </span>
-              ))}
-            </nav>
+            <Breadcrumbs
+              items={crumbs}
+              className="mb-4 text-sm text-blue-200 landscape-mobile:mb-2"
+            />
             <h1 className="text-4xl landscape-mobile:text-2xl landscape-mobile:leading-snug md:text-5xl font-extrabold leading-tight mb-4 landscape-mobile:mb-2">{title}</h1>
             {subtitle ? <p className="text-xl landscape-mobile:text-base text-blue-100 max-w-3xl">{subtitle}</p> : null}
           </div>

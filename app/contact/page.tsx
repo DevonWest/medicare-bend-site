@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
 import LeadForm from "@/components/LeadForm";
 import { siteConfig, telHref } from "@/lib/site";
@@ -22,17 +22,13 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Contact" }]} />
       {/* Hero */}
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white py-16 landscape-mobile:py-5 px-4">
         <div className="max-w-5xl mx-auto">
-          <nav aria-label="Breadcrumb" className="text-blue-200 text-sm mb-4 landscape-mobile:mb-2">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span>Contact</span>
-          </nav>
+          <Breadcrumbs
+            items={[{ href: "/", label: "Home" }, { label: "Contact" }]}
+            className="mb-4 text-sm text-blue-200 landscape-mobile:mb-2"
+          />
           <h1 className="text-4xl landscape-mobile:text-2xl landscape-mobile:leading-snug md:text-5xl font-extrabold leading-tight mb-4 landscape-mobile:mb-2">
             Contact Us
           </h1>

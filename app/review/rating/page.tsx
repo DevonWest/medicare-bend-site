@@ -5,7 +5,7 @@ import { sanitizeReviewSlug } from "@/lib/reviewFlow";
 import { getTeamMemberBySlug, isReviewableTeamMember } from "@/lib/team";
 
 export const metadata: Metadata = {
-  title: "Rate Your Experience | Medicare in Bend",
+  title: "Rate Your Experience",
   description: "Choose a star rating for your experience with Medicare in Bend by Health Insurance Options.",
   alternates: { canonical: `${siteConfig.url}/review/rating` },
   robots: {

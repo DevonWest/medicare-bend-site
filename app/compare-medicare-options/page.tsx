@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
@@ -110,16 +110,12 @@ const faqs: FAQItem[] = [
 export default function CompareMedicareOptionsPage() {
   return (
     <>
-      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Compare Medicare Options" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <div className="mx-auto max-w-6xl">
-          <nav aria-label="Breadcrumb" className="mb-4 text-sm text-blue-200">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <span>Compare Medicare Options</span>
-          </nav>
+          <Breadcrumbs
+            items={[{ href: "/", label: "Home" }, { label: "Compare Medicare Options" }]}
+            className="mb-4 text-sm text-blue-200"
+          />
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div className="max-w-4xl">
             <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">

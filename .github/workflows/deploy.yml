@@ -88,6 +88,9 @@ jobs:
           NEXT_PUBLIC_SITE_ENV: production
           NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
 
+      - name: Verify built SEO output
+        run: npm run seo:verify
+
       - name: Deployment sanity checks (Bend-only)
         run: |
           set -euo pipefail

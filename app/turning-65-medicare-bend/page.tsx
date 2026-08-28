@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
 import FriendlyIllustration from "@/components/FriendlyIllustration";
@@ -101,20 +101,16 @@ const internalLinks = [
 export default function TurningSixtyFivePage() {
   return (
     <>
-      <BreadcrumbSchema items={[{ href: "/", label: "Home" }, { label: "Turning 65" }]} />
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 landscape-mobile:py-5 text-white">
         <div className="mx-auto max-w-6xl">
-          <nav aria-label="Breadcrumb" className="mb-4 landscape-mobile:mb-2 text-sm text-blue-200">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href="/resources" className="hover:text-white">
-              Resources
-            </Link>
-            <span className="mx-2">/</span>
-            <span>Turning 65 Medicare</span>
-          </nav>
+          <Breadcrumbs
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/resources", label: "Resources" },
+              { label: "Turning 65 Medicare" },
+            ]}
+            className="mb-4 text-sm text-blue-200 landscape-mobile:mb-2"
+          />
           <div className="max-w-4xl">
             <p className="mb-3 landscape-mobile:mb-1 text-sm font-semibold uppercase tracking-[0.2em] text-blue-100">
               Local Medicare Help for Central Oregon Residents

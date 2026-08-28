@@ -1,7 +1,7 @@
 import JsonLd from "@/components/JsonLd";
 import { siteConfig } from "@/lib/site";
 
-interface BreadcrumbItem {
+export interface BreadcrumbItem {
   href?: string;
   label: string;
 }
