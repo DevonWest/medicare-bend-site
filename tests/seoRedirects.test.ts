@@ -166,7 +166,10 @@ test("site metadata, sitemap, and robots use the canonical www production URL", 
   assert.equal(siteConfig.url, CANONICAL);
   assert.equal(homeMetadata.alternates?.canonical, CANONICAL);
   assert.equal(homeMetadata.openGraph?.url, CANONICAL);
-  assert.equal(robots().sitemap, `${CANONICAL}/sitemap.xml`);
+  assert.deepEqual(robots().sitemap, [
+    CANONICAL + "/sitemap.xml",
+    CANONICAL + "/news-sitemap.xml",
+  ]);
 
   const sitemapUrls = new Set(sitemap().map((entry) => entry.url));
 
@@ -191,6 +194,15 @@ test("sitemap includes canonical Bend routes and excludes removed/legacy routes"
   assert.ok(sitemapUrls.has(`${siteConfig.url}/health-insurance-bend`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/oregon-health-insurance-changes-2027`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/editorial-standards`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/2027-medicare-changes-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/high-lakes-health-care-medicare-advantage-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/2027-medicare-part-d-changes`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/2027-medicare-advantage-plans-deschutes-county`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/providence-medicare-advantage-ending-oregon`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/oregon-medigap-birthday-rule`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/oregon-medicare-savings-program-extra-help`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/doctors-accepting-medicare-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-annual-enrollment-bend`));
 
   // Redirect-only or non-canonical routes must not appear.
   assert.equal(sitemapUrls.has(`${siteConfig.url}/about`), false);

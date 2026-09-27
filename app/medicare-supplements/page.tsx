@@ -88,6 +88,21 @@ export default function MedicareSupplementsPage() {
             </Link>{" "}
             or schedule a no-cost consultation.
           </p>
+
+          <div className="rounded-lg border border-blue-200 bg-blue-50 p-5 not-prose">
+            <h2 className="text-xl font-bold text-gray-900">Already have Medigap in Oregon?</h2>
+            <p className="mt-3 text-base leading-relaxed text-gray-800">
+              Oregon&apos;s birthday rule may let an eligible policyholder apply for a Medigap
+              policy with the same or fewer benefits from 30 days before through 30 days after
+              their birthday, regardless of health.
+            </p>
+            <Link
+              href="/oregon-medigap-birthday-rule"
+              className="mt-4 inline-block font-semibold text-blue-700 underline"
+            >
+              See how Oregon&apos;s Medigap birthday rule works →
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import GuideArticle from "@/components/GuideArticle";
 import {
+  CMS_PLAN_LANDSCAPE,
   MEDICARE_PLAN_COMPARE,
   ST_CHARLES_HISTORICAL_MA,
   ST_CHARLES_INSURANCE,
@@ -12,8 +13,14 @@ import { siteConfig } from "@/lib/site";
 const path = "/st-charles-medicare-plans-bend";
 const title = "St. Charles and Medicare Plans in Bend";
 const description =
-  "What St. Charles currently says about Medicare and 2026 Medicare Advantage participation, plus how to verify your exact plan.";
-const sources = [ST_CHARLES_INSURANCE, ST_CHARLES_PACIFICSOURCE_2026, ST_CHARLES_HISTORICAL_MA, MEDICARE_PLAN_COMPARE];
+  "What St. Charles says about Medicare, confirmed 2026 Medicare Advantage context, the 2027 watch list, and how to verify your exact plan.";
+const sources = [
+  ST_CHARLES_INSURANCE,
+  ST_CHARLES_PACIFICSOURCE_2026,
+  ST_CHARLES_HISTORICAL_MA,
+  CMS_PLAN_LANDSCAPE,
+  MEDICARE_PLAN_COMPARE,
+];
 
 export const metadata: Metadata = {
   title,
@@ -30,7 +37,7 @@ export default function StCharlesPage() {
       description={description}
       crumb="St. Charles Plans"
       published="2026-08-27"
-      modified="2026-08-27"
+      modified="2026-09-27"
       sources={sources}
       ctaHeading="Review a Plan Around Your St. Charles Care"
       ctaSubheading="Scott can help compare provider and prescription details across the Medicare plans the agency represents."
@@ -53,6 +60,21 @@ export default function StCharlesPage() {
         St. Charles notes that Regence, Moda, and Providence no longer offer Medicare Advantage plans
         in Central Oregon beginning in 2026. That is a local plan-availability statement—not a reason
         to assume those companies&apos; other products, such as Medicare Supplement coverage, are rejected.
+      </p>
+
+      <h2 className="pt-4 text-3xl font-bold text-gray-900">What to watch for 2027</h2>
+      <p>
+        St. Charles has not published a blanket 2027 Medicare Advantage participation guarantee.
+        The PacificSource announcement cited on this page described a one-year 2026 agreement, and
+        UnitedHealthcare&apos;s appearance on the current insurance list does not establish every
+        2027 product. Confirm both the full plan and the specific St. Charles facility or clinician.
+      </p>
+      <p>
+        See our{" "}
+        <Link href="/2027-medicare-advantage-plans-deschutes-county" className="font-medium text-blue-700 underline">
+          2027 Deschutes County Medicare Advantage status page
+        </Link>{" "}
+        for the official-landscape status and local verification checklist.
       </p>
 
       <h2 className="pt-4 text-3xl font-bold text-gray-900">Historical network notices</h2>
