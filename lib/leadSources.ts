@@ -29,6 +29,9 @@ export const LEAD_SOURCES = [
   "medicare-la-pine",
   "medicare-prineville",
   "medicare-madras",
+  "medicare-deschutes-county",
+  "medicare-crook-county",
+  "medicare-jefferson-county",
   "review-feedback",
   "unknown",
 ] as const;

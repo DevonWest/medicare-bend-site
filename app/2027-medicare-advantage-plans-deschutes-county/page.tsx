@@ -63,6 +63,29 @@ const statusRows = [
   ],
 ] as const;
 
+const faqItems = [
+  {
+    question: "How many Medicare Advantage plans will Deschutes County have in 2027?",
+    answer:
+      "The official 2027 county count was still pending at this page’s September 27, 2026 review. Use the CMS landscape file and Medicare Plan Compare when 2027 data is posted rather than carrying forward a 2026 count.",
+  },
+  {
+    question: "Will every Deschutes County provider accept the same 2027 plans?",
+    answer:
+      "No. Hospitals, clinics, individual clinicians, laboratories, imaging centers, and other suppliers can have different contracts. Confirm each one under the full plan name and ID.",
+  },
+  {
+    question: "Can I use a carrier’s statewide provider announcement as proof of local coverage?",
+    answer:
+      "No. A statewide provider statement does not establish that a matching plan is sold at your ZIP code or that every location and clinician participates.",
+  },
+  {
+    question: "What should I compare when final 2027 plans appear?",
+    answer:
+      "Compare covered prescriptions, pharmacy pricing, local providers, referrals and authorizations, premium, likely medical cost sharing, annual maximum out-of-pocket exposure, and travel access.",
+  },
+] as const;
+
 export default function DeschutesCountyMedicareAdvantage2027Page() {
   return (
     <GuideArticle
@@ -73,6 +96,15 @@ export default function DeschutesCountyMedicareAdvantage2027Page() {
       published="2026-09-27"
       modified="2026-09-27"
       sources={sources}
+      articleType="NewsArticle"
+      articleSection="Deschutes County Medicare Advantage"
+      keywords={[
+        "2027 Medicare Advantage Deschutes County",
+        "Bend Medicare Advantage plans 2027",
+        "Deschutes County Medicare plans",
+        "Central Oregon Medicare provider networks",
+      ]}
+      faqItems={faqItems}
       ctaHeading="Compare Deschutes County Plans When 2027 Data Is Final"
       ctaSubheading="A local licensed agent can help verify availability, doctors, prescriptions, and total expected cost."
     >
@@ -154,6 +186,10 @@ export default function DeschutesCountyMedicareAdvantage2027Page() {
           2027 Bend and Oregon Medicare tracker
         </Link>{" "}
         for dated updates, or start with our{" "}
+        <Link href="/medicare-deschutes-county" className="font-semibold text-blue-700 underline">
+          complete Deschutes County Medicare guide
+        </Link>{" "}
+        and{" "}
         <Link href="/central-oregon-medicare-provider-networks" className="font-semibold text-blue-700 underline">
           Central Oregon provider-network guide
         </Link>.

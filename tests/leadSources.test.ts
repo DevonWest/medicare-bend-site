@@ -22,6 +22,9 @@ test("every Central Oregon local page source is allowlisted", () => {
     "medicare-la-pine",
     "medicare-prineville",
     "medicare-madras",
+    "medicare-deschutes-county",
+    "medicare-crook-county",
+    "medicare-jefferson-county",
   ];
 
   for (const slug of expected) {

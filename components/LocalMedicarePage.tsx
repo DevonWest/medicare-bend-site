@@ -1,25 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import CTASection from "@/components/CTASection";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
+import FAQ from "@/components/FAQ";
 import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import { getCityBySlug, getLocalMedicarePath } from "@/lib/cities";
 import { siteConfig, telHref } from "@/lib/site";
 
-/**
- * Build metadata for a Central Oregon local Medicare page.
- * The rendered <title> becomes "Medicare Help in {City}, OR | Medicare in Bend"
- * once the root layout appends the brand name.
- */
 export function getLocalMedicareMetadata(citySlug: string): Metadata {
   const city = getCityBySlug(citySlug);
 
-  if (!city) {
-    return { title: "Not Found" };
-  }
+  if (!city) return { title: "Not Found" };
 
   const canonical = `${siteConfig.url}${getLocalMedicarePath(city.slug)}`;
 
@@ -40,50 +34,60 @@ const optionCards = [
   {
     href: "/medicare-advantage",
     title: "Medicare Advantage (Part C)",
-    body: "Bundled plans from private carriers that often include Part D and extras like dental, vision, and hearing. Because these plans use networks, we confirm your providers are covered.",
+    body: "Private Medicare plans that combine Part A and Part B and commonly include Part D. Networks, referrals, authorizations, copays, and annual out-of-pocket limits vary.",
   },
   {
     href: "/medicare-supplements",
-    title: "Medicare Supplement (Medigap)",
-    body: "Standardized plans that help with Original Medicare's out-of-pocket costs and let you see any provider nationwide who accepts Medicare.",
+    title: "Original Medicare + Medigap",
+    body: "A Medicare Supplement can help with Original Medicare cost sharing and generally lets you use providers nationwide who accept Medicare. Part D is selected separately.",
   },
   {
     href: "/medicare-part-d",
     title: "Medicare Part D",
-    body: "Standalone prescription drug coverage. Formularies, tiers, and preferred pharmacies vary by plan, so we compare how your medications are covered.",
+    body: "Standalone drug plans have different formularies, restrictions, pharmacy networks, and total annual costs. The lowest premium may not be the lowest-cost choice.",
   },
   {
-    href: "/supplemental-insurance",
-    title: "Dental, Vision & Supplemental",
-    body: "Optional dental, vision, hearing, and hospital-indemnity coverage to round out your Medicare benefits where it makes sense for you.",
+    href: "/oregon-medigap-birthday-rule",
+    title: "Oregon Medigap Rights",
+    body: "Oregon has a Medigap birthday rule for eligible policyholders, but timing and equal-or-lesser-benefit requirements apply. Review the rule before changing coverage.",
   },
 ] as const;
 
 const processSteps = [
   {
-    title: "Tell us about your Medicare situation",
-    body: "Share where you are — turning 65, leaving employer coverage, new to the area, or reviewing your current plan.",
+    title: "Map your care",
+    body: "List every clinician, clinic, hospital, pharmacy, prescription, and planned procedure you want the coverage to handle.",
   },
   {
-    title: "Review your doctors, prescriptions, and coverage needs",
-    body: "We look at the providers and pharmacies you use and the medications you take.",
+    title: "Confirm eligibility and timing",
+    body: "Review your county, ZIP code, Medicare status, employer coverage, and any enrollment period that applies.",
   },
   {
-    title: "Compare available options",
-    body: "We compare the plans we represent side by side so you can weigh costs and coverage.",
+    title: "Compare complete costs",
+    body: "Look beyond premium to medical cost sharing, drug costs, network rules, travel access, and financial risk.",
   },
   {
-    title: "Enroll or review next steps if you choose",
-    body: "If you decide to move forward, we help with enrollment — and we stay available year-round.",
+    title: "Verify before enrolling",
+    body: "Recheck the official plan directory and ask providers about the exact plan name and year before submitting an enrollment.",
   },
 ] as const;
 
-const helpfulLinks = [
-  { href: "/compare-medicare-options", label: "Compare Medicare Options" },
-  { href: "/rx-drug-review", label: "Prescription Drug Review" },
-  { href: "/turning-65-medicare-bend", label: "Turning 65 & Medicare" },
-  { href: "/medicare-plan-review-bend", label: "Annual Plan Review" },
-  { href: "/contact", label: "Contact a Local Agent" },
+const officialResources = [
+  {
+    href: "https://www.medicare.gov/plan-compare/",
+    title: "Medicare Plan Compare",
+    body: "Use your ZIP code, prescriptions, and pharmacies to review official plan information.",
+  },
+  {
+    href: "https://www.councilonaging.org/programs/medicare-counseling/",
+    title: "Central Oregon SHIBA counseling",
+    body: "The Council on Aging of Central Oregon offers free, unbiased Medicare counseling through Oregon SHIBA.",
+  },
+  {
+    href: "https://www.medicare.gov/basics/get-started-with-medicare/using-medicare/if-you-move",
+    title: "Medicare guidance when you move",
+    body: "A permanent move can affect Medicare Advantage or Part D availability and may create an enrollment opportunity.",
+  },
 ] as const;
 
 interface LocalMedicarePageProps {
@@ -93,20 +97,9 @@ interface LocalMedicarePageProps {
 export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) {
   const city = getCityBySlug(citySlug);
 
-  if (!city) {
-    notFound();
-  }
+  if (!city) notFound();
 
   const canonicalPath = getLocalMedicarePath(city.slug);
-
-  const reviewItems: string[] = [
-    "The doctors and hospitals you use, and whether they are in a plan's network",
-    "Your prescription drugs and preferred pharmacies",
-    "Premiums, copays, deductibles, and out-of-pocket costs",
-    ...(city.travelNote ? [city.travelNote] : []),
-    "Enrollment timing, so you understand your windows and avoid late penalties",
-  ];
-
   const localSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -123,22 +116,26 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
         name: `${city.county}, ${city.state}`,
       },
     },
+    audience: { "@type": "Audience", audienceType: "Medicare beneficiaries and caregivers" },
     serviceType: [
-      "Medicare Advantage",
-      "Medicare Supplement",
-      "Medicare Part D",
-      "Supplemental insurance",
+      "Medicare Advantage plan comparison",
+      "Medicare Supplement comparison",
+      "Medicare Part D comparison",
+      "Medicare enrollment guidance",
     ],
   };
 
   return (
     <>
-      {/* Hero */}
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 px-4 py-16 text-white">
         <JsonLd data={localSchema} />
         <div className="mx-auto max-w-5xl">
           <Breadcrumbs
-            items={[{ href: "/", label: "Home" }, { label: `Medicare Help in ${city.name}` }]}
+            items={[
+              { href: "/", label: "Home" },
+              { href: "/resources", label: "Resources" },
+              { label: `Medicare in ${city.name}` },
+            ]}
             className="mb-4 text-sm text-blue-200"
           />
           <h1 className="mb-4 text-4xl font-extrabold leading-tight md:text-5xl">
@@ -159,35 +156,114 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
               Request Medicare Help
             </Link>
           </div>
-          <p className="mt-4 text-sm text-blue-100">{siteConfig.serviceAreaStatement}</p>
+          <p className="mt-4 text-sm text-blue-100">No cost · No obligation · Plans from the carriers we represent</p>
         </div>
       </section>
 
-      {/* Local context — the genuinely city-specific section */}
-      <section className="bg-white px-4 py-14">
+      <section className="border-b border-slate-200 bg-white px-4 py-10">
+        <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-blue-700">County</p>
+            <Link href={city.countyPath} className="mt-2 block text-lg font-bold text-gray-900 hover:text-blue-700">
+              {city.county}
+            </Link>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-blue-700">ZIP codes covered</p>
+            <p className="mt-2 text-lg font-bold text-gray-900">{city.zipCodes.join(", ")}</p>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-bold uppercase tracking-wider text-blue-700">Nearby care areas</p>
+            <p className="mt-2 text-base font-semibold text-gray-900">{city.nearbyCommunities.join(", ")}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-16">
         <div className="mx-auto max-w-4xl">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900">
-            Medicare guidance for {city.name} residents
-          </h2>
-          <p className="text-lg leading-relaxed text-gray-700">{city.localContext}</p>
-          <p className="mt-4 text-lg leading-relaxed text-gray-700">
-            {siteConfig.legalName} is {siteConfig.agencyDescriptor} serving {city.name} and Central
-            Oregon. We help you review coverage options and compare the plans we represent — with no
-            cost and no obligation.
+          <p className="text-sm font-semibold text-slate-600">Reviewed September 27, 2026</p>
+          <h2 className="mt-3 text-3xl font-bold text-gray-900">How Medicare and local care connect in {city.name}</h2>
+          <div className="mt-6 space-y-5 text-lg leading-relaxed text-gray-700">
+            {city.localOverview.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+          <aside className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-base leading-relaxed text-amber-950">
+            <strong>Important distinction:</strong> a provider saying it “accepts Medicare” does not prove
+            participation in every Medicare Advantage plan. Network status, appointment availability, and
+            acceptance of new patients are separate questions.
+          </aside>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-4xl">
+            <p className="text-sm font-bold uppercase tracking-wider text-blue-700">Local care map</p>
+            <h2 className="mt-2 text-3xl font-bold text-gray-900">Providers and facilities to verify near {city.name}</h2>
+            <p className="mt-4 text-lg leading-relaxed text-gray-700">{city.careAccessSummary}</p>
+          </div>
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            {city.localFacilities.map((facility) => (
+              <article key={facility.name} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p className="text-xs font-bold uppercase tracking-wider text-blue-700">{facility.type}</p>
+                <h3 className="mt-2 text-xl font-bold text-gray-900">{facility.name}</h3>
+                <p className="mt-3 leading-relaxed text-gray-700">{facility.description}</p>
+                <a
+                  href={facility.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block font-semibold text-blue-700 underline underline-offset-2"
+                >
+                  Check the official provider page ↗
+                </a>
+              </article>
+            ))}
+          </div>
+          <p className="mt-6 max-w-4xl text-sm leading-relaxed text-slate-600">
+            These links are starting points, not network guarantees or endorsements. Provider contracts,
+            clinician availability, locations, and services can change. Confirm directly with both the plan and provider.
           </p>
         </div>
       </section>
 
-      {/* Medicare options to review */}
+      <section className="bg-white px-4 py-16">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-wider text-blue-700">Your comparison checklist</p>
+            <h2 className="mt-2 text-3xl font-bold text-gray-900">What {city.name} residents should verify</h2>
+            <p className="mt-4 text-lg leading-relaxed text-gray-700">
+              Plan availability starts with your permanent address, but a useful review follows the care you actually receive.
+            </p>
+            <Link
+              href="/central-oregon-medicare-provider-networks"
+              className="mt-5 inline-block font-semibold text-blue-700 underline underline-offset-2"
+            >
+              Use the complete provider-network guide →
+            </Link>
+          </div>
+          <ul className="space-y-3">
+            {city.comparisonFactors.map((item) => (
+              <li key={item} className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <span
+                  className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-700 text-sm font-bold text-white"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+                <span className="leading-relaxed text-gray-800">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
         <div className="mx-auto max-w-6xl">
           <div className="max-w-3xl">
-            <h2 className="text-3xl font-bold text-gray-900">
-              Medicare options to review in {city.name}
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900">Medicare coverage paths to compare</h2>
             <p className="mt-3 text-lg leading-relaxed text-gray-700">
-              Depending on your situation, it can help to review each of these coverage types and how
-              they fit your doctors, prescriptions, and budget.
+              Compare how each route handles provider access, prescriptions, predictable premiums, and financial risk.
             </p>
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -197,54 +273,21 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
                 href={card.href}
                 className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
               >
-                <h3 className="text-xl font-semibold text-gray-900 transition-colors group-hover:text-blue-700">
-                  {card.title}
-                </h3>
-                <p className="mt-3 text-base leading-relaxed text-gray-700">{card.body}</p>
-                <span className="mt-4 inline-block text-sm font-medium text-blue-700 group-hover:underline">
-                  Learn more →
-                </span>
+                <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-700">{card.title}</h3>
+                <p className="mt-3 leading-relaxed text-gray-700">{card.body}</p>
+                <span className="mt-4 inline-block text-sm font-semibold text-blue-700 group-hover:underline">Read guide →</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* What we help review */}
       <section className="bg-white px-4 py-16">
-        <div className="mx-auto max-w-4xl">
-          <h2 className="text-3xl font-bold text-gray-900">What we help review</h2>
-          <ul className="mt-8 space-y-3">
-            {reviewItems.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-5"
-              >
-                <span
-                  className="mt-0.5 inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-blue-700 text-sm font-bold text-white"
-                  aria-hidden="true"
-                >
-                  ✓
-                </span>
-                <span className="text-gray-800">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Local process */}
-      <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-bold text-gray-900">How local Medicare help works</h2>
-            <p className="mt-3 text-lg leading-relaxed text-gray-700">
-              A simple, no-pressure process for {city.name} residents.
-            </p>
-          </div>
+          <h2 className="text-3xl font-bold text-gray-900">A safer four-step review</h2>
           <ol className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {processSteps.map((step, index) => (
-              <li key={step.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <li key={step.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-700 font-bold text-white">
                   {index + 1}
                 </span>
@@ -256,17 +299,39 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
         </div>
       </section>
 
-      {/* Lead form */}
+      <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-3xl font-bold text-gray-900">Official Medicare and local help</h2>
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-gray-700">
+            Use current government and community resources alongside a plan-specific review.
+          </p>
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+            {officialResources.map((resource) => (
+              <a
+                key={resource.href}
+                href={resource.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl border border-slate-200 bg-white p-6 transition-colors hover:border-blue-300"
+              >
+                <h3 className="text-lg font-bold text-gray-900">{resource.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-700">{resource.body}</p>
+                <span className="mt-4 inline-block text-sm font-semibold text-blue-700">Visit official resource ↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white px-4 py-16">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-start">
           <div>
-            <h2 className="mb-4 text-3xl font-bold text-gray-900">
-              Request Medicare help in {city.name}
-            </h2>
-            <p className="text-lg leading-relaxed text-gray-700">
-              Tell us a little about what you want to review, and a licensed local agent will follow
-              up. We can help by phone, online, or by appointment.
+            <h2 className="text-3xl font-bold text-gray-900">Request Medicare help in {city.name}</h2>
+            <p className="mt-4 text-lg leading-relaxed text-gray-700">
+              Tell us what you want to review. A licensed local agent can compare the plans we represent
+              around your providers, prescriptions, pharmacies, budget, and enrollment timing.
             </p>
+            <p className="mt-4 text-gray-700">Help is available by phone, online, or by appointment, with no cost or obligation.</p>
           </div>
           <div id="local-lead-form">
             <LeadForm
@@ -279,33 +344,36 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
         </div>
       </section>
 
-      {/* Helpful links */}
-      <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-bold text-gray-900">Helpful Medicare pages</h2>
-            <p className="mt-3 text-lg text-gray-600">
-              Review related pages before or after your consultation.
-            </p>
-          </div>
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {helpfulLinks.map((item) => (
+      <section className="border-y border-slate-100 bg-slate-50 px-4 py-14">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl font-bold text-gray-900">Explore nearby Medicare guides</h2>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={city.countyPath}
+              className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2.5 font-semibold text-blue-800 hover:bg-blue-100"
+            >
+              {city.county} guide
+            </Link>
+            {city.relatedLocations.map((location) => (
               <Link
-                key={item.href}
-                href={item.href}
-                className="group rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
+                key={location.href}
+                href={location.href}
+                className="rounded-full border border-slate-200 bg-white px-5 py-2.5 font-semibold text-blue-700 hover:border-blue-300"
               >
-                <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-700">
-                  {item.label}
-                </h3>
-                <span className="mt-4 inline-block text-sm font-medium text-blue-700 group-hover:underline">
-                  Visit page →
-                </span>
+                Medicare in {location.label}
               </Link>
             ))}
+            <Link
+              href="/resources"
+              className="rounded-full border border-slate-200 bg-white px-5 py-2.5 font-semibold text-blue-700 hover:border-blue-300"
+            >
+              All Medicare guides
+            </Link>
           </div>
         </div>
       </section>
+
+      <FAQ heading={`Medicare questions from ${city.name} residents`} items={city.faqItems} />
 
       <section className="bg-white px-4 py-12">
         <div className="mx-auto max-w-3xl">
@@ -315,7 +383,7 @@ export default function LocalMedicarePage({ citySlug }: LocalMedicarePageProps) 
 
       <CTASection
         heading={`Talk With a Local ${city.name} Medicare Advisor`}
-        subheading="No cost, no pressure — just straightforward Medicare guidance for Central Oregon."
+        subheading="No cost, no pressure—just straightforward Medicare guidance for Central Oregon."
       />
     </>
   );

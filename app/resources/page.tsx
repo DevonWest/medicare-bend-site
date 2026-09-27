@@ -4,6 +4,7 @@ import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import PageHero from "@/components/PageHero";
 import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
+import { centralOregonCounties, getCountyMedicarePath } from "@/lib/counties";
 import { getMarketUpdatesNewestFirst, marketUpdatesHub } from "@/lib/marketUpdates";
 import { siteConfig } from "@/lib/site";
 
@@ -328,10 +329,35 @@ export default function ResourcesPage() {
       <section className="bg-white px-4 py-16">
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-3 text-2xl font-bold text-gray-900 md:text-3xl">
-            Central Oregon Medicare Help
+            Central Oregon County Medicare Guides
+          </h2>
+          <p className="mb-8 max-w-3xl text-gray-600">
+            Compare county-based plan availability, hospitals, clinics, pharmacies, travel for care,
+            and the provider checks that matter before enrollment.
+          </p>
+          <div className="grid gap-5 md:grid-cols-3">
+            {centralOregonCounties.map((county) => (
+              <Link
+                key={county.slug}
+                href={getCountyMedicarePath(county.slug)}
+                className="rounded-2xl border border-blue-200 bg-blue-50 p-6 transition-all hover:-translate-y-0.5 hover:border-blue-400 hover:shadow-md"
+              >
+                <h3 className="text-xl font-bold text-gray-900">Medicare in {county.name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-700">{county.heroSummary}</p>
+                <span className="mt-4 inline-block text-sm font-semibold text-blue-700">Read county guide →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-100 bg-slate-50 px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-3 text-2xl font-bold text-gray-900 md:text-3xl">
+            City and Community Medicare Help
           </h2>
           <p className="mb-8 max-w-2xl text-gray-600">
-            Local Medicare guidance for the communities we serve across Central Oregon.
+            Detailed care-access and plan-comparison guidance for the communities we serve.
           </p>
           <div className="flex flex-wrap gap-3">
             {centralOregonCities.map((city) => (
