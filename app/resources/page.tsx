@@ -4,6 +4,7 @@ import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import PageHero from "@/components/PageHero";
 import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
+import { getMarketUpdatesNewestFirst, marketUpdatesHub } from "@/lib/marketUpdates";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -35,9 +36,19 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
       "Use current provider and government sources to check local networks before choosing coverage.",
     items: [
       {
+        href: "/high-lakes-health-care-medicare-advantage-bend",
+        title: "High Lakes 2027 Medicare Network Update",
+        body: "See Praxis Health's published 2027 participation list, the unresolved UnitedHealthcare negotiation, and the three checks Bend residents need.",
+      },
+      {
         href: "/central-oregon-medicare-provider-networks",
         title: "Central Oregon Medicare Provider Networks",
         body: "Verify St. Charles, Summit Health, individual clinicians, and exact Medicare Advantage plans without confusing acceptance, availability, and network status.",
+      },
+      {
+        href: "/doctors-accepting-medicare-bend",
+        title: "Doctors Accepting Medicare in Bend",
+        body: "Use High Lakes, Summit Health, St. Charles, and Medicare directories, then verify new-patient and exact-plan status.",
       },
       {
         href: "/st-charles-medicare-plans-bend",
@@ -88,6 +99,23 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
     ],
   },
   {
+    title: "Oregon Medicare Savings & Medigap Rights",
+    intro:
+      "Oregon-specific guides for lowering eligible Medicare costs and reviewing an existing Medicare Supplement policy.",
+    items: [
+      {
+        href: "/oregon-medicare-savings-program-extra-help",
+        title: "Oregon Medicare Savings Programs & Extra Help",
+        body: "See current screening figures, benefits, Oregon's no-asset-test MSP rule, and official application contacts.",
+      },
+      {
+        href: "/oregon-medigap-birthday-rule",
+        title: "Oregon Medigap Birthday Rule",
+        body: "Understand the 30-day-before through 30-day-after application window and the equal-or-lesser-benefits requirement.",
+      },
+    ],
+  },
+  {
     title: "Individual Health Insurance",
     intro:
       "Information for Central Oregon residents who buy coverage outside an employer or Medicare.",
@@ -110,6 +138,11 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
       "Review these pages when you want help with prescriptions, plan types, and coverage details before you make a change.",
     items: [
       {
+        href: "/medicare-annual-enrollment-bend",
+        title: "Medicare Annual Enrollment in Bend",
+        body: "Prepare for October 15 through December 7 with a local provider, prescription, pharmacy, and total-cost checklist.",
+      },
+      {
         href: "/medicare-plan-review-bend",
         title: "Annual Medicare Plan Review",
         body: "Review plan changes, prescriptions, doctors, pharmacies, and out-of-pocket costs before the next plan year.",
@@ -120,6 +153,11 @@ const resourceSections: Array<{ title: string; intro: string; items: ResourceLin
         title: "Prescription Drug Review",
         body: "Bring your medication list and compare how Medicare Advantage and Part D plans we represent may cover your prescriptions.",
         ctaLabel: "Get Help",
+      },
+      {
+        href: "/2027-medicare-part-d-changes",
+        title: "2027 Medicare Part D Changes",
+        body: "Review the confirmed $700 standard deductible, $2,400 out-of-pocket threshold, and 15 negotiated drugs.",
       },
       {
         href: "/medicare-part-d",
@@ -201,6 +239,8 @@ const officialResources: ResourceLink[] = [
 ];
 
 export default function ResourcesPage() {
+  const marketUpdates = getMarketUpdatesNewestFirst();
+
   return (
     <>
         <PageHero
@@ -208,6 +248,45 @@ export default function ResourcesPage() {
           subtitle="Browse local Medicare guides, plan comparisons, and trusted Medicare and government links to help you review your options with confidence."
           crumbs={[{ href: "/", label: "Home" }, { label: "Resources" }]}
         />
+
+      <section className="border-b border-blue-100 bg-blue-50 px-4 py-12">
+        <div className="mx-auto max-w-6xl">
+          <p className="text-sm font-bold uppercase tracking-wider text-blue-700">
+            Bend and Oregon coverage updates
+          </p>
+          <div className="mt-3 grid gap-7 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">2027 Medicare changes</h2>
+              <p className="mt-4 text-lg leading-relaxed text-gray-700">
+                Track confirmed provider and national changes while final Deschutes County plan
+                availability, premiums, and benefits remain pending.
+              </p>
+              <Link
+                href={marketUpdatesHub.path}
+                className="mt-5 inline-block font-semibold text-blue-700 underline"
+              >
+                Open the complete 2027 tracker →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {marketUpdates.map((update) => (
+                <Link
+                  key={update.path}
+                  href={update.path}
+                  className="rounded-2xl border border-blue-200 bg-white p-5 transition-colors hover:border-blue-400"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">
+                    {update.localStatusLabel}
+                  </p>
+                  <h3 className="mt-2 text-lg font-bold text-gray-900">{update.shortTitle}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-700">{update.summary}</p>
+                  <span className="mt-3 inline-block text-sm font-semibold text-blue-700">Read update →</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="bg-white px-4 py-16">
         <div className="mx-auto max-w-6xl">

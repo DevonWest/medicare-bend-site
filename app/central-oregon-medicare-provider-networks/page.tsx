@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import GuideArticle from "@/components/GuideArticle";
 import {
+  HEALTHSPRING_REBRAND,
   MEDICARE_PLAN_COMPARE,
+  PRAXIS_2027_INSURANCE_UPDATE,
+  PRAXIS_CLINIC_LOCATIONS,
   ST_CHARLES_HISTORICAL_MA,
   ST_CHARLES_INSURANCE,
   ST_CHARLES_PACIFICSOURCE_2026,
@@ -13,8 +16,11 @@ import { siteConfig } from "@/lib/site";
 const path = "/central-oregon-medicare-provider-networks";
 const title = "Central Oregon Medicare Provider Networks";
 const description =
-  "Verify St. Charles, Summit Health, and Medicare plan networks in Bend using current provider and plan sources.";
+  "Verify High Lakes, St. Charles, Summit Health, and Medicare plan networks in Bend using current provider and plan sources.";
 const sources = [
+  PRAXIS_2027_INSURANCE_UPDATE,
+  PRAXIS_CLINIC_LOCATIONS,
+  HEALTHSPRING_REBRAND,
   ST_CHARLES_INSURANCE,
   ST_CHARLES_PACIFICSOURCE_2026,
   ST_CHARLES_HISTORICAL_MA,
@@ -44,7 +50,7 @@ export default function ProviderNetworksPage() {
       description={description}
       crumb="Provider Networks"
       published="2026-08-27"
-      modified="2026-08-27"
+      modified="2026-09-27"
       sources={sources}
       ctaHeading="Want Help Checking Your Providers?"
       ctaSubheading="Bring your provider list and plan details. Scott can help you compare the plans the agency represents."
@@ -73,6 +79,18 @@ export default function ProviderNetworksPage() {
           </thead>
           <tbody>
             <tr className="border-b border-slate-200 align-top">
+              <th className="p-3 font-semibold">High Lakes / Praxis Health</th>
+              <td className="p-3">
+                Praxis lists Medicare Part B plus Aetna, HealthSpring, PacificSource, and Regence
+                Medicare Advantage participation for Oregon in 2027. It says UnitedHealthcare
+                negotiations are ongoing and a termination could occur.
+              </td>
+              <td className="p-3">
+                County availability, the full plan product, the exact clinic and clinician, and
+                separate St. Charles participation. The UnitedHealthcare outcome is not final.
+              </td>
+            </tr>
+            <tr className="border-b border-slate-200 align-top">
               <th className="p-3 font-semibold">St. Charles Health System</th>
               <td className="p-3">Its current insurance page lists Medicare and warns that contracts can change. A separate agreement confirms PacificSource Medicare Advantage participation for 2026.</td>
               <td className="p-3">Your exact plan, facility, and individual clinician. The PacificSource Medicare Advantage agreement described by St. Charles was for one year.</td>
@@ -88,6 +106,10 @@ export default function ProviderNetworksPage() {
 
       <p>
         For a closer look, use our dedicated guides for{" "}
+        <Link href="/high-lakes-health-care-medicare-advantage-bend" className="font-medium text-blue-700 underline">
+          High Lakes and Praxis Health&apos;s 2027 update
+        </Link>
+        ,{" "}
         <Link href="/st-charles-medicare-plans-bend" className="font-medium text-blue-700 underline">
           St. Charles Medicare plan verification
         </Link>{" "}
@@ -96,6 +118,15 @@ export default function ProviderNetworksPage() {
           Summit Health Medicare verification
         </Link>.
       </p>
+
+      <section className="rounded-2xl border border-blue-200 bg-blue-50 p-6">
+        <h2 className="text-2xl font-bold text-gray-900">The three-level Bend check</h2>
+        <ol className="mt-4 list-decimal space-y-3 pl-7 text-base">
+          <li>Is the exact plan offered in your county and ZIP code?</li>
+          <li>Does the exact clinic and individual clinician participate in that plan?</li>
+          <li>Does the St. Charles facility or specialist you may need participate separately?</li>
+        </ol>
+      </section>
 
       <h2 className="pt-4 text-3xl font-bold text-gray-900">A four-part network check</h2>
       <div className="grid gap-5 md:grid-cols-2">
@@ -125,6 +156,14 @@ export default function ProviderNetworksPage() {
         <Link href="/medicare-advantage-vs-supplement-bend" className="font-medium text-blue-700 underline">
           Bend comparison of Medicare Advantage and Medicare Supplement
         </Link>.
+      </p>
+
+      <p>
+        Starting a clinician search? Use our{" "}
+        <Link href="/doctors-accepting-medicare-bend" className="font-medium text-blue-700 underline">
+          doctors accepting Medicare in Bend guide
+        </Link>{" "}
+        for official directories, new-patient checks, and a phone script.
       </p>
     </GuideArticle>
   );

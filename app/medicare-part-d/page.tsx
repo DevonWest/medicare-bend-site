@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
 import FAQ, { type FAQItem } from "@/components/FAQ";
@@ -74,6 +75,24 @@ export default function MedicarePartDPage() {
               <li>Whether you want mail-order or 90-day fills</li>
               <li>Any drug allergies or recent prescription changes</li>
             </ul>
+          </div>
+
+          <div className="rounded-lg border-2 border-amber-200 bg-amber-50 p-5 not-prose">
+            <p className="text-sm font-bold uppercase tracking-wide text-amber-800">Confirmed for 2027</p>
+            <h2 className="mt-2 text-xl font-bold text-gray-900">
+              $700 standard deductible and $2,400 out-of-pocket threshold
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-gray-800">
+              CMS has also published negotiated prices for 15 selected drugs effective January 1,
+              2027. Actual plan premiums, formularies, pharmacy pricing, and your copays remain
+              plan-specific.
+            </p>
+            <Link
+              href="/2027-medicare-part-d-changes"
+              className="mt-4 inline-block font-semibold text-blue-700 underline"
+            >
+              Read the complete 2027 Part D update →
+            </Link>
           </div>
 
           <h2 className="text-2xl font-bold text-gray-900 pt-4">When you can enroll or change Part D</h2>

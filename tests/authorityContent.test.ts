@@ -37,19 +37,27 @@ test("service-area schema does not claim LocalBusiness, street address, or appro
 });
 
 test("new guides include reviewed dates and primary sources", () => {
-  const guidePaths = [
-    "central-oregon-medicare-provider-networks",
-    "st-charles-medicare-plans-bend",
-    "summit-health-medicare-bend",
-    "medicare-advantage-vs-supplement-bend",
-    "moving-to-bend-medicare",
-    "health-insurance-bend",
-    "oregon-health-insurance-changes-2027",
-  ];
+  const guidePaths = {
+    "central-oregon-medicare-provider-networks": "2026-09-27",
+    "st-charles-medicare-plans-bend": "2026-09-27",
+    "summit-health-medicare-bend": "2026-09-27",
+    "medicare-advantage-vs-supplement-bend": "2026-08-27",
+    "moving-to-bend-medicare": "2026-08-27",
+    "health-insurance-bend": "2026-08-27",
+    "oregon-health-insurance-changes-2027": "2026-08-27",
+    "high-lakes-health-care-medicare-advantage-bend": "2026-09-27",
+    "2027-medicare-part-d-changes": "2026-09-27",
+    "2027-medicare-advantage-plans-deschutes-county": "2026-09-27",
+    "providence-medicare-advantage-ending-oregon": "2026-09-27",
+    "oregon-medigap-birthday-rule": "2026-09-27",
+    "oregon-medicare-savings-program-extra-help": "2026-09-27",
+    "doctors-accepting-medicare-bend": "2026-09-27",
+    "medicare-annual-enrollment-bend": "2026-09-27",
+  } as const;
 
-  for (const path of guidePaths) {
+  for (const [path, modified] of Object.entries(guidePaths)) {
     const content = readFileSync(join(root, "app", path, "page.tsx"), "utf8");
-    assert.match(content, /modified="2026-08-27"/);
+    assert.match(content, new RegExp('modified="' + modified + '"'));
     assert.match(content, /sources=\{sources\}/);
   }
 });

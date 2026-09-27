@@ -24,6 +24,11 @@ const resourceLinks: Array<{ href: string; label: string }> = [
   { href: "/helping-parent-with-medicare", label: "Helping a Parent with Medicare" },
   { href: "/working-past-65-medicare", label: "Working Past 65 & Medicare" },
   { href: "/central-oregon-medicare-provider-networks", label: "Provider Network Guide" },
+  { href: "/doctors-accepting-medicare-bend", label: "Doctors Accepting Medicare" },
+  { href: "/medicare-annual-enrollment-bend", label: "Annual Enrollment in Bend" },
+  { href: "/oregon-medigap-birthday-rule", label: "Oregon Medigap Birthday Rule" },
+  { href: "/oregon-medicare-savings-program-extra-help", label: "Medicare Savings & Extra Help" },
+  { href: "/2027-medicare-changes-bend", label: "2027 Bend Medicare Changes" },
   { href: "/oregon-health-insurance-changes-2027", label: "2027 Oregon Health Changes" },
 ];
 

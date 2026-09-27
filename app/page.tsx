@@ -9,6 +9,7 @@ import OfficeLocationTrust from "@/components/OfficeLocationTrust";
 import ProcessSection from "@/components/ProcessSection";
 import TeamPreviewGrid from "@/components/TeamPreviewGrid";
 import TrustBenefits from "@/components/TrustBenefits";
+import { getMarketUpdatesNewestFirst, marketUpdatesHub } from "@/lib/marketUpdates";
 import { siteConfig, telHref } from "@/lib/site";
 import { getHomepageTeamPreviewMembers } from "@/lib/team";
 
@@ -68,6 +69,7 @@ const whatHappensNextSteps: string[] = [
 
 export default function HomePage() {
   const previewMembers = getHomepageTeamPreviewMembers();
+  const marketUpdates = getMarketUpdatesNewestFirst();
 
   return (
     <>
@@ -205,6 +207,49 @@ export default function HomePage() {
             >
               Request a Consultation
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-blue-100 bg-blue-50 px-4 py-14">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wider text-blue-700">
+                Bend Medicare updates
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-gray-900">
+                What is changing for 2027
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-gray-700">
+                Follow confirmed High Lakes, Part D, Providence, and Deschutes County developments
+                without confusing early announcements with final local plan availability.
+              </p>
+              <Link
+                href={marketUpdatesHub.path}
+                className="mt-5 inline-block font-semibold text-blue-700 underline underline-offset-2"
+              >
+                View the complete 2027 tracker →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {marketUpdates.map((update) => (
+                <Link
+                  key={update.path}
+                  href={update.path}
+                  className="rounded-2xl border border-blue-200 bg-white p-5 transition-colors hover:border-blue-400"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">
+                    Updated Sep. 27 · {update.localStatusLabel}
+                  </p>
+                  <h3 className="mt-2 text-lg font-bold text-gray-900">{update.shortTitle}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-700">{update.summary}</p>
+                  <span className="mt-3 inline-block text-sm font-semibold text-blue-700">
+                    Read update →
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>

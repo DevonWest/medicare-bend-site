@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import GuideArticle from "@/components/GuideArticle";
-import { MEDICARE_PLAN_COMPARE, SUMMIT_MEDICARE } from "@/lib/guideSources";
+import { MEDICARE_PLAN_COMPARE, SUMMIT_MEDICARE, SUMMIT_PRIMARY_CARE } from "@/lib/guideSources";
 import { siteConfig } from "@/lib/site";
 
 const path = "/summit-health-medicare-bend";
 const title = "Summit Health and Medicare in Bend";
 const description =
   "How to verify Original Medicare, Medicare Advantage, and Supplement access at Summit Health Oregon clinics and individual providers.";
-const sources = [SUMMIT_MEDICARE, MEDICARE_PLAN_COMPARE];
+const sources = [SUMMIT_MEDICARE, SUMMIT_PRIMARY_CARE, MEDICARE_PLAN_COMPARE];
 
 export const metadata: Metadata = {
   title,
@@ -25,7 +25,7 @@ export default function SummitHealthPage() {
       description={description}
       crumb="Summit Health"
       published="2026-08-27"
-      modified="2026-08-27"
+      modified="2026-09-27"
       sources={sources}
       ctaHeading="Compare Coverage Around Your Summit Providers"
       ctaSubheading="Bring your clinic, clinician, medication, and pharmacy list for a no-cost review."
@@ -70,6 +70,15 @@ export default function SummitHealthPage() {
           Central Oregon Medicare provider-network checklist
         </Link>{" "}
         before comparing plans.
+      </p>
+
+      <p>
+        If you are looking for a new clinician, start with our{" "}
+        <Link href="/doctors-accepting-medicare-bend" className="font-medium text-blue-700 underline">
+          Bend Medicare doctor-search guide
+        </Link>
+        . Summit&apos;s primary-care directory is a useful starting point, but new-patient and exact
+        plan participation still require direct confirmation.
       </p>
     </GuideArticle>
   );

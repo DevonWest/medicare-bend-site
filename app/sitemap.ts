@@ -1,17 +1,19 @@
 import { MetadataRoute } from "next";
 import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
+import { getMarketUpdateSitemapEntries } from "@/lib/marketUpdates";
 import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
   const authorityContentLastModified = "2026-08-28";
+  const contentExpansionLastModified = "2026-09-27";
 
   const staticPages: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 1.0 },
+    { url: baseUrl, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 1.0 },
     { url: `${baseUrl}/our-team`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/medicare-advantage`, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/medicare-supplements`, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/medicare-part-d`, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/medicare-supplements`, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/medicare-part-d`, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/compare-medicare-options`, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/rx-drug-review`, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 0.8 },
     {
@@ -53,11 +55,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.85,
     },
-    { url: `${baseUrl}/resources`, lastModified: authorityContentLastModified, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/resources`, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/contact`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/central-oregon-medicare-provider-networks`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.95 },
-    { url: `${baseUrl}/st-charles-medicare-plans-bend`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${baseUrl}/summit-health-medicare-bend`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/central-oregon-medicare-provider-networks`, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${baseUrl}/st-charles-medicare-plans-bend`, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/summit-health-medicare-bend`, lastModified: contentExpansionLastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/doctors-accepting-medicare-bend`, lastModified: contentExpansionLastModified, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/medicare-annual-enrollment-bend`, lastModified: contentExpansionLastModified, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/oregon-medigap-birthday-rule`, lastModified: contentExpansionLastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/oregon-medicare-savings-program-extra-help`, lastModified: contentExpansionLastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/medicare-advantage-vs-supplement-bend`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/moving-to-bend-medicare`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/health-insurance-bend`, lastModified: authorityContentLastModified, changeFrequency: "monthly", priority: 0.9 },
@@ -74,5 +80,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: city.slug === "bend" ? 0.9 : 0.8,
   }));
 
-  return [...staticPages, ...localPages];
+  return [...staticPages, ...getMarketUpdateSitemapEntries(), ...localPages];
 }
