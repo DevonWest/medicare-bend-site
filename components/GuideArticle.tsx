@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import CTASection from "@/components/CTASection";
 import Disclaimer from "@/components/Disclaimer";
+import FAQ, { type FAQItem } from "@/components/FAQ";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import { siteConfig } from "@/lib/site";
@@ -23,6 +24,10 @@ interface GuideArticleProps {
   ctaHeading?: string;
   ctaSubheading?: string;
   medicareDisclaimer?: boolean;
+  articleType?: "Article" | "NewsArticle";
+  articleSection?: string;
+  keywords?: string[];
+  faqItems?: readonly FAQItem[];
 }
 
 export default function GuideArticle({
@@ -37,6 +42,10 @@ export default function GuideArticle({
   ctaHeading,
   ctaSubheading,
   medicareDisclaimer = true,
+  articleType = "Article",
+  articleSection,
+  keywords,
+  faqItems,
 }: GuideArticleProps) {
   const url = `${siteConfig.url}${path}`;
   const reviewedLabel = new Date(`${modified}T00:00:00Z`).toLocaleDateString("en-US", {
@@ -47,7 +56,7 @@ export default function GuideArticle({
   });
   const articleSchema = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": articleType,
     headline: title,
     description,
     mainEntityOfPage: url,
@@ -55,6 +64,7 @@ export default function GuideArticle({
     dateModified: modified,
     author: { "@id": `${siteConfig.url}#organization` },
     publisher: { "@id": `${siteConfig.url}#organization` },
+    image: `${siteConfig.url}/opengraph-image`,
     reviewedBy: {
       "@type": "Person",
       name: "Scott Lewis",
@@ -62,6 +72,13 @@ export default function GuideArticle({
       worksFor: { "@id": `${siteConfig.url}#organization` },
     },
     citation: sources.map((source) => source.href),
+    isAccessibleForFree: true,
+    ...(articleSection ? { articleSection } : {}),
+    ...(keywords?.length ? { keywords } : {}),
+    spatialCoverage: {
+      "@type": "Place",
+      name: "Central Oregon",
+    },
     inLanguage: "en-US",
   };
 
@@ -107,6 +124,7 @@ export default function GuideArticle({
           {medicareDisclaimer ? <Disclaimer className="mt-10" /> : null}
         </div>
       </article>
+      {faqItems?.length ? <FAQ heading="Questions about this update" items={faqItems} /> : null}
       <CTASection heading={ctaHeading} subheading={ctaSubheading} />
     </>
   );

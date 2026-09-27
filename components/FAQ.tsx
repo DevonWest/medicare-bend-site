@@ -5,7 +5,7 @@ export interface FAQItem {
 
 interface FAQProps {
   heading?: string;
-  items: FAQItem[];
+  items: readonly FAQItem[];
   /** When true, emit a FAQPage JSON-LD script. */
   includeSchema?: boolean;
 }

@@ -53,6 +53,29 @@ const selectedDrugs = [
   "Otezla and Otezla XR",
 ] as const;
 
+const faqItems = [
+  {
+    question: "What is the standard Medicare Part D deductible for 2027?",
+    answer:
+      "CMS set the 2027 standard Part D deductible at $700. A plan may charge less or apply its deductible differently across drug tiers, so check the plan benefit rather than assuming every drug starts with the full amount.",
+  },
+  {
+    question: "What is the 2027 Part D out-of-pocket threshold?",
+    answer:
+      "The 2027 annual out-of-pocket threshold is $2,400 for covered Part D drug costs counted under Medicare rules. Premiums and spending on non-covered drugs do not work the same way as costs counted toward the threshold.",
+  },
+  {
+    question: "Do negotiated Medicare drug prices determine my pharmacy copay?",
+    answer:
+      "Not by themselves. Your cost depends on the drug’s coverage, plan design, fill, pharmacy, and where you are in the Part D benefit.",
+  },
+  {
+    question: "How should Bend residents compare 2027 Part D plans?",
+    answer:
+      "Enter every medication, dosage, quantity, refill frequency, and preferred pharmacy in Medicare Plan Compare. Compare estimated annual cost, formulary restrictions, and practical pharmacy access—not premium alone.",
+  },
+] as const;
+
 export default function MedicarePartDChanges2027Page() {
   return (
     <GuideArticle
@@ -63,6 +86,15 @@ export default function MedicarePartDChanges2027Page() {
       published="2026-09-27"
       modified="2026-09-27"
       sources={sources}
+      articleType="NewsArticle"
+      articleSection="Medicare Part D changes"
+      keywords={[
+        "2027 Medicare Part D deductible",
+        "2027 Part D out-of-pocket threshold",
+        "Medicare negotiated drug prices 2027",
+        "Oregon Part D plans",
+      ]}
+      faqItems={faqItems}
       ctaHeading="Review Your Prescriptions for 2027"
       ctaSubheading="Bring every medication, dose, and preferred pharmacy for a plan-specific Part D comparison."
     >

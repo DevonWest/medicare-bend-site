@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
+import { centralOregonCounties, getCountyMedicarePath } from "@/lib/counties";
 import { siteConfig, telHref } from "@/lib/site";
 
 const helpLinks: Array<{ href: string; label: string }> = [
@@ -137,6 +138,16 @@ export default function Footer() {
               Areas We Serve
             </h3>
             <ul className="space-y-2 text-sm">
+              {centralOregonCounties.map((county) => (
+                <li key={county.slug}>
+                  <Link
+                    href={getCountyMedicarePath(county.slug)}
+                    className="font-semibold text-blue-200 transition-colors hover:text-white"
+                  >
+                    {county.name}
+                  </Link>
+                </li>
+              ))}
               {centralOregonCities.map((city) => (
                 <li key={city.slug}>
                   <Link

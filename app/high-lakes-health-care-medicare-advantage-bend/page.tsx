@@ -46,6 +46,29 @@ const participation = [
   ["UnitedHealthcare Medicare Advantage", "Praxis says negotiations are ongoing and a termination could occur. Do not treat this as either confirmed participation or a confirmed termination."],
 ] as const;
 
+const faqItems = [
+  {
+    question: "Which Medicare Advantage plans does Praxis list for Oregon in 2027?",
+    answer:
+      "Praxis lists Aetna, HealthSpring, PacificSource, and Regence Medicare Advantage for Oregon. That statewide list does not prove every product is available in Deschutes County or accepted by every High Lakes clinician.",
+  },
+  {
+    question: "Is High Lakes leaving UnitedHealthcare in 2027?",
+    answer:
+      "Praxis says negotiations are ongoing and that a termination could occur. Treat the status as unresolved until Praxis, the plan, and current directories confirm the outcome.",
+  },
+  {
+    question: "Does a High Lakes contract mean St. Charles is also in network?",
+    answer:
+      "No. Primary-care and hospital contracts are separate. Verify St. Charles facilities, specialists, laboratories, imaging, and other services independently.",
+  },
+  {
+    question: "How should I confirm my High Lakes doctor before enrolling?",
+    answer:
+      "Check the exact 2027 plan and ID in Medicare Plan Compare, find the named clinician in the plan directory, and call the clinic with the full plan name. Save the date and confirmation details.",
+  },
+] as const;
+
 export default function HighLakesMedicareAdvantagePage() {
   return (
     <GuideArticle
@@ -56,6 +79,15 @@ export default function HighLakesMedicareAdvantagePage() {
       published="2026-09-27"
       modified="2026-09-27"
       sources={sources}
+      articleType="NewsArticle"
+      articleSection="Central Oregon Medicare provider networks"
+      keywords={[
+        "High Lakes Health Care Medicare Advantage",
+        "Praxis Health 2027 insurance",
+        "Bend Medicare provider network",
+        "Deschutes County Medicare Advantage",
+      ]}
+      faqItems={faqItems}
       ctaHeading="Check High Lakes Before You Choose a 2027 Plan"
       ctaSubheading="Bring the exact High Lakes clinic, clinician, prescriptions, and plan name for a no-cost coverage review."
     >

@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { centralOregonCities, getLocalMedicarePath } from "@/lib/cities";
+import { centralOregonCounties, getCountyMedicarePath } from "@/lib/counties";
 import { getMarketUpdateSitemapEntries } from "@/lib/marketUpdates";
 import { siteConfig } from "@/lib/site";
 
@@ -75,10 +76,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // priority than the surrounding communities.
   const localPages: MetadataRoute.Sitemap = centralOregonCities.map((city) => ({
     url: `${baseUrl}${getLocalMedicarePath(city.slug)}`,
-    lastModified: authorityContentLastModified,
+    lastModified: contentExpansionLastModified,
     changeFrequency: "monthly",
     priority: city.slug === "bend" ? 0.9 : 0.8,
   }));
 
-  return [...staticPages, ...getMarketUpdateSitemapEntries(), ...localPages];
+  const countyPages: MetadataRoute.Sitemap = centralOregonCounties.map((county) => ({
+    url: `${baseUrl}${getCountyMedicarePath(county.slug)}`,
+    lastModified: contentExpansionLastModified,
+    changeFrequency: "monthly",
+    priority: county.slug === "deschutes-county" ? 0.9 : 0.85,
+  }));
+
+  return [...staticPages, ...getMarketUpdateSitemapEntries(), ...countyPages, ...localPages];
 }

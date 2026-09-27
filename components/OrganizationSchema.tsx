@@ -1,5 +1,6 @@
 import { siteConfig } from "@/lib/site";
 import { centralOregonCities } from "@/lib/cities";
+import { centralOregonCounties } from "@/lib/counties";
 import JsonLd from "@/components/JsonLd";
 
 export default function OrganizationSchema() {
@@ -35,9 +36,10 @@ export default function OrganizationSchema() {
           name: `${city.county}, ${city.state}`,
         },
       })),
-      { "@type": "AdministrativeArea", name: "Deschutes County, Oregon" },
-      { "@type": "AdministrativeArea", name: "Crook County, Oregon" },
-      { "@type": "AdministrativeArea", name: "Jefferson County, Oregon" },
+      ...centralOregonCounties.map((county) => ({
+        "@type": "AdministrativeArea",
+        name: `${county.name}, ${county.state}`,
+      })),
       { "@type": "AdministrativeArea", name: "Central Oregon" },
     ],
     knowsAbout: [
@@ -71,4 +73,3 @@ export default function OrganizationSchema() {
 
   return <JsonLd data={schema} />;
 }
-

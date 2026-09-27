@@ -203,6 +203,9 @@ test("sitemap includes canonical Bend routes and excludes removed/legacy routes"
   assert.ok(sitemapUrls.has(`${siteConfig.url}/oregon-medicare-savings-program-extra-help`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/doctors-accepting-medicare-bend`));
   assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-annual-enrollment-bend`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-deschutes-county`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-crook-county`));
+  assert.ok(sitemapUrls.has(`${siteConfig.url}/medicare-jefferson-county`));
 
   // Redirect-only or non-canonical routes must not appear.
   assert.equal(sitemapUrls.has(`${siteConfig.url}/about`), false);

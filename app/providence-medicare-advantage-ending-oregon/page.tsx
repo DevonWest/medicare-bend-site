@@ -27,6 +27,34 @@ export const metadata: Metadata = {
   },
 };
 
+const faqItems = [
+  {
+    question: "When does current Providence Medicare Advantage coverage end?",
+    answer:
+      "Providence says current Medicare Advantage coverage continues through December 31, 2026, and its Medicare Advantage plans will not be offered for 2027. Members should follow their official notice and keep paying required premiums through the coverage end date.",
+  },
+  {
+    question: "Are Providence Medicare Supplement policies also ending?",
+    answer:
+      "No. The reviewed transition information says existing Providence Medicare Supplement policies remain active for members in good standing, although new sales closed July 1, 2026.",
+  },
+  {
+    question: "Does the insurance exit mean Providence hospitals or clinics are closing?",
+    answer:
+      "No. A health-plan product ending is different from a medical facility or practice closing. Provider access under replacement coverage still needs to be checked separately.",
+  },
+  {
+    question: "What should an affected member compare for 2027?",
+    answer:
+      "Compare the official choices at the permanent address using every doctor, facility, prescription, pharmacy, planned procedure, travel need, premium, medical cost, and annual financial limit.",
+  },
+  {
+    question: "Do Central Oregon residents face the same situation as the rest of Oregon?",
+    answer:
+      "Not necessarily. St. Charles already reported that Providence Medicare Advantage was no longer offered in Central Oregon beginning in 2026, so the 2027 statewide withdrawal can affect residents differently by location and prior coverage.",
+  },
+] as const;
+
 export default function ProvidenceMedicareAdvantageOregonPage() {
   return (
     <GuideArticle
@@ -37,6 +65,15 @@ export default function ProvidenceMedicareAdvantageOregonPage() {
       published="2026-09-27"
       modified="2026-09-27"
       sources={sources}
+      articleType="NewsArticle"
+      articleSection="Oregon Medicare Advantage market changes"
+      keywords={[
+        "Providence Medicare Advantage ending Oregon",
+        "Providence Medicare Advantage 2027",
+        "Oregon Medicare plan nonrenewal",
+        "Central Oregon Medicare Advantage",
+      ]}
+      faqItems={faqItems}
       ctaHeading="Prepare for Your 2027 Medicare Review"
       ctaSubheading="Bring your coverage notice, doctors, prescriptions, and pharmacies before choosing replacement coverage."
     >
@@ -79,6 +116,63 @@ export default function ProvidenceMedicareAdvantageOregonPage() {
         <li><strong>Compare official 2027 options.</strong> Review the full plan, not just the carrier or monthly premium.</li>
         <li><strong>Confirm the effective date.</strong> Medicare Open Enrollment runs October 15 through December 7 for January 1 coverage, but follow your official notice for any additional rights.</li>
       </ol>
+
+      <h2 className="pt-4 text-3xl font-bold text-gray-900">Build a replacement review around continuity of care</h2>
+      <p>
+        Start with the care you cannot easily replace. Write down the full names of your primary-care
+        clinician, specialists, hospital, laboratory, imaging center, infusion or therapy location,
+        durable-medical-equipment supplier, and any procedure already scheduled for 2027. Then check
+        each item under the exact replacement plan—not only the carrier name.
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-left text-base">
+          <thead>
+            <tr className="border-b-2 border-slate-300">
+              <th className="p-3">Review area</th>
+              <th className="p-3">What to confirm for 2027</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-slate-200 align-top">
+              <th className="p-3 font-semibold text-gray-900">Medical providers</th>
+              <td className="p-3">Every clinician, facility, referral rule, and prior authorization—not just a health-system name.</td>
+            </tr>
+            <tr className="border-b border-slate-200 align-top">
+              <th className="p-3 font-semibold text-gray-900">Prescriptions</th>
+              <td className="p-3">Formulary status, tier, restrictions, preferred pharmacies, and estimated annual cost.</td>
+            </tr>
+            <tr className="border-b border-slate-200 align-top">
+              <th className="p-3 font-semibold text-gray-900">Total cost</th>
+              <td className="p-3">Premium plus likely copays, coinsurance, deductibles, drug costs, and maximum out-of-pocket exposure.</td>
+            </tr>
+            <tr className="border-b border-slate-200 align-top">
+              <th className="p-3 font-semibold text-gray-900">Travel and residence</th>
+              <td className="p-3">Routine out-of-area access, emergency rules, seasonal residence, and the correct county service area.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 className="pt-4 text-3xl font-bold text-gray-900">Avoid a January disruption</h2>
+      <ul className="list-disc space-y-3 pl-7">
+        <li>Refill important prescriptions with enough time to resolve formulary or pharmacy questions.</li>
+        <li>Ask providers which full 2027 plan names they expect to participate in, then verify with the plan.</li>
+        <li>Check scheduled procedures and any authorization that may need to be submitted under new coverage.</li>
+        <li>Keep the non-renewal notice, enrollment confirmation, and notes from provider and plan calls.</li>
+        <li>Confirm the new effective date before presenting the new member card in January.</li>
+      </ul>
+
+      <p>
+        Use our{" "}
+        <Link href="/medicare-plan-review-bend" className="font-semibold text-blue-700 underline">
+          annual Medicare plan review checklist
+        </Link>{" "}
+        and{" "}
+        <Link href="/central-oregon-medicare-provider-networks" className="font-semibold text-blue-700 underline">
+          Central Oregon provider-network guide
+        </Link>{" "}
+        to organize those checks.
+      </p>
 
       <section className="rounded-2xl border border-blue-200 bg-blue-50 p-6">
         <h2 className="text-2xl font-bold text-gray-900">Moved to Bend with Providence coverage?</h2>
